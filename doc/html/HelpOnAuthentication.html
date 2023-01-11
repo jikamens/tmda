@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnAuthentication</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnAuthentication</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867">
+<h1 id="head-5e4eddda1cbbe6692d52e096e6f97dd632eb2fa5">How Authentication works with MoinMoin</h1>
+<span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867"><a href="./MoinMoin.html">MoinMoin</a> historically has used some cookie-based authentication: you log in via the form on page <a href="./UserPreferences.html">UserPreferences</a>, moin sets a cookie and from then on this cookie is used for authenticating you - until you log off and the cookie gets deleted (or until the cookie expires).  <span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line874">For running moin in corporate environments this is often no option as access restrictions have to be enforced reliably. Starting with 1.3 moin could also use HTTP basic auth based authentication, when being run with some web servers (like Apache) supporting it.  <span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><p class="line862">Starting with 1.5 moin now has freely configurable and kind of modular authentication. You use the <tt class="backtick">auth</tt> configuration value to set up a list of authentication methods that are processed in exactly that order. <span class="anchor" id="line-13"></span><span class="anchor" id="line-14"></span><p class="line862">When an external user database is used you do not want to recreate all users in moin. For this case the configuration option <tt class="backtick">user_autocreate</tt> was added to moin 1.5. If you set it to True a new user profile will be created automatically when a new user has passed authentication (and the auth method supports auto creation). <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span><p class="line874">Presently the following authentication methods are supported: <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><ul><li style="list-style-type:none"><div><table><tbody><tr>  <td><p class="line862"> <strong>Server setup</strong> </td>
+  <td><p class="line862"> <strong>Authentication</strong> </td>
+  <td><p class="line862"> <strong>Auth method in moin</strong> </td>
+</tr>
+<tr>  <td colspan="1" rowspan="2" style="text-align: left"><span class="anchor" id="line-19"></span><p class="line862"> All </td>
+  <td><p class="line862"> by moin via own cookie </td>
+  <td><p class="line862"> <tt class="backtick">MoinMoin.auth.moin_cookie</tt> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-20"></span><p class="line862"> by moin via external cookie </td>
+  <td><p class="line862"> see contrib/auth_externalcookie/ </td>
+</tr>
+<tr>  <td colspan="1" rowspan="2" style="text-align: left"><span class="anchor" id="line-21"></span><p class="line862"> Apache with CGI, modpy or Fast<tt class="backtick"></tt>Cgi </td>
+  <td><p class="line862"> by Apache modules: HTTP Basic, HTTP Digest, SSPI (aka NTLM) or LDAP </td>
+  <td><p class="line862"> <tt class="backtick">MoinMoin.auth.http</tt> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-22"></span><p class="line862"> by moin via LDAP </td>
+  <td><p class="line862"> <tt class="backtick">MoinMoin.auth.ldap_login</tt> (must combine with moin_cookie to keep the session) </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-23"></span><p class="line862"> Apache+SSL with CGI, modpy or Fast<tt class="backtick"></tt>Cgi </td>
+  <td><p class="line862"> by Apache via SSL client certificate </td>
+  <td><p class="line862"> <tt class="backtick">MoinMoin.auth.sslclientcert</tt> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-24"></span><p class="line862"> Twisted </td>
+  <td><p class="line862"> HTTP Basic (but does not request authentication by header, so this is currently only useful for automated stuff, not for browser use) </td>
+  <td><p class="line862"> <tt class="backtick">MoinMoin.auth.http</tt> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-25"></span><p class="line862"> IIS </td>
+  <td><p class="line862"> (?) </td>
+  <td><p class="line862"> (?) </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span></li></ul><p class="line867">
+<h2 id="head-a22f960fd80ecedb1e174c092bf699d8441fa88b">1. Other "auth" methods</h2>
+<span class="anchor" id="line-28"></span><p class="line874">These are not strictly auth methods, as they don't authenticate users, but use auth information for other purposes: <span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span><ul><li style="list-style-type:none"><div><table><tbody><tr>  <td><p class="line862"> <tt class="backtick">MoinMoin.auth.log</tt> </td>
+  <td><p class="line862"> will just log login/logout/name, nothing else </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-31"></span><p class="line862"> <tt class="backtick">MoinMoin.auth.smb_mount</tt> </td>
+  <td><p class="line862"> mount some smb share using user/password from login, umount on logout </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span></li></ul><p class="line867"><tt class="backtick">MoinMoin.auth.interwiki</tt> is unfinished, experimental code - don't use. <span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span><p class="line867">
+<h2 id="head-d627ee1ad659065345b2736d2bdc15febd1e78f6">2. Shipped plugins</h2>
+<span class="anchor" id="line-36"></span><p class="line867">
+<h3 id="head-b7ca54040b011052ca44694dcd809d1c1b0cab6b">2.1. moin_cookie auth (default)</h3>
+<span class="anchor" id="line-37"></span><p class="line867"><span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><span class="anchor" id="line-40"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+function isnumbered(obj) {
+  return obj.childNodes.length && obj.firstChild.childNodes.length && obj.firstChild.firstChild.className == 'LineNumber';
+}
+function nformat(num,chrs,add) {
+  var nlen = Math.max(0,chrs-(''+num).length), res = '';
+  while (nlen>0) { res += ' '; nlen-- }
+  return res+num+add;
+}
+function addnumber(did, nstart, nstep) {
+  var c = document.getElementById(did), l = c.firstChild, n = 1;
+  if (!isnumbered(c))
+    if (typeof nstart == 'undefined') nstart = 1;
+    if (typeof nstep  == 'undefined') nstep = 1;
+    n = nstart;
+    while (l != null) {
+      if (l.tagName == 'SPAN') {
+        var s = document.createElement('SPAN');
+        s.className = 'LineNumber'
+        s.appendChild(document.createTextNode(nformat(n,4,' ')));
+        n += nstep;
+        if (l.childNodes.length)
+          l.insertBefore(s, l.firstChild)
+        else
+          l.appendChild(s)
+      }
+      l = l.nextSibling;
+    }
+  return false;
+}
+function remnumber(did) {
+  var c = document.getElementById(did), l = c.firstChild;
+  if (isnumbered(c))
+    while (l != null) {
+      if (l.tagName == 'SPAN' && l.firstChild.className == 'LineNumber') l.removeChild(l.firstChild);
+      l = l.nextSibling;
+    }
+  return false;
+}
+function togglenumber(did, nstart, nstep) {
+  var c = document.getElementById(did);
+  if (isnumbered(c)) {
+    remnumber(did);
+  } else {
+    addnumber(did,nstart,nstep);
+  }
+  return false;
+}
+</script>
+
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-17c52423dd3db79d6ea606d04475a2f1ef7fb3f1_000\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-17c52423dd3db79d6ea606d04475a2f1ef7fb3f1_000" lang="en"><span class="line"><span class="LineNumber">   1 </span>    <span class="ResWord">from</span> <span class="ID">MoinMoin</span><span class="Operator">.</span><span class="ID">auth</span> <span class="ResWord">import</span> <span class="ID">moin_cookie</span></span>
+<span class="line"><span class="LineNumber">   2 </span>    <span class="ID">auth</span> <span class="Operator">=</span> <span class="Operator">[</span><span class="ID">moin_cookie</span><span class="Operator">]</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-41"></span><span class="anchor" id="line-42"></span><p class="line874">This is the default auth list moin uses (so if you just want that, you don't need to configure it). It means that moin just tries to use the MOIN_ID cookie as it ever did. <span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span><p class="line862">For doing that, moin will just call the <tt class="backtick">MoinMoin.auth.moin_cookie</tt> function. This function will look if there is a valid cookie: <span class="anchor" id="line-45"></span><ul><li>if yes, it will use it to make and return a valid user object. The user is known now. <span class="anchor" id="line-46"></span></li><li>if no, the function does not return a user object. As as moin_cookie is the only auth method in the list, there is no other auth method to try and the user will stay unknown for that case. <span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span></li></ul><p class="line867">
+<h3 id="head-fd6245a1f2028dfbba805354a7dd800792394e49">2.2. http auth</h3>
+<span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span><p class="line862">To activate http authentication you have to add following lines to <tt class="backtick">wikiconfig.py</tt>: <span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span><span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-872b1cad491388382c2fb7205a47877f70a1ec8e_001\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-872b1cad491388382c2fb7205a47877f70a1ec8e_001" lang="en"><span class="line"><span class="LineNumber">   1 </span>    <span class="ResWord">from</span> <span class="ID">MoinMoin</span><span class="Operator">.</span><span class="ID">auth</span> <span class="ResWord">import</span> <span class="ID">http</span></span>
+<span class="line"><span class="LineNumber">   2 </span>    <span class="ID">auth</span> <span class="Operator">=</span> <span class="Operator">[</span><span class="ID">http</span><span class="Operator">]</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line874">For HTTP basic auth used with a web server like Apache, the web server handles authentication before moin gets called. You either enter a valid username and password or your access will be denied by the web server. <span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><p class="line874">So moin's http auth method will just check if user authentication happened: <span class="anchor" id="line-59"></span><ul><li>if yes, it will return a user object based on the authenticated user name. <span class="anchor" id="line-60"></span></li><li>if no, it will not return a user object. In this example, there are no other auth methods, so the user will stay unknown. <span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span></li></ul><p class="line874">Well, in reality, it is a bit more complicated indeed: <span class="anchor" id="line-63"></span><ul><li>For Twisted we use the username and password stored in the moin user profile. Except wiki xmlrpc usage this is currently not used. <span class="anchor" id="line-64"></span></li><li>For NTLM and Negotiate, we split off everything before the last "\" (usually it is "Domain\username") and we also use title() to normalize "username" to "Username". <span class="anchor" id="line-65"></span><span class="anchor" id="line-66"></span><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> You usually do want to set <tt class="backtick">user_autocreate&nbsp;=&nbsp;True</tt> for this auth method. moin will then auto create a user profile if the authenticated user does not already have one. So the user does not need to create the moin profile himself. <span class="anchor" id="line-67"></span><span class="anchor" id="line-68"></span></li></ul><p class="line867">
+<h3 id="head-af18d8aa4e5711089a84d228ede99def67574d5b">2.3. sslclientcert auth</h3>
+<span class="anchor" id="line-69"></span><p class="line862">To activate authentication via SSL client certificates you have to add following lines to <tt class="backtick">wikiconfig.py</tt>: <span class="anchor" id="line-70"></span><span class="anchor" id="line-71"></span><span class="anchor" id="line-72"></span><span class="anchor" id="line-73"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-cafd8d00b90fa8ddd792e92fa7f5d3b74d93ebd8_002\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-cafd8d00b90fa8ddd792e92fa7f5d3b74d93ebd8_002" lang="en"><span class="line"><span class="LineNumber">   1 </span>    <span class="ResWord">from</span> <span class="ID">MoinMoin</span><span class="Operator">.</span><span class="ID">auth</span> <span class="ResWord">import</span> <span class="ID">sslclientcert</span></span>
+<span class="line"><span class="LineNumber">   2 </span>    <span class="ID">auth</span> <span class="Operator">=</span> <span class="Operator">[</span><span class="ID">sslclientcert</span><span class="Operator">]</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-74"></span><span class="anchor" id="line-75"></span><p class="line874">For SSL client certificate auth used with a web server like Apache, the web server handles authentication before moin gets called. You either have a valid SSL client certificate or your access will be denied by the web server. <span class="anchor" id="line-76"></span><span class="anchor" id="line-77"></span><p class="line874">So moin's sslclientcert auth method will just check if user authentication happened: <span class="anchor" id="line-78"></span><ul><li>if yes, it will return a user object based on the email address or user name in the certificate. <span class="anchor" id="line-79"></span></li><li>if no, it will not return a user object. In this example, there are no other auth methods, so the user will stay unknown. <span class="anchor" id="line-80"></span><span class="anchor" id="line-81"></span><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> You usually do want to set <tt class="backtick">user_autocreate&nbsp;=&nbsp;True</tt> for this auth method. moin will then auto create a user profile if the authenticated user does not already have one. So the user does not need to create the moin profile himself. <span class="anchor" id="line-82"></span><span class="anchor" id="line-83"></span></li></ul><p class="line867">
+<h3 id="head-e6884261ee22b859f369bc3ae9d96055771779de">2.4. php_auth</h3>
+<span class="anchor" id="line-84"></span><p class="line874">To activate Single-Sign-On integration with PHP applications, use this module. It reads PHP session files and therefore directly integrates with existing PHP authentication systems. <span class="anchor" id="line-85"></span><span class="anchor" id="line-86"></span><p class="line874">To use this module, use the following lines of code in your configuration: <span class="anchor" id="line-87"></span><span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span><span class="anchor" id="line-90"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-7d4f4264f979b84cc083eebee8ea9215f88aa329_003\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-7d4f4264f979b84cc083eebee8ea9215f88aa329_003" lang="en"><span class="line"><span class="LineNumber">   1 </span>    <span class="ResWord">from</span> <span class="ID">MoinMoin</span><span class="Operator">.</span><span class="ID">auth</span> <span class="ResWord">import</span> <span class="ID">php_auth</span></span>
+<span class="line"><span class="LineNumber">   2 </span>    <span class="ID">auth</span> <span class="Operator">=</span> <span class="Operator">[</span><span class="ID">php_auth</span><span class="Operator">(</span><span class="Operator">)</span><span class="Operator">]</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-91"></span><p class="line862">php_auth has the following parameters: <span class="anchor" id="line-92"></span><span class="anchor" id="line-93"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-cacd2c2f857a7eeed7ab50d7b142d2fe74044e59_004\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-cacd2c2f857a7eeed7ab50d7b142d2fe74044e59_004" lang="en"><span class="line"><span class="LineNumber">   1 </span><span class="ID">php_auth</span><span class="Operator">(</span><span class="ID">apps</span><span class="Operator">=</span><span class="Operator">[</span><span class="String">'egw'</span><span class="Operator">]</span><span class="Operator">,</span> <span class="ID">s_path</span><span class="Operator">=</span><span class="String">"/tmp"</span><span class="Operator">,</span> <span class="ID">s_prefix</span><span class="Operator">=</span><span class="String">"sess_"</span><span class="Operator">)</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-94"></span><ul><li><p class="line891"><tt class="backtick">apps</tt> is a list of enabled applications <span class="anchor" id="line-95"></span></li><li><p class="line891"><tt class="backtick">s_path</tt> is the path of the PHP session files <span class="anchor" id="line-96"></span></li><li><p class="line891"><tt class="backtick">s_prefix</tt> is the prefix of the PHP session files <span class="anchor" id="line-97"></span><span class="anchor" id="line-98"></span></li></ul><p class="line874">The only supported PHP application is eGroupware 1.2 currently. But it should be fairly easy to add a few lines of code that extract the necessary information from the PHP session. <span class="anchor" id="line-99"></span><span class="anchor" id="line-100"></span><p class="line867">
+<h2 id="head-d20a68c0a3aa28e942ae8c4e3f6d55723d7a9ee1">3. Combining multiple auth methods</h2>
+<span class="anchor" id="line-101"></span><p class="line862">For combining e.g. http and cookie authentication, your <tt class="backtick">wikiconfig.py</tt> might contain: <span class="anchor" id="line-102"></span><span class="anchor" id="line-103"></span><span class="anchor" id="line-104"></span><span class="anchor" id="line-105"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-4e17d1de57cb9385b368ccd0b78d05ac16712e39_005\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-4e17d1de57cb9385b368ccd0b78d05ac16712e39_005" lang="en"><span class="line"><span class="LineNumber">   1 </span>    <span class="ResWord">from</span> <span class="ID">MoinMoin</span><span class="Operator">.</span><span class="ID">auth</span> <span class="ResWord">import</span> <span class="ID">http</span><span class="Operator">,</span> <span class="ID">moin_cookie</span></span>
+<span class="line"><span class="LineNumber">   2 </span>    <span class="ID">auth</span> <span class="Operator">=</span> <span class="Operator">[</span><span class="ID">http</span><span class="Operator">,</span> <span class="ID">moin_cookie</span><span class="Operator">]</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-106"></span><span class="anchor" id="line-107"></span><p class="line862">In this example, moin will first check if the http auth method gives a valid user. If yes, it will use just that. If not and <tt class="backtick">continue_flag</tt> returned by http auth method is True, it will continue checking other auth list method - <tt class="backtick">moin_cookie</tt> in this case... ( <img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> needs update <img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> ) <span class="anchor" id="line-108"></span><span class="anchor" id="line-109"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> Not all combinations make sense, of course. <span class="anchor" id="line-110"></span><span class="anchor" id="line-111"></span></li></ul><p class="line867">
+<h2 id="head-886b44c35ceac6250f798d01837091693ab5b02b">4. Making your own auth method</h2>
+<span class="anchor" id="line-112"></span><p class="line862">See the commented config file fragment <tt class="backtick">contrib/auth_externalcookie/</tt> and <tt class="backtick">MoinMoin/auth.py</tt> in your moin distribution archive for examples of how to do authentication. <span class="anchor" id="line-113"></span><span class="anchor" id="line-114"></span><p class="line874">Here is just a short summary of what's currently possible: <span class="anchor" id="line-115"></span><ul><li><p class="line862">use <a href="./UserPreferences.html">UserPreferences</a> login form as userinterface for your own auth method for entering name and password <span class="anchor" id="line-116"></span></li><li>search existing user profiles for a "matching" user (the match needs not be the name, it can also be the email address or something you put into aliasname) <span class="anchor" id="line-117"></span></li><li><p class="line862">create a user object and let it remember what attributes were determined by auth method (and thus should not be offered on <a href="./UserPreferences.html">UserPreferences</a>) <span class="anchor" id="line-118"></span></li><li>update values in user's profile from externally provided data <span class="anchor" id="line-119"></span></li><li>autocreate user profiles <span class="anchor" id="line-120"></span></li></ul><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

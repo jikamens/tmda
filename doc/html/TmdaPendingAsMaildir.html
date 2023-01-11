@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TmdaPendingAsMaildir</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TmdaPendingAsMaildir</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867"><div class="table-of-contents"><p class="table-of-contents-heading">Contents<ol><li><a href="#head-b4c0f9f8bdba78576a08e4a9203f71d5553ff0a1">Introduction</a></li><li><a href="#head-4a93cd315908c128300070642029f37f38a67622">Enabling Maildir support</a></li><li><a href="#head-c9f2303f5ffa46763e0daa7ccf1a3a1d5f655e03">Converting your current pending queue</a></li><li><a href="#head-7c7ad9cb1c046afb66e1b6e6f4a6252a8d8ab7fe">Maildir tools</a></li><li><a href="#head-896252bf462594feca4a25979c9c07c88aad0742">More Maildir info</a></li></ol></div><p class="line874"> <span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><p class="line867">
+<h2 id="head-b4c0f9f8bdba78576a08e4a9203f71d5553ff0a1">Introduction</h2>
+<span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><p class="line862">As of TMDA v1.1.7, your pending queue can be a <a class="http" href="http://en.wikipedia.org/wiki/Maildir">Maildir</a> rather than the default, which is a custom single directory based format.  This allows you to use any program that supports Maildir to browse or search your pending queue, rather than relying on the <tt class="backtick">tmda-pending</tt> and <tt class="backtick">tmda-cgi</tt> programs, though the latter will still work. <span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line874">Remember to use common sense when using external programs to manipulate your TMDA pending queue.  If you hand remove a message from the queue that is waiting to be confirmed for example, and the sender then tries to confirm it, he will get back a bounce saying his message can't be found, which might be confusing to him.  When in doubt, copy messages from your pending queue rather than moving/deleting them. <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line867">
+<h2 id="head-4a93cd315908c128300070642029f37f38a67622">Enabling Maildir support</h2>
+<span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">If you wish to try this, you must set the <a href="./ConfigurationVariables.html#PENDING_QUEUE_FORMAT">PENDING_QUEUE_FORMAT</a> variable in your configuration. <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line867"><tt>PENDING_QUEUE_FORMAT&nbsp;=&nbsp;'maildir'</tt> <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line867">
+<h2 id="head-c9f2303f5ffa46763e0daa7ccf1a3a1d5f655e03">Converting your current pending queue</h2>
+<span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line862">Future releases will likely provide a tool to handle conversion for you, but for now, you must also convert your current pending queue to a Maildir by hand, which is not difficult since the formats are fairly similar.  Your pending queue is controlled by  <a href="./ConfigurationVariables.html#PENDING_DIR">PENDING_DIR</a>, which by default is <tt class="backtick">~/.tmda/pending</tt>.   Use the following shell commands or in a script as appropriate to suspend delivery, copy your pending messages, and then enable delivery: <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line867"><pre>% chmod +t $HOME 
+<span class="anchor" id="line-20"></span>% cd ~/.tmda
+<span class="anchor" id="line-21"></span>% mv pending pending.old
+<span class="anchor" id="line-22"></span>% mkdir -m 0700 -p pending/{new,cur,tmp}
+<span class="anchor" id="line-23"></span>% cp pending.old/*.msg pending/new
+<span class="anchor" id="line-24"></span>% chmod -t $HOME</pre><span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line874">On the other hand, if your current pending queue contains only spam and you don't need to convert it, you can just blow it away and TMDA will automatically create the Maildir next time a message arrives: <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line867"><pre>% chmod +t $HOME 
+<span class="anchor" id="line-29"></span>% rm -rf ~/.tmda/pending
+<span class="anchor" id="line-30"></span>% chmod -t $HOME</pre><span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span><p class="line867">
+<h2 id="head-7c7ad9cb1c046afb66e1b6e6f4a6252a8d8ab7fe">Maildir tools</h2>
+<span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span><p class="line874">Here's a list of some links to other programs which support Maildir and might be useful to TMDA users for pending queue browsing, searching, indexing, etc.  Feel free to add to this list.   <span class="anchor" id="line-35"></span><span class="anchor" id="line-36"></span><ul><li><p class="line891"><a class="http" href="http://www.eyrie.org/~eagle/software/mdfrm/">mdfrm</a> is a nice command-line summary program for Maildir. <span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span></li><li class="gap"><p class="line891"><a class="http" href="http://packages.debian.org/unstable/mail/nmzmail">nmzmail</a> is a tool, primarily to be used with mutt, for indexing and searching Maildir folders. <span class="anchor" id="line-39"></span><span class="anchor" id="line-40"></span></li><li class="gap"><p class="line891"><a class="http" href="http://www.rpcurnow.force9.co.uk/mairix/">mairix</a> is a program for indexing and searching email messages stored in Maildir folders. <span class="anchor" id="line-41"></span><span class="anchor" id="line-42"></span></li><li class="gap"><p class="line891"><a class="http" href="http://jeenyus.net/~budney/linux/mdmh.html">MDMH</a> is a command-line interface similar to MH, but for Maildir. <span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span></li><li class="gap"><p class="line891"><a class="http" href="http://www.bincimap.org/">Binc</a> and <a class="http" href="http://www.dovecot.org/">Dovecot</a> are IMAP servers that support Maildir. <span class="anchor" id="line-45"></span><span class="anchor" id="line-46"></span></li><li class="gap"><p class="line891"><a class="http" href="http://www.mutt.org/">Mutt</a> is a popular text-based mail client that supports Maildir. <span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span></li></ul><p class="line867">
+<h2 id="head-896252bf462594feca4a25979c9c07c88aad0742">More Maildir info</h2>
+<span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span><ul><li><p class="line891"><a class="http" href="http://www.qmail.org/qmail-manual-html/man5/maildir.html">Maildir man page</a> (from qmail) <span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span></li><li class="gap"><p class="line891"><a class="http" href="http://cr.yp.to/proto/maildir.html">djb's Maildir page</a> <span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span></li><li class="gap"><p class="line891"><a class="http" href="http://www.inter7.com/courierimap/README.maildirquota.html">Maildir++</a> is a minor extension to the standard Maildir structure. <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span></li><li class="gap"><p class="line891"><a class="http" href="http://wiki.dovecot.org/MailboxFormat/Maildir">dovecot's Maildir page</a> <span class="anchor" id="line-57"></span></li></ul><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

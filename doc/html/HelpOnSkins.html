@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnSkins</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnSkins</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867">
+<h2 id="head-8da242497fb24cd88561d1b3669829260af3f81c">1. Changing CSS styles</h2>
+<span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> With 1.2 this is a bit outdated, as we have theme support now. <span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line862">The best way to change the visual appearance of your wiki site is by inherting the default <a href="./MoinMoin.html">MoinMoin</a> styles and only changing those things you want to adapt to your likings. This avoids the work involved in copying new styles added during development to your own stylesheets. To do this, we use the CSS <tt class="backtick">@import</tt>  mechanism like this: <span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><pre>/*  #python wiki styles */
+<span class="anchor" id="line-13"></span>@import url("/users/jh/wiki/css/moinmoin.css");
+<span class="anchor" id="line-14"></span>
+<span class="anchor" id="line-15"></span>h1,h2,h3,h4,h5 {
+<span class="anchor" id="line-16"></span>    background-color: #88CCFF; /* #EECC99; */
+<span class="anchor" id="line-17"></span>}
+<span class="anchor" id="line-18"></span>a:link {
+<span class="anchor" id="line-19"></span>    color: #0096CC;
+<span class="anchor" id="line-20"></span>}
+<span class="anchor" id="line-21"></span>a:visited {
+<span class="anchor" id="line-22"></span>    color: #0063a5;
+<span class="anchor" id="line-23"></span>}
+<span class="anchor" id="line-24"></span></pre><span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line862">In the second line, we import the default styles as distributed with <a href="./MoinMoin.html">MoinMoin</a>. <span class="anchor" id="line-27"></span>You have to change the URL to fit your system setup, likely to "<tt class="backtick">/wiki/css/moinmoin.css</tt>". <span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line874">In the following lines, we change the background color of headlines and the colors of hyperlinks. And that's it. <span class="anchor" id="line-30"></span><span class="anchor" id="line-31"></span><p class="line862">For more, see <a href="./HelpOnConfiguration(2f)CascadingStyleSheets.html">HelpOnConfiguration/CascadingStyleSheets</a> and the <a class="http" href="http://css-discuss.incutio.com/">css-discuss</a> wiki. <span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span><p class="line862">For a very clever idea to make CSS <em>wiki editable</em>, see <a class="interwiki" href="http://esw.w3.org/topic/plain.css" title="ESW">plain.css</a>. <span class="anchor" id="line-34"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

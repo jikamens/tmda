@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>tmda-postfix-policy.sh</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">tmda-postfix-policy.sh</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867"><span class="anchor" id="line-2"></span><pre>#!/bin/bash
+<span class="anchor" id="line-3"></span>
+<span class="anchor" id="line-4"></span>export PATH=/usr/local/src/tmda/bin:/usr/local/bin:/usr/bin:/bin
+<span class="anchor" id="line-5"></span>
+<span class="anchor" id="line-6"></span># Unset the following if you have the logger program available and you want 
+<span class="anchor" id="line-7"></span># log output to syslog
+<span class="anchor" id="line-8"></span>#LOGGER=/usr/bin/logger
+<span class="anchor" id="line-9"></span>
+<span class="anchor" id="line-10"></span>check() {
+<span class="anchor" id="line-11"></span>    ## determine which user's TMDA config will apply
+<span class="anchor" id="line-12"></span>    USER=`echo $recip | cut -f1 -d@ | cut -f1 -d-`
+<span class="anchor" id="line-13"></span>    export HOME=`grep $USER /etc/passwd | cut -f6 -d:`
+<span class="anchor" id="line-14"></span>
+<span class="anchor" id="line-15"></span>    ## Check to see if user has a ~/.tmda/config
+<span class="anchor" id="line-16"></span>    if [ ! -s $HOME/.tmda/config ] &amp;&amp; [ -r $HOME/.tmda/config ] &amp;&amp; \
+<span class="anchor" id="line-17"></span>                                [ -r $HOME/.tmda/crypt_key ]; then
+<span class="anchor" id="line-18"></span>        [ -n "$LOGGER" ] &amp;&amp; $LOGGER -p mail.info -t postfix/tmda \
+<span class="anchor" id="line-19"></span>                      "Permitting email received for non-TMDA user $USER"
+<span class="anchor" id="line-20"></span>        echo action=permit
+<span class="anchor" id="line-21"></span>        echo
+<span class="anchor" id="line-22"></span>    fi
+<span class="anchor" id="line-23"></span>
+<span class="anchor" id="line-24"></span>    ## Check if sender &amp; recip match anything in the incoming filter
+<span class="anchor" id="line-25"></span>    ## files.
+<span class="anchor" id="line-26"></span>
+<span class="anchor" id="line-27"></span>    tmda-filter -M $recip $sender | grep MATCH | grep -q bounce$
+<span class="anchor" id="line-28"></span>    ## If they find something in the filters, dispose of the message.
+<span class="anchor" id="line-29"></span>    if [ $? = 0 ]; then
+<span class="anchor" id="line-30"></span>        [ -n "$LOGGER" ] &amp;&amp; $LOGGER -p mail.info -t postfix/tmda \
+<span class="anchor" id="line-31"></span>                 "Rejecting email recieved from $sender to $recip"
+<span class="anchor" id="line-32"></span>        echo "action=reject Message rejected by recipient (TMDA)."
+<span class="anchor" id="line-33"></span>        echo
+<span class="anchor" id="line-34"></span>    else
+<span class="anchor" id="line-35"></span>        [ -n "$LOGGER" ] &amp;&amp; $LOGGER -p mail.info -t postfix/tmda \
+<span class="anchor" id="line-36"></span>                   "Permitting email recieved from $sender to $recip"
+<span class="anchor" id="line-37"></span>        echo action=permit
+<span class="anchor" id="line-38"></span>        echo
+<span class="anchor" id="line-39"></span>    fi
+<span class="anchor" id="line-40"></span>}
+<span class="anchor" id="line-41"></span>
+<span class="anchor" id="line-42"></span>## Extract sender &amp; recipient addresses
+<span class="anchor" id="line-43"></span>while IFS='=' read var val; do
+<span class="anchor" id="line-44"></span>    case "x$var" in
+<span class="anchor" id="line-45"></span>        "xrecipient")
+<span class="anchor" id="line-46"></span>            recip="$val";;
+<span class="anchor" id="line-47"></span>        "xsender")
+<span class="anchor" id="line-48"></span>            sender="$val";;
+<span class="anchor" id="line-49"></span>        "x")
+<span class="anchor" id="line-50"></span>            if [ -z $sender ]; then
+<span class="anchor" id="line-51"></span>                echo action=permit
+<span class="anchor" id="line-52"></span>                echo
+<span class="anchor" id="line-53"></span>            else
+<span class="anchor" id="line-54"></span>                check
+<span class="anchor" id="line-55"></span>            fi;;
+<span class="anchor" id="line-56"></span>        *)      ;;
+<span class="anchor" id="line-57"></span>    esac
+<span class="anchor" id="line-58"></span>done
+<span class="anchor" id="line-59"></span></pre><span class="anchor" id="line-60"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

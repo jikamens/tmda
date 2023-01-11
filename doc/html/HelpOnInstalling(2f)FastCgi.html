@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnInstalling/FastCgi</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnInstalling/FastCgi</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867">
+<h1 id="head-60b974d7803a25eac3642ca5a80fcd3dc5966093">1. Using MoinMoin with FastCgi</h1>
+<span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line867"><div class="table-of-contents"><p class="table-of-contents-heading">Contents<ol><li><a href="#head-60b974d7803a25eac3642ca5a80fcd3dc5966093">Using MoinMoin with FastCgi</a><ol><li><a href="#head-42495f21cc9f242954dda070fd52f979a8dc43c9">Deploying on Apache</a><ol><li><a href="#head-e4c67ac7ef8b93052c031dd96c46ed34068ce3b0">Running as an external application and/or on Windows</a></li><li><a href="#head-ef3fdd8abb72cb7a90df8e5da59704ede968a37f">Fallback to CGI if FastCGI is not available</a></li></ol><li><a href="#head-7cdc7a0c60291d9319530f5b235f70b3b8b68ec1">Deploying on lighttpd</a><ol><li><a href="#head-66202b85ead00166dfe28c764d4920a8c8285f13">Configuration</a></li><li><a href="#head-8a6abd03d0267780a21dfb01f49f1c0c13caa475">Starting MoinMoin instance</a></li><li><a href="#head-61b969af5cb8f343f2edb2c956b254403ab3db78">Multiple moin processes</a></li><li><a href="#head-5e78c268b624327aebea981d30d251b711465dd2">Multiple moin processes automatically started by lighttpd</a></li><li><a href="#head-2f8deeb18e42422406fe524058e520c9b69cb787">MoinMoin Startup script</a></li><li><a href="#head-ab419a88ded72f50f720b8450a446729e77aab73">Adding MoinMoin startup script on Mac OS X</a></li></ol></li></ol></li></ol></div><p class="line874"> <span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><p class="line867"><a class="http" href="http://fastcgi.com">FastCGI</a> is a method which enables apache to communicate <span class="anchor" id="line-13"></span>with long-running scripts. This has the advantage that the script is only <span class="anchor" id="line-14"></span>started and initialized one time, and that data could be cached in memory <span class="anchor" id="line-15"></span>from request to request, enhancing the performance of the CGI application. <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line867">
+<h2 id="head-42495f21cc9f242954dda070fd52f979a8dc43c9">1.1. Deploying on Apache</h2>
+<span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line862">To deploy <a href="./MoinMoin.html">MoinMoin</a> using FastCGI you need an apache with mod_fastcgi. Please <span class="anchor" id="line-20"></span>refer to the documentation of mod_fastcgi how to build it. <span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line874">Follow the basic apache installation for your operating system as described <span class="anchor" id="line-23"></span>in other parts of the <a href="./MoinMoin.html">MoinMoin</a> installation documentation. This is <a href="./HelpOnInstalling(2f)ApacheOnLinux.html">HelpOnInstalling/ApacheOnLinux</a> in most cases. In places where <span class="anchor" id="line-24"></span>the documentation refers to <tt class="backtick">moin.cgi</tt> you use <tt class="backtick">moin.fcg</tt> instead. Be sure <span class="anchor" id="line-25"></span>that <strong>.fcg</strong> is handled by the FastCGI module <span class="anchor" id="line-26"></span>(<tt class="backtick">AddHandler&nbsp;fastcgi-script&nbsp;.fcg</tt> in your apache config). <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line874">Normally apache will start CGI scripts with its own user and group, or <span class="anchor" id="line-29"></span>with the user and group of the VirtualHost if you are using the suexec <span class="anchor" id="line-30"></span>wrapper. To enable this with FastCGI you need to use <tt class="backtick">FastCgiWrapper&nbsp;On</tt> <span class="anchor" id="line-31"></span>in your apache config (see FastCGI Documentation). <span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span><p class="line874">Be sure to restart your apache after you changed py files (i.e. the config) <span class="anchor" id="line-34"></span>for a running FastCGI server, or you won't see any changes! <span class="anchor" id="line-35"></span><span class="anchor" id="line-36"></span><p class="line867">
+<h3 id="head-e4c67ac7ef8b93052c031dd96c46ed34068ce3b0">1.1.1. Running as an external application and/or on Windows</h3>
+<span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><p class="line867"><a href="./MoinMoin.html">MoinMoin</a> can be run as an external application that answers FastCGI request via a local TCP/IP socket. This works on Windows as well. All you need to do (after having installed <tt class="backtick">mod_fastcgi</tt> and a working <a href="./MoinMoin.html">MoinMoin</a> instance) is this: <span class="anchor" id="line-39"></span><span class="anchor" id="line-40"></span><ol type="1"><li>Select a port number for the internal communication. It should be larger than 1023. For this example, we chose 8888 (just for fun). <span class="anchor" id="line-41"></span><span class="anchor" id="line-42"></span></li><li class="gap"><p class="line862">Add the following lines to your httpd.conf:<span class="anchor" id="line-43"></span><pre>Alias /moin.fcg "/your/path/to/moin.fcg"
+<span class="anchor" id="line-44"></span>FastCgiExternalServer "/your/path/to/moin.fcg" -host localhost:8888
+<span class="anchor" id="line-45"></span></pre><span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span></li><li class="gap"><p class="line862">Edit <tt class="backtick">moin.fcg</tt>. Replace<span class="anchor" id="line-48"></span><pre>fcg = thfcgi.THFCGI(handle_request)
+<span class="anchor" id="line-49"></span></pre><p class="line862"> with <span class="anchor" id="line-50"></span><pre>fcg = thfcgi.THFCGI(handle_request, 0, 8888)
+<span class="anchor" id="line-51"></span></pre><span class="anchor" id="line-52"></span><span class="anchor" id="line-53"></span></li><li class="gap"><p class="line862">Start the file <tt class="backtick">moin.fcg</tt> manually like a Python script:<span class="anchor" id="line-54"></span><pre>python moin.fcg
+<span class="anchor" id="line-55"></span></pre><span class="anchor" id="line-56"></span><span class="anchor" id="line-57"></span></li><li class="gap">Start Apache. <span class="anchor" id="line-58"></span><span class="anchor" id="line-59"></span></li></ol><p class="line867">
+<h3 id="head-ef3fdd8abb72cb7a90df8e5da59704ede968a37f">1.1.2. Fallback to CGI if FastCGI is not available</h3>
+<span class="anchor" id="line-60"></span><span class="anchor" id="line-61"></span><p class="line862">Install and test <a href="./MoinMoin.html">MoinMoin</a> according to <a href="./HelpOnInstalling(2f)ApacheOnLinux.html">HelpOnInstalling/ApacheOnLinux</a>. Then make and test the changes to run mod_fastcgi. If you are satisfied, you can add the following block to your apache config: <span class="anchor" id="line-62"></span><span class="anchor" id="line-63"></span><pre>&lt;IfModule !mod_fastcgi.c&gt;
+<span class="anchor" id="line-64"></span>    ScriptAlias /mywiki "/your/path/to/moin.cgi"
+<span class="anchor" id="line-65"></span>&lt;/IfModule&gt;
+<span class="anchor" id="line-66"></span>&lt;IfModule mod_fastcgi.c&gt;
+<span class="anchor" id="line-67"></span>    AddHandler fastcgi-script .fcg
+<span class="anchor" id="line-68"></span>    ScriptAlias /mywiki "/your/path/to/moin.fcg"
+<span class="anchor" id="line-69"></span>&lt;/IfModule&gt;
+<span class="anchor" id="line-70"></span></pre><span class="anchor" id="line-71"></span><p class="line874">Now Apache will use mod_fastcgi if available and otherwise use the slow cgi script. <span class="anchor" id="line-72"></span><span class="anchor" id="line-73"></span><p class="line867">
+<h2 id="head-7cdc7a0c60291d9319530f5b235f70b3b8b68ec1">1.2. Deploying on lighttpd</h2>
+<span class="anchor" id="line-74"></span><span class="anchor" id="line-75"></span><p class="line874">The best option is to run moin as external application. In this case, you don't need to restart the web server when you want to restart moin. <span class="anchor" id="line-76"></span><span class="anchor" id="line-77"></span><p class="line867">
+<h3 id="head-66202b85ead00166dfe28c764d4920a8c8285f13">1.2.1. Configuration</h3>
+<span class="anchor" id="line-78"></span><span class="anchor" id="line-79"></span><p class="line867"><span class="anchor" id="line-80"></span><pre>fastcgi.server = ( "/mywiki" =&gt;
+<span class="anchor" id="line-81"></span>                       ( "localhost" =&gt;
+<span class="anchor" id="line-82"></span>                         (
+<span class="anchor" id="line-83"></span>                           "host" =&gt; "127.0.0.1",
+<span class="anchor" id="line-84"></span>                           "port" =&gt; 8888,
+<span class="anchor" id="line-85"></span>                           "check-local" =&gt; "disable",
+<span class="anchor" id="line-86"></span>                           "broken-scriptfilename" =&gt; "enable",
+<span class="anchor" id="line-87"></span>                         )
+<span class="anchor" id="line-88"></span>                       )
+<span class="anchor" id="line-89"></span>                   )
+<span class="anchor" id="line-90"></span></pre><span class="anchor" id="line-91"></span><span class="anchor" id="line-92"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> You will see a lot of "2005-12-02 16:30:11: (mod_fastcgi.c.2373) FastCGI-stderr:" errors in <span class="anchor" id="line-93"></span></li></ul><p class="line874">lighttpd's error log, the reason is not clear. <span class="anchor" id="line-94"></span><span class="anchor" id="line-95"></span><p class="line867">
+<h3 id="head-8a6abd03d0267780a21dfb01f49f1c0c13caa475">1.2.2. Starting MoinMoin instance</h3>
+<span class="anchor" id="line-96"></span><span class="anchor" id="line-97"></span><p class="line862">To start a <a href="./MoinMoin.html">MoinMoin</a> instance, either follow the changes in "Running as an external application and/or on Windows" above, or run moin.fcg using <tt class="backtick">spawn-fcgi</tt> (installed with lighttpd). <span class="anchor" id="line-98"></span><span class="anchor" id="line-99"></span><p class="line867"><span class="anchor" id="line-100"></span><pre>cd /www/org.mywiki/bin
+<span class="anchor" id="line-101"></span>sudo -u www /usr/local/bin/spawn-fcgi -f ./moin.fcg -P moin.pid
+<span class="anchor" id="line-102"></span></pre><span class="anchor" id="line-103"></span><span class="anchor" id="line-104"></span><p class="line874">To stop the instance later: <span class="anchor" id="line-105"></span><span class="anchor" id="line-106"></span><pre>sudo kill `cat moin.pid`
+<span class="anchor" id="line-107"></span></pre><span class="anchor" id="line-108"></span><span class="anchor" id="line-109"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> Running spawn-fcgi as root and using -u www -g www fail because of Python <a class="nonexistent" href="./ImportError.html">ImportError</a>, the reason is not clear. sudo -u www seems to have to same effect. <span class="anchor" id="line-110"></span><span class="anchor" id="line-111"></span></li></ul><p class="line867">
+<h3 id="head-61b969af5cb8f343f2edb2c956b254403ab3db78">1.2.3. Multiple moin processes</h3>
+<span class="anchor" id="line-112"></span><span class="anchor" id="line-113"></span><p class="line874">If you start multiple moin instances on different ports, lighttpd balance the load automatically between them, using all the cpus. <span class="anchor" id="line-114"></span><span class="anchor" id="line-115"></span><p class="line874">Use this configuration: <span class="anchor" id="line-116"></span><span class="anchor" id="line-117"></span><pre>fastcgi.server             = ( "/mywiki" =&gt;
+<span class="anchor" id="line-118"></span>                               ( "localhost" =&gt;
+<span class="anchor" id="line-119"></span>                                 ( "host" =&gt; "127.0.0.1", 
+<span class="anchor" id="line-120"></span>                                   "port" =&gt; 1080,
+<span class="anchor" id="line-121"></span>                                   "check-local" =&gt; "disable",
+<span class="anchor" id="line-122"></span>                                   "broken-scriptfilename" =&gt; "enable",
+<span class="anchor" id="line-123"></span>                                 ),
+<span class="anchor" id="line-124"></span>                                 ( "host" =&gt; "127.0.0.1", 
+<span class="anchor" id="line-125"></span>                                   "port" =&gt; 1081, 
+<span class="anchor" id="line-126"></span>                                   "check-local" =&gt; "disable",
+<span class="anchor" id="line-127"></span>                                   "broken-scriptfilename" =&gt; "enable",
+<span class="anchor" id="line-128"></span>                                 ),
+<span class="anchor" id="line-129"></span>                               )
+<span class="anchor" id="line-130"></span>                             )
+<span class="anchor" id="line-131"></span></pre><span class="anchor" id="line-132"></span><span class="anchor" id="line-133"></span><p class="line867">
+<h3 id="head-5e78c268b624327aebea981d30d251b711465dd2">1.2.4. Multiple moin processes automatically started by lighttpd</h3>
+<span class="anchor" id="line-134"></span><span class="anchor" id="line-135"></span><p class="line874">As an alternative to manually starting multiple processes of moin.fcg and assigning a distinct TCP port to each, this task can be delegated to lighttpd itself. The key is to specify "bin-path" option to fastcgi.server, and to allow multiple moin.fcg processes to be started as configured by "min-procs" and "max-procs" options. The hidden trick is that lighttpd will allocate successive TCP port numbers to each process, starting with "port". <span class="anchor" id="line-136"></span>Tested with lighttpd 1.4.10. <span class="anchor" id="line-137"></span><span class="anchor" id="line-138"></span><p class="line874">Example: <span class="anchor" id="line-139"></span><span class="anchor" id="line-140"></span><pre>fastcgi.server = (  "/mywiki" =&gt;
+<span class="anchor" id="line-141"></span>  (( "docroot"   =&gt; "/",
+<span class="anchor" id="line-142"></span>     "min-procs" =&gt; 4,
+<span class="anchor" id="line-143"></span>     "max-procs" =&gt; 4,
+<span class="anchor" id="line-144"></span>     # allocate successive port numbers for each process, starting with "port"
+<span class="anchor" id="line-145"></span>     "bin-path"  =&gt; "/usr/local/bin/moin.fcg",
+<span class="anchor" id="line-146"></span>     "host"      =&gt; "127.0.0.1",
+<span class="anchor" id="line-147"></span>     "port"      =&gt; 2200,
+<span class="anchor" id="line-148"></span>     "check-local" =&gt; "disable",
+<span class="anchor" id="line-149"></span>     "broken-scriptfilename" =&gt; "enable",
+<span class="anchor" id="line-150"></span>  ))
+<span class="anchor" id="line-151"></span>)
+<span class="anchor" id="line-152"></span></pre><span class="anchor" id="line-153"></span><span class="anchor" id="line-154"></span><p class="line867">
+<h3 id="head-2f8deeb18e42422406fe524058e520c9b69cb787">1.2.5. MoinMoin Startup script</h3>
+<span class="anchor" id="line-155"></span><span class="anchor" id="line-156"></span><p class="line862">Here is a startup script for Mac OS X, using <a class="nonexistent" href="./DarwinPortsStartup.html">DarwinPortsStartup</a> system. It is probably useful for other unix like platforms. <span class="anchor" id="line-157"></span><span class="anchor" id="line-158"></span><p class="line867"><span class="anchor" id="line-159"></span><pre>#!/bin/sh
+<span class="anchor" id="line-160"></span>
+<span class="anchor" id="line-161"></span># Start and stop multiple moin fast cgi instances runnings on PORTS
+<span class="anchor" id="line-162"></span>
+<span class="anchor" id="line-163"></span>NAME="moin"
+<span class="anchor" id="line-164"></span>DIR="/www/org.mywiki/bin"
+<span class="anchor" id="line-165"></span>FCGIAPP="./moin.fcg"
+<span class="anchor" id="line-166"></span>PREFIX="/usr/local"
+<span class="anchor" id="line-167"></span>
+<span class="anchor" id="line-168"></span># List of ports to start moin instances on, separated with whitesapce
+<span class="anchor" id="line-169"></span># Keep in sync with fastcgi.server in lighttpd.conf
+<span class="anchor" id="line-170"></span>PORTS="1080 1081"
+<span class="anchor" id="line-171"></span>
+<span class="anchor" id="line-172"></span>start_on_port () {
+<span class="anchor" id="line-173"></span>    # Start moin instance on port, leaving pid file
+<span class="anchor" id="line-174"></span>    port=$1
+<span class="anchor" id="line-175"></span>    
+<span class="anchor" id="line-176"></span>    cd "${DIR}" &amp;&amp; sudo -u www "${PREFIX}/bin/spawn-fcgi" \
+<span class="anchor" id="line-177"></span>        -f "${FCGIAPP}" \
+<span class="anchor" id="line-178"></span>        -p $port \
+<span class="anchor" id="line-179"></span>        -P "${NAME}-${port}.pid" \
+<span class="anchor" id="line-180"></span>        &gt; /dev/null
+<span class="anchor" id="line-181"></span>}
+<span class="anchor" id="line-182"></span>
+<span class="anchor" id="line-183"></span>kill_on_port () {
+<span class="anchor" id="line-184"></span>    # Try to kill process using pid in pid file, then remove the pid file
+<span class="anchor" id="line-185"></span>    pidFile="${DIR}/${NAME}-$1.pid"
+<span class="anchor" id="line-186"></span>    kill `cat "$pidFile"` &amp;&amp; rm -f "$pidFile" &gt; /dev/null 
+<span class="anchor" id="line-187"></span>}
+<span class="anchor" id="line-188"></span>
+<span class="anchor" id="line-189"></span>start () {
+<span class="anchor" id="line-190"></span>    for port in $PORTS; do start_on_port $port; done 
+<span class="anchor" id="line-191"></span>}
+<span class="anchor" id="line-192"></span>
+<span class="anchor" id="line-193"></span>stop () {
+<span class="anchor" id="line-194"></span>    for port in $PORTS; do kill_on_port $port; done
+<span class="anchor" id="line-195"></span>}
+<span class="anchor" id="line-196"></span>
+<span class="anchor" id="line-197"></span>case "$1" in
+<span class="anchor" id="line-198"></span>start)
+<span class="anchor" id="line-199"></span>    # XXX starting twice will break pid files (bug in spawn-fcgi)
+<span class="anchor" id="line-200"></span>    start &amp;&amp; echo -n " $NAME"
+<span class="anchor" id="line-201"></span>        ;;
+<span class="anchor" id="line-202"></span>stop)
+<span class="anchor" id="line-203"></span>        stop &amp;&amp; echo -n " $NAME"
+<span class="anchor" id="line-204"></span>        ;;
+<span class="anchor" id="line-205"></span>restart)
+<span class="anchor" id="line-206"></span>    stop
+<span class="anchor" id="line-207"></span>    start &amp;&amp; echo -n " $NAME"
+<span class="anchor" id="line-208"></span>        ;;
+<span class="anchor" id="line-209"></span>*)
+<span class="anchor" id="line-210"></span>        echo "Usage: `basename $0` {start|stop|restart}" &gt;&amp;2
+<span class="anchor" id="line-211"></span>        ;;
+<span class="anchor" id="line-212"></span>esac
+<span class="anchor" id="line-213"></span>
+<span class="anchor" id="line-214"></span>exit 0
+<span class="anchor" id="line-215"></span></pre><span class="anchor" id="line-216"></span><span class="anchor" id="line-217"></span><p class="line867">
+<h3 id="head-ab419a88ded72f50f720b8450a446729e77aab73">1.2.6. Adding MoinMoin startup script on Mac OS X</h3>
+<span class="anchor" id="line-218"></span><span class="anchor" id="line-219"></span><p class="line874">With this script, moin instances will be started automatically on startup. <span class="anchor" id="line-220"></span><span class="anchor" id="line-221"></span><ol type="1"><li><p class="line862">Install <a class="http" href="http://darwinports.opendarwin.org/getdp/">darwinports</a> <span class="anchor" id="line-222"></span></li><li><p class="line862">Install <a class="nonexistent" href="./DarwinPortsStartup.html">DarwinPortsStartup</a> package: <span class="anchor" id="line-223"></span><pre>sudo port install DarwinPortsStartup
+<span class="anchor" id="line-224"></span></pre><span class="anchor" id="line-225"></span></li><li><p class="line862">Copy moin.sh into <tt class="backtick">/opt/local/etc/rc.d</tt>: <span class="anchor" id="line-226"></span><pre>sudo cp moin.sh /opt/local/etc/rc.d
+<span class="anchor" id="line-227"></span></pre><span class="anchor" id="line-228"></span></li></ol><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

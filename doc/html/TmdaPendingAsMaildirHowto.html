@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TmdaPendingAsMaildirHowto</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TmdaPendingAsMaildirHowto</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><p class="line867"><strong>NOTE</strong> -- this page might be considered obsolete now that TMDA has native support for the <a href="./TmdaPendingAsMaildir.html">TMDA Pending Queue as a Maildir</a>! <span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867">
+<h1 id="head-02c7f3cda42252913c68c99bfb83949754ede7af">Introduction</h1>
+<span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line874">First, let me appoligize in advance - my first time on a wiki as an author - correct my format if you like - I just want to share the info in case it helps... <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line874">Until this becomes a standard features (hopefully;-) I've come up with a kludge to allow access to the pending messages through an IMAP client without having to use the tmda-cgi to approve the messages or view the pending queue directly. <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line867">
+<h1 id="head-2f1c79e0bb804d999273bc3cc16bc491021dcf3c">Maildrop Script</h1>
+<span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line874">In the beginning of my maildrop I do a bunch of setup stuff - can't really provide an equivalent for all users - I use a bunch of patches to set special environment variables to help me do a few extra central tricks, but in general, you need to have values for any variables I'm referencing in the part below that does the work - this should cover the basics though: <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line867"><span class="anchor" id="line-18"></span><pre>FLD_INBOX=$UI_Maildir
+<span class="anchor" id="line-19"></span>FLD_TRASH=$UI_Maildir/.Trash/
+<span class="anchor" id="line-20"></span>FLD_SPAM=$UI_Maildir/.Spam/
+<span class="anchor" id="line-21"></span>FLD_TMDA=$UI_Maildir/.TMDA
+<span class="anchor" id="line-22"></span>
+<span class="anchor" id="line-23"></span>DEFAULT=$FLD_INBOX
+<span class="anchor" id="line-24"></span></pre><span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line874">This maildrop code snipit is used to deliver a copy of messages into the maildrop folder and also to trigger removal on confirmation: <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line867"><span class="anchor" id="line-29"></span><pre>  LOCKTMDA=$HOME/.tmda.lock
+<span class="anchor" id="line-30"></span>  flock $LOCKTMDA {
+<span class="anchor" id="line-31"></span>    SH_SENDER=escape($SENDER)
+<span class="anchor" id="line-32"></span>    #can remove env call when Sam patches courier (next release?)
+<span class="anchor" id="line-33"></span>    cc "| env SENDER='$SH_SENDER' /usr/local/tmda/bin/tmda-filter"
+<span class="anchor" id="line-34"></span>    if ($EXITCODE != "0")
+<span class="anchor" id="line-35"></span>    {
+<span class="anchor" id="line-36"></span>      #initial submission of unconfirmed message
+<span class="anchor" id="line-37"></span>      if ($EXT =~ /^confirm-/)
+<span class="anchor" id="line-38"></span>      {
+<span class="anchor" id="line-39"></span>        #if this is a confirmation message, eat it
+<span class="anchor" id="line-40"></span>        EXITCODE=0
+<span class="anchor" id="line-41"></span>        exit
+<span class="anchor" id="line-42"></span>      }
+<span class="anchor" id="line-43"></span>      else
+<span class="anchor" id="line-44"></span>      {
+<span class="anchor" id="line-45"></span>        #if this is a message to pending, make it visible to user
+<span class="anchor" id="line-46"></span>        to $FLD_TMDA/
+<span class="anchor" id="line-47"></span>      }
+<span class="anchor" id="line-48"></span>    }
+<span class="anchor" id="line-49"></span>    else
+<span class="anchor" id="line-50"></span>    {
+<span class="anchor" id="line-51"></span>      /Message-ID: .*/
+<span class="anchor" id="line-52"></span>      MSG_ID=$MATCH
+<span class="anchor" id="line-53"></span>      # Get the portion of the confirmation number that prefixes the original file name
+<span class="anchor" id="line-54"></span>      /X-TMDA-Confirm-Done: ![0-9]+!\./
+<span class="anchor" id="line-55"></span>      MSG_FILE=$MATCH2
+<span class="anchor" id="line-56"></span>      #Call my cleanup script
+<span class="anchor" id="line-57"></span>      CMDRESULT=`/usr/local/bin/tmda-cleanup "$MSG_ID" "$FLD_TMDA" $MSG_FILE`
+<span class="anchor" id="line-58"></span>    }
+<span class="anchor" id="line-59"></span>  }
+<span class="anchor" id="line-60"></span></pre><span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span><p class="line867">
+<h1 id="head-43c44a06f30eefac822c7ac5a09cc61cf4dcdef9">Alterations to Courier config</h1>
+<span class="anchor" id="line-63"></span><span class="anchor" id="line-64"></span><p class="line874">Assuming you are using courier, you MAY want to add the pending folder name to the imapd config file. Doing so will result in an auto-purge of files in this folder older than the number of days you enter: <span class="anchor" id="line-65"></span><span class="anchor" id="line-66"></span><p class="line867"><span class="anchor" id="line-67"></span><pre>IMAP_EMPTYTRASH=Trash:7,Pending:10
+<span class="anchor" id="line-68"></span></pre><span class="anchor" id="line-69"></span><span class="anchor" id="line-70"></span><p class="line874">Would delete Trash after 7 days, Pending after 10. <span class="anchor" id="line-71"></span><span class="anchor" id="line-72"></span><p class="line867">
+<h1 id="head-6e0e311afe100feae878e9d4d843fae2e6153dad">PHP Pending folder cleanup script</h1>
+<span class="anchor" id="line-73"></span><span class="anchor" id="line-74"></span><p class="line862">I know this isn't written in Python - sorry <img alt=";-)" height="15" src="./mentalwealth/img/smile4.png" title=";-)" width="15" /> I've played with lots of languages over the years, and as I get older I realize most of them can do everything every other can do, but to simplify my life I want to concentrate on knowing a few of them well... <span class="anchor" id="line-75"></span><span class="anchor" id="line-76"></span><p class="line874">So - that said, PHP command line scripts run pretty much the same as any other... this should operate on any reasonably new version of PHP with either the CLI or CGI build. <span class="anchor" id="line-77"></span><span class="anchor" id="line-78"></span><p class="line862">Of course you will have to edit the <tt>#!</tt> to reference your own PHP - which MAY be determined by executing <tt>which&nbsp;php</tt> at a command shell. <span class="anchor" id="line-79"></span><span class="anchor" id="line-80"></span><p class="line867"><span class="anchor" id="line-81"></span><pre>#!/usr/local/bin/php -q
+<span class="anchor" id="line-82"></span>&lt;?php
+<span class="anchor" id="line-83"></span>
+<span class="anchor" id="line-84"></span>#log file must be mode 666 for multi user logging!
+<span class="anchor" id="line-85"></span>#as this script will run under the UID of the user for which maildrop
+<span class="anchor" id="line-86"></span>#is being run, we have to be careful to chmod the file 666 if we want
+<span class="anchor" id="line-87"></span>#it to work for multiple users...
+<span class="anchor" id="line-88"></span>#error_log(print_r($_SERVER,TRUE),3,'/tmp/stuff');
+<span class="anchor" id="line-89"></span>
+<span class="anchor" id="line-90"></span>$MessageID = $_SERVER['argv'][1];
+<span class="anchor" id="line-91"></span>$MailFolder = $_SERVER['argv'][2];
+<span class="anchor" id="line-92"></span>$MailFilePrefix = $_SERVER['argv'][3];
+<span class="anchor" id="line-93"></span>
+<span class="anchor" id="line-94"></span>if (($MessageID == '') || ($MailFolder == '') || ($MailFilePrefix == '')) {
+<span class="anchor" id="line-95"></span>  die("usage: {$_SERVER['argv'][0]} 'MessageIDLine' 'TMDA_Folder_Root' 'MailFilePrefix'\n");
+<span class="anchor" id="line-96"></span>}
+<span class="anchor" id="line-97"></span>
+<span class="anchor" id="line-98"></span>#SCAN FOR PATTERN MATCH &amp; NUKE MATCHING FILES
+<span class="anchor" id="line-99"></span>#in courier, files names are prefixed by a unixtime stamp 
+<span class="anchor" id="line-100"></span>#(number of seconds since epoch), so to avoid grepping a
+<span class="anchor" id="line-101"></span>#potentially large folder, I try just a few after the delivery
+<span class="anchor" id="line-102"></span>#time to save cycles... I WELCOME improvements on this idea
+<span class="anchor" id="line-103"></span>#also note it may not work if you use a different MDA - in
+<span class="anchor" id="line-104"></span>#which case just remove this outer loop, and change the glob:
+<span class="anchor" id="line-105"></span>#  foreach (glob("$MailFolder/*/*") as $filename) {
+<span class="anchor" id="line-106"></span>
+<span class="anchor" id="line-107"></span>for ($i=0; $i&lt;=2; $i++) {
+<span class="anchor" id="line-108"></span>  $MF = $MailFilePrefix + $i;
+<span class="anchor" id="line-109"></span>  foreach (glob("$MailFolder/*/$MF*") as $filename) {
+<span class="anchor" id="line-110"></span>    $f = fopen($filename, "r");
+<span class="anchor" id="line-111"></span>    $found = FALSE;
+<span class="anchor" id="line-112"></span>    while (!feof($f)) {
+<span class="anchor" id="line-113"></span>      $line = fgets($f,1024);
+<span class="anchor" id="line-114"></span>      $line = trim($line);
+<span class="anchor" id="line-115"></span>      if ($line == '') {
+<span class="anchor" id="line-116"></span>        #stop after reading the headers, which terminate on the first blank line
+<span class="anchor" id="line-117"></span>        break;
+<span class="anchor" id="line-118"></span>      }
+<span class="anchor" id="line-119"></span>      if ($line == $MessageID) {
+<span class="anchor" id="line-120"></span>        $found = TRUE;
+<span class="anchor" id="line-121"></span>        break;
+<span class="anchor" id="line-122"></span>      }
+<span class="anchor" id="line-123"></span>    }
+<span class="anchor" id="line-124"></span>    fclose($f);
+<span class="anchor" id="line-125"></span>    if ($found) {
+<span class="anchor" id="line-126"></span>      #delete the file we found a matching message ID in
+<span class="anchor" id="line-127"></span>      unlink($filename);
+<span class="anchor" id="line-128"></span>    }
+<span class="anchor" id="line-129"></span>  }
+<span class="anchor" id="line-130"></span>}
+<span class="anchor" id="line-131"></span>?&gt;
+<span class="anchor" id="line-132"></span></pre><span class="anchor" id="line-133"></span><span class="anchor" id="line-134"></span><p class="line867">
+<h1 id="head-182933a005e5a5e3810ab78726de366dc5fb5b2a">Conclusion</h1>
+<span class="anchor" id="line-135"></span><span class="anchor" id="line-136"></span><p class="line874">Hope this helps. <span class="anchor" id="line-137"></span><span class="anchor" id="line-138"></span><p class="line874">All my mail addresses will soon be protected by TMDA, so I have no fear in leaving my bare address here! Thanks guys! <span class="anchor" id="line-139"></span>2004.01.26 Mitch Cant - Vancouver Canada &lt;<a class="mailto" href="mailto:mitch@webcob.com">mitch@webcob.com</a>&gt; <span class="anchor" id="line-140"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TmdaInstallation</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TmdaInstallation</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867">
+<h4 id="head-e4330e72a6ccc15aec75834a32893e5561da01ab">TMDA Installation Instructions</h4>
+<span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><p class="line867"><span class="u">Installation from gzipped source tarball</span> <span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><p class="line862">Choose an installation location which can either be an individual area (such as within your home directory), or a shared area (such as /usr/local) for system-wide use, and change to that directory.<br />
+ <span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><ol type="1"><li><p class="line862">Unpack the TMDA distribution.<br />
+ <span class="anchor" id="line-8"></span><ul><li style="list-style-type:none"><span class="anchor" id="line-9"></span><pre>  # gunzip -c tmda-1.1.0.tgz | tar xvf -</pre><span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span></li></ul></li><li class="gap"><p class="line862">If this is a system-wide install, run the <strong>compileall</strong> script to byte-compile all the .py files. Byte-compilation is optional, but will speed TMDA's start-up time. This will be done automatically by Python if you have write permissions in the installation directory, which is why it's not necessary for individual installs. <span class="anchor" id="line-12"></span><ul><li style="list-style-type:none"><span class="anchor" id="line-13"></span><pre>  # cd tmda-1.1.0
+<span class="anchor" id="line-14"></span>  # ./compileall</pre><span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span></li></ul></li><li class="gap"><p class="line862">TMDA is designed to run directly from its source directory. For example, if installed in /usr/local/tmda-1.1.0/, you'd run <strong>tmda-keygen</strong> by invoking <tt class="backtick">/usr/local/tmda-1.1.0/bin/tmda-keygen</tt>. Do not move the bin/* programs outside the source tree, although making symlinks from other areas of the filesystem (such as /usr/local/bin) into the source tree will work fine. <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span></li></ol><p class="line867"><span class="anchor" id="#RPM"></span> <span class="anchor" id="line-19"></span><span class="u">Installation from Linux RPM</span> <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><p class="line874">If you are running an RPM-compatible distro of Linux, you may wish to install TMDA via RPM instead. A binary RPM can be built and installed directly from the source tarball: <span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><p class="line867"><span class="anchor" id="line-24"></span><pre># rpmbuild -tb tmda-1.1.0.tgz
+<span class="anchor" id="line-25"></span># rpm -Uvh /usr/src/redhat/RPMS/noarch/tmda-1.1.0-1.noarch.rpm</pre><span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span><p class="line862">If your system lacks a <strong>/usr/bin/python2.3</strong> binary, you will get a dependency error from rpmbuild. The solution is to install a <a class="http" href="http://www.python.org/2.3.5/rpms.html">Python 2.3.x RRM from python.org</a>. As explained on their page, this will not conflict with or overwrite your system's existing Python in any way.  <span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line867"><span class="u">Post-Installation</span> <span class="anchor" id="line-30"></span><span class="anchor" id="line-31"></span><p class="line874">Report your installation (used only to satisfy my curiosity about what platforms are using TMDA): <span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span><p class="line867"><span class="anchor" id="line-34"></span><pre># tmda-keygen -V | mail jason-tmdausage@mastaler.com</pre><span class="anchor" id="line-35"></span><span class="anchor" id="line-36"></span><p class="line862">Then proceed to <a href="./TmdaConfiguration.html">TmdaConfiguration</a> for how to setup and configure TMDA.  <span class="anchor" id="line-37"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

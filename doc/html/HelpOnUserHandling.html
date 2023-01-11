@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnUserHandling</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnUserHandling</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-5"></span><span class="anchor" id="line-6"></span><p class="line867"><div class="table-of-contents"><p class="table-of-contents-heading">Contents<ol><li><a href="#head-d3377754374b9440f383730f9ee7dcb8c72cefea">How to maintain your user data</a><ol><li><a href="#head-bd7a8f06f26820ec58f788758c45866d53c994f9">Disable a user account</a></li><li><a href="#head-0b84164d7ca2e3575994710f904bd1bacc0ce0ad">Removing a user account</a></li><li><a href="#head-7de3bf818c852b09871832e6f76e78e965a5707d">One wiki for user home pages</a></li><li><a href="#head-183c3c6f63c453136cae082d30138526aa68c07a">Merging userbases</a></li></ol></li></ol></div><p class="line874"> <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867">
+<h1 id="head-d3377754374b9440f383730f9ee7dcb8c72cefea">How to maintain your user data</h1>
+<span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line874">User data is stored in directory data/user in files that have the user id as filename. The files with the appendix .trail contain a history of what pages the user visited last. <span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><p class="line862">To speed up processing, <a href="./MoinMoin.html">MoinMoin</a> may also generate some data structures that get saved to disk as *.pickle file - these are internal data structures and you must not edit those files. If you are in doubt whether such a *.pickle file is correct or up-to-date, then just delete it and it will be re-generated automatically by moin. If you run a persistent (non-cgi) moin, maybe better restart <a href="./MoinMoin.html">MoinMoin</a> after deleting the pickle. <span class="anchor" id="line-13"></span><span class="anchor" id="line-14"></span><p class="line867">
+<h2 id="head-bd7a8f06f26820ec58f788758c45866d53c994f9">Disable a user account</h2>
+<span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span><p class="line862">You can disable a user account if you are logged in as a superuser (see <a href="./HelpOnSuperUser.html">HelpOnSuperUser</a>) and choose to login to the account of the user via the superuser preferences (so than you will be the user to be deleted) and choose "Disable this account forever" in the preferences. After that you should logoff. <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><p class="line867">
+<h2 id="head-0b84164d7ca2e3575994710f904bd1bacc0ce0ad">Removing a user account</h2>
+<span class="anchor" id="line-19"></span><p class="line874">You can remove a user by deleting his user file (and other files that are named with that userid prefix). <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><p class="line862">Be aware that if you do that, you will destroy the edit history of that user. Moin won't be able to show this user in page history, because this user id will then be unknown. So better disable an account rather than removing it. After user data is deleted, <a href="./MoinMoin.html">MoinMoin</a> may still think the user exists due to the user cache in data/cache/user/name2id.  Deleting this file purges the cache and should fix this problem. <span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><p class="line867">
+<h2 id="head-7de3bf818c852b09871832e6f76e78e965a5707d">One wiki for user home pages</h2>
+<span class="anchor" id="line-24"></span><span class="anchor" id="line-25"></span><p class="line862">Yyou can set the value <tt>user_homewiki</tt> to have one wiki where all the user home pages are stored. Useful if you have many users. You could even link to nonwiki "user pages" if the wiki username is in the target URL. <span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span><p class="line867">
+<h2 id="head-183c3c6f63c453136cae082d30138526aa68c07a">Merging userbases</h2>
+<span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line874">You can merge two different wiki user bases to one. You can copy all those user files from one wiki to the other, but you should make sure that no user exists twice. The username can be found at "name=" in a user file. <span class="anchor" id="line-30"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

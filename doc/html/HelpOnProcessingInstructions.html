@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnProcessingInstructions</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnProcessingInstructions</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867"><a href="./MoinMoin.html">MoinMoin</a> processing instructions have the same semantics as in XML: they control the paths taken when processing a page. Processing instructions are lines that start with a "<tt>#</tt>" character followed by a keyword and optionally some arguments; the keyword is always handled case-insensitive. Two consecutive hash marks at the start of a line are a comment that won't appear in the processed page. <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line874">All PIs must appear at the very start of a page. An exception are comment PIs, those may appear anywhere within a  page using "wiki" format, but not in pages using other formats. <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">For more information on the possible markup, see <a href="./HelpOnEditing.html">HelpOnEditing</a>.  <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line862">Processing instructions MoinMoin knows of: <span class="anchor" id="line-14"></span><div class="table-of-contents"><p class="table-of-contents-heading">Contents<ol><li><a href="#head-6514c6c8adbbb6fedadeba58827c1ebea3691f78">## comment</a></li><li><a href="#head-0b611da565d0c15d32176823e3db8bc2593f52c6">#format</a></li><li><a href="#head-90fe7c2176c1dfa6f2de86245c9d7dde868dc64c">#redirect</a></li><li><a href="#head-77779d0457975febddcf5e54b51284109e97ef3b">#refresh</a></li><li><a href="#head-960b14e3643a3ae86600578a317ef2c67273a973">#pragma</a><ol><li><a href="#head-e0bd6e9906556340f2ae97ac1236c9e098367a2e">section-numbers</a></li><li><a href="#head-80980ec08de06df98270f20188db04c6eade7779">keywords</a></li><li><a href="#head-3516c9452a1b5071e7914d5b67c5009023b6c13c">description</a></li><li><a href="#head-a9035315f36292d506faffad642c4b1463a0601f">deprecated</a></li></ol><li><a href="#head-6a41577e570ae4c04017661296526c7f8789cc76">#language</a></li></ol></div><p class="line874"> <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span><p class="line867">
+<h1 id="head-6514c6c8adbbb6fedadeba58827c1ebea3691f78">1. ## comment</h1>
+<span class="anchor" id="line-17"></span><p class="line867"><span class="anchor" id="line-18"></span><pre>## a comment, any text here is ignored
+<span class="anchor" id="line-19"></span></pre><span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><p class="line867">
+<h1 id="head-0b611da565d0c15d32176823e3db8bc2593f52c6">2. #format</h1>
+<span class="anchor" id="line-22"></span><p class="line874">Defines the input format for this page.  <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><pre>#FORMAT format-specifier optional-arguments
+<span class="anchor" id="line-25"></span></pre><span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span><p class="line874">format-specifier can be: <span class="anchor" id="line-28"></span><ul><li><p class="line891"><strong>wiki</strong>: default <a href="./MoinMoin.html">MoinMoin</a> wiki markup <span class="anchor" id="line-29"></span></li><li><p class="line891"><strong>plain</strong>: normal plain text <span class="anchor" id="line-30"></span></li><li><p class="line891"><strong>python</strong>: colored Python code <span class="anchor" id="line-31"></span></li><li><p class="line862">Any other installed parser name. See <a href="./HelpOnParsers.html">HelpOnParsers</a> for additional parsers available and <a class="interwiki" href="http://purl.net/wiki/moin/ParserMarket" title="MoinMoin">ParserMarket</a> for user provided parsers. <span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span></li></ul><p class="line874">Some parsers can accept optional arguments. Check the documentation of the parser for the possible options. <span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span><p class="line867">
+<h1 id="head-90fe7c2176c1dfa6f2de86245c9d7dde868dc64c">3. #redirect</h1>
+<span class="anchor" id="line-36"></span><p class="line862">Redirect to a different page (see <a class="interwiki" href="http://www.usemod.com/cgi-bin/mb.pl?PageRedirect" title="MeatBall">PageRedirect</a><strong></strong>) <span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><pre>#REDIRECT pagename
+<span class="anchor" id="line-39"></span></pre><span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span><p class="line867">
+<h1 id="head-77779d0457975febddcf5e54b51284109e97ef3b">4. #refresh</h1>
+<span class="anchor" id="line-42"></span><p class="line874">Redirect to a different page (or an external URL or just refresh the same page, if left out) <span class="anchor" id="line-43"></span><ul><li><p class="line862">Needs to be enabled in the server configuration, see <a href="./HelpOnConfiguration.html">HelpOnConfiguration</a> <span class="anchor" id="line-44"></span></li></ul><p class="line867"><span class="anchor" id="line-45"></span><pre>#REFRESH delay target
+<span class="anchor" id="line-46"></span></pre><span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span><p class="line874">target can be either a page name, or a fully qualified url. Here are two examples: <span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span><pre>#refresh 0 FrontPage
+<span class="anchor" id="line-51"></span>#refresh 5 http://example.com/
+<span class="anchor" id="line-52"></span></pre><span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span><p class="line867">
+<h1 id="head-960b14e3643a3ae86600578a317ef2c67273a973">5. #pragma</h1>
+<span class="anchor" id="line-55"></span><p class="line874">Sets processing modes for this page: <span class="anchor" id="line-56"></span><span class="anchor" id="line-57"></span><pre>#PRAGMA mode arguments
+<span class="anchor" id="line-58"></span></pre><p class="line874"> <span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span><p class="line874">Mode names are not case-sensitive.  <span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span><p class="line867">MoinMoin knows few pragmas, and you may add more and use them for your own themes or macros. Here are the known pragmas: <span class="anchor" id="line-63"></span><span class="anchor" id="line-64"></span><p class="line867">
+<h2 id="head-e0bd6e9906556340f2ae97ac1236c9e098367a2e">5.1. section-numbers</h2>
+<span class="anchor" id="line-65"></span><p class="line874">Switches automatic numbering of section headers. <span class="anchor" id="line-66"></span><span class="anchor" id="line-67"></span><pre>#pragma section-numbers off
+<span class="anchor" id="line-68"></span></pre><span class="anchor" id="line-69"></span><p class="line867"><tt class="backtick">off</tt> or <tt class="backtick">0</tt> disable numbering, <tt class="backtick">on</tt> or <tt class="backtick">1</tt> enables numbering. The default mode is set by the <tt class="backtick">show_section_numbers</tt> config option. <span class="anchor" id="line-70"></span><span class="anchor" id="line-71"></span><p class="line874">When enabling numbering, its possible to use specific heading level: <span class="anchor" id="line-72"></span><span class="anchor" id="line-73"></span><pre>#pragma section-numbers 2
+<span class="anchor" id="line-74"></span></pre><span class="anchor" id="line-75"></span><p class="line874">Only displays section numbers for headings of level 2 and up (similarly for 3 to 6). <span class="anchor" id="line-76"></span><span class="anchor" id="line-77"></span><p class="line867">
+<h2 id="head-80980ec08de06df98270f20188db04c6eade7779">5.2. keywords</h2>
+<span class="anchor" id="line-78"></span><p class="line862">adds a <tt class="backtick">&lt;meta&gt;</tt> tag with keywords which tells search engines what you can find on the particular page. <span class="anchor" id="line-79"></span><span class="anchor" id="line-80"></span><pre>#pragma keywords Cars, Vehicles, Foo
+<span class="anchor" id="line-81"></span></pre><p class="line874"> <span class="anchor" id="line-82"></span><span class="anchor" id="line-83"></span><p class="line867">
+<h2 id="head-3516c9452a1b5071e7914d5b67c5009023b6c13c">5.3. description</h2>
+<span class="anchor" id="line-84"></span><p class="line862">adds a <tt class="backtick">&lt;meta&gt;</tt> tag which contains the description of the particular page. <span class="anchor" id="line-85"></span><span class="anchor" id="line-86"></span><pre>#pragma description This page is about cars.
+<span class="anchor" id="line-87"></span></pre><p class="line874"> <span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span><p class="line867">
+<h2 id="head-a9035315f36292d506faffad642c4b1463a0601f">5.4. deprecated</h2>
+<span class="anchor" id="line-90"></span><p class="line874">Mark this page as deprecated. <span class="anchor" id="line-91"></span><span class="anchor" id="line-92"></span><pre>#DEPRECATED
+<span class="anchor" id="line-93"></span></pre><span class="anchor" id="line-94"></span><p class="line874">Further changes to the page will create no backup versions and displaying it will show the current contents (usually the reason why this page is deprecated) plus the last backup. This effectively freezes the last version of the page, makes it unavailable for searches (no hits on stale content), but keeps that content available for viewing. <span class="anchor" id="line-95"></span><span class="anchor" id="line-96"></span><ul><li><p class="line862">Removing the PI from the page will store <strong>no</strong> backup of the deprecation warning. <span class="anchor" id="line-97"></span></li><li><p class="line862">In comparison to <tt class="backtick">#REDIRECT</tt> this PI gives the ability to give the user a reason why this page is no longer of use and why they should go to a new one, while <tt class="backtick">#REDIRECT</tt> will throw them to the new page without any reason. <span class="anchor" id="line-98"></span><span class="anchor" id="line-99"></span></li></ul><p class="line867">
+<h1 id="head-6a41577e570ae4c04017661296526c7f8789cc76">6. #language</h1>
+<span class="anchor" id="line-100"></span><p class="line874">Set page language and direction. <span class="anchor" id="line-101"></span><span class="anchor" id="line-102"></span><pre>#language language-name
+<span class="anchor" id="line-103"></span></pre><span class="anchor" id="line-104"></span><p class="line862">Set page language and direction. Language name is the iso-639-1 code. <a href="./MoinMoin.html">MoinMoin</a> ignore languages that does not have a translation file in <tt class="backtick">MoinMoin/i18n/</tt>. See also <a href="./HelpOnLanguages.html">HelpOnLanguages</a>. <span class="anchor" id="line-105"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

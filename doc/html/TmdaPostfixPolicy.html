@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TmdaPostfixPolicy</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TmdaPostfixPolicy</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-2"></span><p class="line862">The <a class="http" href="http://www.postfix.org/">Postfix MTA</a> has the ability to invoke external <a class="http" href="http://www.postfix.org/SMTPD_POLICY_README.html">policy services</a> to determine what to do with an incoming email.  The advantage of this approach is that the MTA can evaluate how to dispose the email while the sending server is connected.  Because the envelope sender address can be <a class="http" href="http://en.wikipedia.org/wiki/Joe_job">forged</a>, this can reduce the impact of sending a bounce or message delivery error to the wrong address. <span class="anchor" id="line-3"></span><span class="anchor" id="line-4"></span><p class="line874">With that in mind, I created a simplistic Postfix policy service which queries TMDA to determine what to do.  The code below is an initial trial, which has some caveats: <span class="anchor" id="line-5"></span><span class="anchor" id="line-6"></span><ul><li>It only works on filter rules that result in a bounce.  It currently ignores things like ACTION_INCOMING, ACTION_FAIL_* and ACTION_EXPIRED_DATED. <span class="anchor" id="line-7"></span></li><li>It has external dependancies: grep, cut, logger <span class="anchor" id="line-8"></span></li><li>It's not written in python so it's integration with TMDA is limited to the features of external TMDA programs <span class="anchor" id="line-9"></span></li><li>It only works with the "bounce" TMDA action.  Ideally, it would work with the confirm action, but unfortunately, SMTP doesn't allow for sufficient space to specify a confirmation request in a 550 bounce error message.  There may be enough space to specify a URL for which could be used for confirmation. <span class="anchor" id="line-10"></span></li></ul><p class="line874">Here's how you install this policy daemon: <span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><ol type="1"><li>Make sure that you've set "ALLOW_MODE_640 = True" in /etc/tmdarc <span class="anchor" id="line-13"></span></li><li>Make sure that all users .tmda/config and .tmda/crypt_key have their group set to "mail" and have 640 permissions <span class="anchor" id="line-14"></span></li><li>Copy the code (see below) into /usr/local/src/tmda/contrib/tmda-postfix-policy.sh <span class="anchor" id="line-15"></span></li><li>Add the following to master.cf: <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><pre>tmda    unix  -       n       n       -       -       spawn
+<span class="anchor" id="line-18"></span>    user=mail argv=/bin/bash /usr/local/src/tmda/contrib/tmda-postfix-policy.sh</pre><span class="anchor" id="line-19"></span></li><li>Add the following to main.cf: <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><pre>smtpd_recipient_restrictions =
+<span class="anchor" id="line-22"></span>        permit_mynetworks,
+<span class="anchor" id="line-23"></span>        check_policy_service unix:private/tmda</pre><span class="anchor" id="line-24"></span>Alternatively, you can add it to "smtpd_data_restrictions" or "smtpd_end_of_data_restrictions". <span class="anchor" id="line-25"></span></li><li>Restart Postfix <span class="anchor" id="line-26"></span></li></ol><p class="line862">This is the code that implements this: <a href="./tmda(2d)postfix(2d)policy(2e)sh.html">tmda-postfix-policy.sh</a> <span class="anchor" id="line-27"></span><ul><li>[<a href="attachments/TmdaPostfixPolicy/tmda-postfix-policy.sh">get</a>&nbsp;| <a href="./TmdaPostfixPolicy.html?action=AttachFile&amp;do=view&amp;target=tmda-postfix-policy.sh">view</a>] (1.7 KB) attachment:<strong>tmda-postfix-policy.sh</strong></li></ul> <span class="anchor" id="line-28"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnMacros/MailTo</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnMacros/MailTo</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867"><table class="navigation"><tr><td><a href="./HelpOnMacros(2f)ImageLink.html">/ImageLink</a> &nbsp; <a href="./HelpOnMacros(2f)Include.html">/Include</a> &nbsp; /MailTo &nbsp; </td></tr></table> <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line862">Using the <strong><tt class="backtick">MailTo</tt></strong>-Macro helps you putting your email address into a wiki in a rather safe way without having to fear that it gets collected by spam bots (robots collecting email addresses) and abused by some spammer. <span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line867">
+<h1 id="head-f535758f944ac79f73f3afa5deb4b1f6388c6727">1. Usage</h1>
+<span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><p class="line867"><tt class="backtick">[[MailTo(Firstname&nbsp;DOT&nbsp;Lastname&nbsp;AT&nbsp;example&nbsp;DOT&nbsp;net)]]</tt> <span class="anchor" id="line-13"></span><span class="anchor" id="line-14"></span><p class="line874">or  <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span><p class="line867"><tt class="backtick">[[MailTo(Firstname&nbsp;DOT&nbsp;Lastname&nbsp;AT&nbsp;example&nbsp;DOT&nbsp;net,&nbsp;link&nbsp;text)]]</tt> <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><p class="line867">
+<h1 id="head-d62bf37b9f195625cebabfcca252be6616e9940d">2. What does it do?</h1>
+<span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span><p class="line874">We have to differentiate between logged-in and anonymous users (which includes spam bots). <span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line874">Logged-in users are assumed to have the right to read and easily use the email address via a single click (otherwise, one would not publish it in a wiki). <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><p class="line874">Regarding anonymous users things get more critical - those could be "normal" users, but also someone or something (like a spam bot) collecting email addresses to abuse them by sending unsolicited commercial email to them (this is a very general problem in the internet). <span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line867">
+<h2 id="head-b0b3c486e43197c0a88b45a26e9c0ae824809e5d">2.1. Logged-in users</h2>
+<span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line874">They will get the following: <span class="anchor" id="line-29"></span><ul><li style="list-style-type:none"><p class="line891"><a class="mailto" href="mailto:Firstname.Lastname@example.net">Firstname.Lastname@example.net</a> <span class="anchor" id="line-30"></span><span class="anchor" id="line-31"></span></li></ul><p class="line862">So they get a directly readable and clickable <tt class="backtick">mailto:</tt> link. <span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span><p class="line867">
+<h2 id="head-d494af5707c6daf0be6585155e432c895c4ec47a">2.2. Anonymous users</h2>
+<span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span><p class="line874">Anonymous users (like spam bots and other bots) will only get the literal argument text as passed to the macro: <span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span><ul><li style="list-style-type:none">Firstname DOT Lastname AT example DOT net <span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span></li></ul><p class="line862">Pure text, no <tt class="backtick">mailto:</tt> link. An intelligent human being will be able to interpret that and enter that email address manually into an email client. <span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span><p class="line874">But an automatic bot hopefully can't make anything out of that and will simply miss it (except if it is an especially bright bot, for that case see below) - and the macro has fulfilled its purpose, avoiding spam. <span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><p class="line867">
+<h1 id="head-cfb90c99d87ff07fbd1b2ede21833748cc31057e">3. How it works and more samples</h1>
+<span class="anchor" id="line-44"></span><span class="anchor" id="line-45"></span><p class="line874">For anonymous users, the macro simply outputs the literal argument text as passed to the macro. <span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span><p class="line874">For logged-in users, the macro processes the parameter string as follows: <span class="anchor" id="line-48"></span><span class="anchor" id="line-49"></span><ol type="1"><li>The following ALL-UPERCASE words will be replaced: <span class="anchor" id="line-50"></span><span class="anchor" id="line-51"></span><ul><li style="list-style-type:none"><div><table><tbody><tr>  <td><p class="line862"> AT   </td>
+  <td><p class="line862"> <tt class="backtick">@</tt> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-52"></span><p class="line862"> DOT  </td>
+  <td><p class="line862"> <tt class="backtick">.</tt> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-53"></span><p class="line862"> DASH </td>
+  <td><p class="line862"> <tt class="backtick">-</tt> </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-54"></span><span class="anchor" id="line-55"></span></li></ul></li><li class="gap">Other ALL-UPPERCASE words like e.g. NO SPAM NOSPAM WHATEVER I DONT WANT SPAM etc. will simply be dropped (replaced by an empty string). <span class="anchor" id="line-56"></span><span class="anchor" id="line-57"></span></li><li class="gap">All blanks get removed. <span class="anchor" id="line-58"></span><span class="anchor" id="line-59"></span></li><li class="gap"><p class="line862">A clickable <tt class="backtick">mailto:</tt> link is generated. <span class="anchor" id="line-60"></span><span class="anchor" id="line-61"></span></li></ol><p class="line862">There is of course some danger of an especially bright spam bot recognizing usual spam protection words like AT, DOT and NOSPAM and converting them correctly. This is made more unlikely if you sprinkle in <em>arbitrary</em> words and blanks. A spam bot who can even recognize that has well earned your email address. <img alt=";)" height="15" src="./mentalwealth/img/smile4.png" title=";)" width="15" /> <span class="anchor" id="line-62"></span><span class="anchor" id="line-63"></span><p class="line862">You can easily see the effects of <tt class="backtick">MailTo</tt> by comparing these examples for logged-in and anonymous users: <span class="anchor" id="line-64"></span><span class="anchor" id="line-65"></span><ul><li><p class="line891"><tt class="backtick">[[MailTo(Firstname&nbsp;DOT&nbsp;Lastname&nbsp;AT&nbsp;example&nbsp;DOT&nbsp;net)]]</tt> becomes <tt>&lt;Firstname&nbsp;DOT&nbsp;Lastname&nbsp;AT&nbsp;example&nbsp;DOT&nbsp;net&gt;</tt> <span class="anchor" id="line-66"></span></li><li><p class="line891"><tt class="backtick">[[MailTo(Firstname&nbsp;.&nbsp;Lastname&nbsp;AT&nbsp;exa&nbsp;mp&nbsp;le&nbsp;DOT&nbsp;n&nbsp;e&nbsp;t)]]</tt> becomes <tt>&lt;Firstname&nbsp;.&nbsp;Lastname&nbsp;AT&nbsp;exa&nbsp;mp&nbsp;le&nbsp;DOT&nbsp;n&nbsp;e&nbsp;t&gt;</tt> <span class="anchor" id="line-67"></span></li><li><p class="line891"><tt class="backtick">[[MailTo(Firstname&nbsp;I&nbsp;DONT&nbsp;WANT&nbsp;SPAM&nbsp;.&nbsp;Lastname@example&nbsp;DOT&nbsp;net)]]</tt> becomes <tt>&lt;Firstname&nbsp;I&nbsp;DONT&nbsp;WANT&nbsp;SPAM&nbsp;.&nbsp;Lastname@example&nbsp;DOT&nbsp;net&gt;</tt> <span class="anchor" id="line-68"></span></li><li><p class="line891"><tt class="backtick">[[MailTo(First&nbsp;name&nbsp;I&nbsp;Lastname&nbsp;DONT&nbsp;AT&nbsp;WANT&nbsp;SPAM&nbsp;example&nbsp;DOT&nbsp;n&nbsp;e&nbsp;t)]]</tt> becomes <tt>&lt;First&nbsp;name&nbsp;I&nbsp;Lastname&nbsp;DONT&nbsp;AT&nbsp;WANT&nbsp;SPAM&nbsp;example&nbsp;DOT&nbsp;n&nbsp;e&nbsp;t&gt;</tt> <span class="anchor" id="line-69"></span></li><li><p class="line891"><tt class="backtick">[[MailTo(Vorname&nbsp;DOT&nbsp;Nachname&nbsp;AT&nbsp;example&nbsp;DOT&nbsp;net,&nbsp;Me,&nbsp;Myself,&nbsp;and&nbsp;I)]]</tt> becomes Me, Myself, and I <tt>&lt;Vorname&nbsp;DOT&nbsp;Nachname&nbsp;AT&nbsp;example&nbsp;DOT&nbsp;net&gt;</tt> <span class="anchor" id="line-70"></span><span class="anchor" id="line-71"></span></li></ul><p class="line867"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> Given the ability to add CAPS words, each user can raise the obstacles for both bots and humans as they desire. If you make it hard for human readers, you will get less mail. <img alt=";)" height="15" src="./mentalwealth/img/smile4.png" title=";)" width="15" /> <span class="anchor" id="line-72"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

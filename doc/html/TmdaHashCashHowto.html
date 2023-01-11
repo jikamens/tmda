@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TmdaHashCashHowto</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TmdaHashCashHowto</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867">
+<h2 id="head-21e111976e55450b89c0d2eff2435a1c0c9b5c8d">Hashcash HOWTO</h2>
+<span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><p class="line862">This HOWTO describes how to integrate TMDA with the <a class="http" href="http://www.hashcash.org/">Hashcash</a>  <span class="anchor" id="line-4"></span>denial-of-service counter measure tool.   <span class="anchor" id="line-5"></span><span class="anchor" id="line-6"></span><p class="line867">
+<h2 id="head-a5922937badb155c88f9653de23e642974b7e7ae">Introduction</h2>
+<span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line874">Briefly, Hashcash is payment in burnt CPU cycles. <span class="anchor" id="line-9"></span>A hashcash token constitutes a proof-of-work which takes a parameterizable amount of time to compute <span class="anchor" id="line-10"></span>for the sender.  Thus, mail which contains a valid hashcash token can reasonably assumed to not be <span class="anchor" id="line-11"></span>spam since sending bulk mail this way would be computationally infeasible.   <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line874">E-mail senders attach hashcash tokens to their messages with the X-Hashcash header. <span class="anchor" id="line-14"></span>Vendors and authors of anti-spam tools are encouraged to exempt mail <span class="anchor" id="line-15"></span>sent with hashcash  <span class="anchor" id="line-16"></span>As this technique becomes more popular, the benefits of using and checking for hashcash <span class="anchor" id="line-17"></span>tokens will increase.  For example, Spamassassin 2.70 supports hashcash checking,  <span class="anchor" id="line-18"></span>so adding hashcash tokens to outgoing e-mail will become more valuable as that version becomes more widely deployed. <span class="anchor" id="line-19"></span>Also, Microsoft has recently taken interest in this strategy with their  <span class="anchor" id="line-20"></span><a class="http" href="http://research.microsoft.com/research/sv/PennyBlack/">Penny Black Project</a>. <span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line867">
+<h2 id="head-ad371bdf5881712d3fb54585ea53693c4806c3fa">Requirements</h2>
+<span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><ol type="1"><li><p class="line862">Familiarity with both TMDA &amp; Hashcash. <span class="anchor" id="line-25"></span></li><li>The hashcash executable (source and binaries available from the Hashcash homepage). <span class="anchor" id="line-26"></span></li><li>TMDA v1.1.3 or above.  These techniques will not work with earlier TMDA releases. <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span></li></ol><p class="line867">
+<h2 id="head-d4e493b683b47161c65b047c8b3c6b13d47d0741">Incoming Mail</h2>
+<span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span><p class="line862">Hashcash tokens can be checked for in incoming mail using the <tt>pipe-headers</tt> source <span class="anchor" id="line-31"></span>in your TMDA FILTER_INCOMING file.  See the <a href="./FilterSources.html">FilterSources</a> <span class="anchor" id="line-32"></span>page for more on pipe-headers.  Here is an example: <span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span><p class="line867"><span class="anchor" id="line-35"></span><pre># verify hashcash tokens in the 'X-Hashcash' header field
+<span class="anchor" id="line-36"></span>pipe-headers "/usr/bin/hashcash -c -y -X -b16 -r you@yourdomain.dom" accept
+<span class="anchor" id="line-37"></span></pre><span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><p class="line874">Essentially the headers of each incoming message are fed to the hashcash command string <span class="anchor" id="line-40"></span>which checks for a valid token in X-Hashcash.  If one is found and it can be verified,  <span class="anchor" id="line-41"></span>the hashcash program returns a 0 exit status, and the 'accept' action is run allowing <span class="anchor" id="line-42"></span>the message to be immediately delivered. <span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span><p class="line874">Be sure to consult the hashcash tool documentation and season the above usage <span class="anchor" id="line-45"></span>to taste. <span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span><p class="line867">
+<h2 id="head-35eae9b0f25fa834ac54322d899102be99868d0b">Outgoing Mail</h2>
+<span class="anchor" id="line-48"></span><span class="anchor" id="line-49"></span><p class="line874">Assuming you use tmda-sendmail or tmda-ofmipd to "tag" your outgoing messages, TMDA's <span class="anchor" id="line-50"></span>FILTER_OUTGOING file now allows you to add dynamic/shell-escaped headers with the new <span class="anchor" id="line-51"></span><tt>shell=</tt> tag action.  See <a href="./FilterSpecification.html">FilterSpecification</a> for more on the tag action.  This provides a convenient way to add hashcash tokens via <span class="anchor" id="line-52"></span>the X-Hashcash header to your messages.  They can be added per-recipient, or for all recipients. <span class="anchor" id="line-53"></span>The examples below also illustrate use of the built-in $TMDA_RECIPIENT environment variable.  This variable contains <span class="anchor" id="line-54"></span>the address of the message recipient and is available for use anywhere in your FILTER_OUTGOING file. <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line874">Examples: <span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><p class="line867"><span class="anchor" id="line-59"></span><pre># Add X-Hashcash when sending to foo@bar.com only.
+<span class="anchor" id="line-60"></span>
+<span class="anchor" id="line-61"></span># store the tag action in a macro
+<span class="anchor" id="line-62"></span>macro HASHCASH x-hashcash shell="/usr/bin/hashcash -q -m -b20 ${TMDA_RECIPIENT}"
+<span class="anchor" id="line-63"></span>
+<span class="anchor" id="line-64"></span>to foo@bar.com tag
+<span class="anchor" id="line-65"></span>   from             bare
+<span class="anchor" id="line-66"></span>   reply-to         dated
+<span class="anchor" id="line-67"></span>   HASHCASH
+<span class="anchor" id="line-68"></span></pre><span class="anchor" id="line-69"></span><span class="anchor" id="line-70"></span><p class="line867"><span class="anchor" id="line-71"></span><pre># Add X-Hashcash to all messages that didn't match a prior rule.
+<span class="anchor" id="line-72"></span># No macro used.
+<span class="anchor" id="line-73"></span>
+<span class="anchor" id="line-74"></span>to * tag 
+<span class="anchor" id="line-75"></span>   x-hashcash shell="/usr/bin/hashcash -q -m -b20 ${TMDA_RECIPIENT}"
+<span class="anchor" id="line-76"></span></pre><span class="anchor" id="line-77"></span><span class="anchor" id="line-78"></span><p class="line874">Be sure to consult the hashcash tool documentation and season the above usage <span class="anchor" id="line-79"></span>to taste. <span class="anchor" id="line-80"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

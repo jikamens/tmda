@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnInstalling/TwistedWeb</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnInstalling/TwistedWeb</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867">
+<h1 id="head-aadc9ea90352d5b5ad5745583f12238abc07f6b1">1. Using MoinMoin with Twisted</h1>
+<span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line867"><a class="http" href="http://twistedmatrix.com">Twisted</a> is a standalone python framework for many kinds of applications. <span class="anchor" id="line-10"></span>For <a href="./MoinMoin.html">MoinMoin</a>, we use Twisted as a python web server that just imports <a href="./MoinMoin.html">MoinMoin</a> persistently. <span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><p class="line862">This has the advantage that the Python interpreter and all Python scripts (including Twisted itself and also <a href="./MoinMoin.html">MoinMoin</a>) is only loaded and initialized one time, and that data can be cached in memory from request to request, enhancing the performance of <a href="./MoinMoin.html">MoinMoin</a>. <span class="anchor" id="line-13"></span><span class="anchor" id="line-14"></span><p class="line862">Another advantage is that this is all based on Python. <img alt=";)" height="15" src="./mentalwealth/img/smile4.png" title=";)" width="15" /> <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span><p class="line862">First do <a href="./HelpOnInstalling(2f)BasicInstallation.html">../BasicInstallation</a> and <a href="./HelpOnInstalling(2f)WikiInstanceCreation.html">../WikiInstanceCreation</a>. <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><p class="line867">
+<h2 id="head-781019b7b4433e2b39a07387d381c1ca28eb9134">1.1. Install Twisted</h2>
+<span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span><p class="line874">First, install Twisted (see URL above). Many Linux distributions have Twisted packages. Please refer to the documentation of Twisted for installation information. <span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line867">
+<h2 id="head-f377d8187c2c46a84ee4a6ae292b323853a6ae0c">1.2. Configuring the Twisted server</h2>
+<span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><p class="line862">Copy the file <tt class="backtick">wiki/server/mointwisted.py</tt> to your wiki directory. Edit and adapt the settings to your needs. <span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line867">
+<h3 id="head-6cf160dca6339d0a63474b5e9d1c94115980d292">1.2.1. System path configuration</h3>
+<span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line874">If you did a standard install, and you are not a developer, you probably want to skip this section. Otherwise, you might want to add the path to moin and config file, like that: <span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span><p class="line867"><span class="anchor" id="line-31"></span><pre>sys.path.insert(0, '/path/to/moin')
+<span class="anchor" id="line-32"></span>sys.path.insert(0, '/path/to/wikiconfig')
+<span class="anchor" id="line-33"></span></pre><span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span><p class="line867">
+<h3 id="head-a51f43e6a56656fb4ff7b17d487afc09442427b5">1.2.2. Config class options</h3>
+<span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span><p class="line874">If you did a standard install, the default options might be just what you need. Check and change what you like: <span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><div><table><tbody><tr>  <td><p class="line862"> <strong>Option</strong> </td>
+  <td><p class="line862"> <strong>Default</strong> </td>
+  <td><p class="line862"> <strong>Comment</strong> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-40"></span><p class="line862"> docs </td>
+  <td><p class="line862"> '/usr/share/moin/wiki/htdocs' </td>
+  <td><p class="line862"> Path to moin shared files </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-41"></span><p class="line862"> user </td>
+  <td><p class="line862"> 'www-data' </td>
+  <td><p class="line862"> If you run as root, the server will run as this user </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-42"></span><p class="line862"> group </td>
+  <td><p class="line862"> 'www-data' </td>
+  <td><p class="line862"> If you run as root, the server will run as this group </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-43"></span><p class="line862"> port </td>
+  <td><p class="line862"> 8080 </td>
+  <td><p class="line862"> Port to serve. To serve a privileged port below 1024 you will have to run as root </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-44"></span><p class="line862"> interfaces </td>
+  <td><p class="line862"> <tt class="backtick">['']</tt> </td>
+  <td><p class="line862"> A list of interfaces the server will listen to. If the list contains the entry <tt class="backtick">''</tt> (like for the default configuration), all other entries are ignored and the server will listen to all interfaces. </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-45"></span><p class="line862"> logPath </td>
+  <td><p class="line862"> 'mointwisted.log' </td>
+  <td><p class="line862"> Log file. </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-46"></span><p class="line862"> profiler </td>
+  <td><p class="line862"> commented python code </td>
+  <td><p class="line862"> Useful only if you are a moin developer. </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span><p class="line867">
+<h2 id="head-e4c385b7866dfc82bdf390d00038d1e191cd6870">1.3. Configuring wikiconfig.py</h2>
+<span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span><p class="line874">The sample config file should be just fine. <span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span><div><table><tbody><tr>  <td><p class="line862"> <strong>Option</strong> </td>
+  <td><p class="line862"> <strong>Default</strong> </td>
+  <td><p class="line862"> <strong>Comment</strong> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-53"></span><p class="line862"> url_prefix </td>
+  <td><p class="line862"> '/wiki' </td>
+  <td><p class="line862"> You should not change this, or images and css file will not be available to the wiki! </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-54"></span><span class="anchor" id="line-55"></span><p class="line867">
+<h2 id="head-828a44c0e867e6f0fb60395a972cb6003658f76f">1.4. Starting the server on Unix</h2>
+<span class="anchor" id="line-56"></span><span class="anchor" id="line-57"></span><p class="line862">On GNU/Linux, Mac OS X or another POSIX-like OS, copy <tt class="backtick">wiki/server/mointwisted</tt> to your wiki directory. You might want to adapt <tt class="backtick">PYTHONPATH</tt> and the path to <tt class="backtick">twistd</tt>.  <span class="anchor" id="line-58"></span><span class="anchor" id="line-59"></span><p class="line862">Start the server with <tt>./mointwisted&nbsp;start</tt> and test your wiki at <a class="http" href="http://localhost:8080/">http://localhost:8080/</a>. Stop the server with <tt>./mointwisted&nbsp;stop</tt>. <span class="anchor" id="line-60"></span><span class="anchor" id="line-61"></span><p class="line862">For more options run <tt>./mointwisted</tt> without arguments. <span class="anchor" id="line-62"></span><span class="anchor" id="line-63"></span><p class="line867">
+<h2 id="head-0457c39c25e65945e29141fa8f207afe318806fe">1.5. Starting the server on Windows</h2>
+<span class="anchor" id="line-64"></span><span class="anchor" id="line-65"></span><p class="line862">Copy <tt class="backtick">wiki/server/mointwisted.cmd</tt> to your wiki directory. You might have to change the path pointing to the python-scripts directory. <span class="anchor" id="line-66"></span><span class="anchor" id="line-67"></span><p class="line862">Double click <tt class="backtick">mointwisted.cmd</tt> to start the server. It will create a new terminal window. To stop the server, close the terminal window. <span class="anchor" id="line-68"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

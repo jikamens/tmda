@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnVariables</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnVariables</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867">
+<h2 id="head-ea1a68dcb5defeb62165b9a601161f230f707a84">Help on Variables</h2>
+<span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867">
+<h3 id="head-16e4c615df2d6c64a6bd934dc470210f0a229230">predefined variables</h3>
+<span class="anchor" id="line-9"></span><p class="line874">The following variables are substituted when a page is saved. Note that they will appear unreplaced in the preview! <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><div><table><tbody><tr>  <td><p class="line862"> Variable         </td>
+  <td><p class="line862"> Description                                  </td>
+  <td><p class="line862"> Example </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-12"></span><p class="line862"> @<tt class="backtick"></tt>PAGE@     </td>
+  <td><p class="line862"> Name of the page (useful for template pages) </td>
+  <td><p class="line862"> <a href="./HelpOnPageCreation.html">HelpOnPageCreation</a> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-13"></span><p class="line862"> @<tt class="backtick"></tt>DATE@     </td>
+  <td><p class="line862"> Current date in the system's format          </td>
+  <td><p class="line862"> 2004-08-30 </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-14"></span><p class="line862"> @<tt class="backtick"></tt>TIME@     </td>
+  <td><p class="line862"> Current date and time in the user's format   </td>
+  <td><p class="line862"> 2004-08-30 06:38:05 </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-15"></span><p class="line862"> @<tt class="backtick"></tt>USERNAME@ </td>
+  <td><p class="line862"> Just the user's name (or his domain/IP)      </td>
+  <td><p class="line862"> <a class="nonexistent" href="./TheAnarcat.html">TheAnarcat</a> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-16"></span><p class="line862"> @<tt class="backtick"></tt>USER@     </td>
+  <td><p class="line862"> Signature "-- loginname"                     </td>
+  <td><p class="line862"> -- <a class="nonexistent" href="./TheAnarcat.html">TheAnarcat</a> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-17"></span><p class="line862"> @<tt class="backtick"></tt>SIG@      </td>
+  <td><p class="line862"> Dated Signature "-- loginname date time"     </td>
+  <td><p class="line862"> -- <a class="nonexistent" href="./TheAnarcat.html">TheAnarcat</a> 2004-08-30 06:38:05 </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-18"></span><p class="line862"> @<tt class="backtick"></tt>MAILTO@   </td>
+  <td><p class="line862"> A fancy mailto: link with the user's data    </td>
+  <td><p class="line862"> None - on public sites, better use the Mail<tt class="backtick"></tt>To macro) </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><p class="line867">
+<h2 id="head-676c16bccf47ffe490aa6a8a0efab70d54f64c30">expanding variables</h2>
+<span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><p class="line862">You can use Home<tt class="backtick"></tt>Page<tt class="backtick"></tt>Name/My<tt class="backtick"></tt>Dict to expand those variables, just put a Wiki<tt class="backtick"></tt>Dict there with your variables and values. For example, <span class="anchor" id="line-24"></span><span class="anchor" id="line-25"></span><pre> VAR1:: substitution 1
+<span class="anchor" id="line-26"></span> VAR2:: substitution 2
+<span class="anchor" id="line-27"></span></pre><span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line862">If you make a page ending with <tt class="backtick">.*Dict</tt> (see page_dict_regex), you can set some variables to specific values: <span class="anchor" id="line-30"></span><dl><dt>var1</dt><dd>value1 <span class="anchor" id="line-31"></span></dd><dt>var2</dt><dd>value2 <span class="anchor" id="line-32"></span></dd><dt>var3</dt><dd>value3 <span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span></dd></dl><p class="line874">The actual format of the variable assignment above when editing in the edit window is the following: <span class="anchor" id="line-35"></span><span class="anchor" id="line-36"></span><pre> var1:: value1
+<span class="anchor" id="line-37"></span> var2:: value2
+<span class="anchor" id="line-38"></span> var3:: value3
+<span class="anchor" id="line-39"></span></pre><span class="anchor" id="line-40"></span><p class="line874">The leading space and the space after '::' are important. <span class="anchor" id="line-41"></span><span class="anchor" id="line-42"></span><p class="line867">
+<h2 id="head-80909e91c21d288784fa341f4508a3126b03dedb">getting variables</h2>
+<span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span><p class="line867">
+<h3 id="head-705e47a759c8b0338d84f2c7ec29c74eee5d69ec">At Every Page Refresh</h3>
+<span class="anchor" id="line-45"></span><span class="anchor" id="line-46"></span><p class="line862">You can use these values using the <tt class="backtick">GetVal</tt> macro: <span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span><p class="line867"><span class="anchor" id="line-49"></span><pre>[[GetVal(WikiDict,var1)]] [[GetVal(WikiDict,var2)]] [[GetVal(WikiDict,var3)]]
+<span class="anchor" id="line-50"></span></pre><span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span><p class="line874">Renders as: <span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span><p class="line867">   <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line867">
+<h3 id="head-f584574111732d2e2fdcf316bf59c42461d58eca">When Saving the Page</h3>
+<span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><p class="line862">If the variables are set on UserName/MyDict (UserName must of course be replaced as appropriate), you can get the variables when saving any page with @var1@, @var2@, ...etc. instead of the <tt>GetVal</tt> macro.  <span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span><p class="line867"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> Note that data in dict pages is cached and does not require opening and parsing the page file for each access to the value. In CGI, the value is fetched from a pickle, in long running process, the pickle is loaded once and then the value is accessed from memory. <span class="anchor" id="line-63"></span><span class="anchor" id="line-64"></span><p class="line867"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> Note that saving template pages and using preview does <em>not</em> expand variables. Other than that, variable expansion is very global and happens anywhere on the page, including code displays, comments, processing instructions and other "special" areas of a page you might think are excluded. See <a href="./HelpOnTemplates.html">HelpOnTemplates</a> for more information about using templates. <span class="anchor" id="line-65"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

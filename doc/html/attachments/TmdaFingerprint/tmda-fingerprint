@@ -1,0 +1,138 @@
+#!/usr/bin/env python
+#
+# Copyright (C) 2001,2002 Jason R. Mastaler <jason@xxxxxxxxxxxx>
+# Modifications made by Mark Horn to make a fingerprint checker
+#
+# This file is part of TMDA.
+#
+# TMDA is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.  A copy of this license should
+# be included in the file COPYING.
+#
+# TMDA is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+# for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with TMDA; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+"""Tag and send outgoing messages.
+
+Usage:  %(program)s [OPTIONS] 
+
+OPTIONS:
+        -h
+        --help
+           Print this help message and exit.
+
+        -V
+        --version
+           Print TMDA version information and exit.
+           
+        -c <file>
+        --config-file <file>
+           Specify a different configuration file other than ~/.tmda/config.
+
+        -p
+        --procmail
+           Use with procmail. The message will be sent to standard output
+           with an additional header (X-TMDA-Fingerprint-Match) set to
+           "Yes" if the fingerprints match and "No" if they don't.
+           
+"""
+
+import getopt
+import os
+import sys
+
+try:
+    import paths
+except ImportError:
+    # Prepend /usr/lib/python2.x/site-packages/TMDA/pythonlib
+    sitedir = os.path.join(sys.prefix, 'lib', 'python'+sys.version[:3],
+                           'site-packages', 'TMDA', 'pythonlib')
+    sys.path.insert(0, sitedir)
+    sys.path.insert(0,'/usr/local/src/tmda')
+    sys.path.insert(0,'/usr/local/src/tmda/TMDA')
+
+from TMDA import Version
+
+procmail = None
+program = sys.argv[0]
+
+def usage(code, msg=''):
+    print __doc__ % globals()
+    if msg:
+        print msg
+    sys.exit(code)
+    
+try:
+    opts, args = getopt.getopt(sys.argv[1:],
+                               'c:Vhp', ['config-file=',
+                                               'version',
+                                               'help',
+                                               'procmail'])
+
+except getopt.error, msg:
+    usage(1, msg)
+
+for opt, arg in opts:
+    if opt in ('-h', '--help'):
+        usage(0)
+    if opt == '-V':
+        print Version.ALL
+        sys.exit()
+    if opt == '--version':
+        print Version.TMDA
+        sys.exit()
+    elif opt in ('-c', '--config-file'):
+        os.environ['TMDARC'] = arg
+    elif opt in ('-p', '--procmail'):
+        procmail = 1
+
+from TMDA import Defaults
+from TMDA import Cookie
+from TMDA import Util
+
+
+import email
+import string
+
+msgout = email.message_from_file(sys.stdin)
+orig_msgout_as_string = msgout.as_string()
+orig_msgout_size = len(orig_msgout_as_string)
+orig_msgout_body_as_raw_string = Util.body_as_raw_string(msgout)
+
+orig_fingerprint = msgout.get("X-TMDA-Fingerprint")
+
+if procmail:
+    del msgout['X-TMDA-Fingerprint-Match']
+ 
+if Defaults.FINGERPRINT:
+    hdrlist = []
+    for hdr in Defaults.FINGERPRINT:
+        if hdr == 'body':
+            hdrval = orig_msgout_body_as_raw_string
+        else:
+            hdrval = msgout.get(hdr)
+        if hdrval:
+            hdrlist.append(hdrval)
+    if hdrlist:
+        new_fingerprint = Cookie.make_fingerprint(hdrlist)
+    if orig_fingerprint == new_fingerprint:
+        if procmail:
+            msgout['X-TMDA-Fingerprint-Match'] = "Yes"
+            print msgout
+        else:
+            print "Fingerprints match"
+    else:
+        if procmail:
+            msgout['X-TMDA-Fingerprint-Match'] = "No"
+            print msgout
+        else:
+            print "Fingerprints don't match"
+            sys.exit(-1)

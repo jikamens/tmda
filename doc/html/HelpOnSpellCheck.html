@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnSpellCheck</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnSpellCheck</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867"><a href="./HelpContents.html">HelpContents</a> &gt; <a href="./HelpOnAdministration.html">HelpOnAdministration</a> &gt; HelpOnSpellCheck <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867">
+<h2 id="head-288b6bc855096eb52d3e236f100f5f882aff709a">The Spell Checking Option</h2>
+<span class="anchor" id="line-9"></span><p class="line867"><a href="./MoinMoin.html">MoinMoin</a> looks for valid words in three places: <span class="anchor" id="line-10"></span><ul><li><p class="line862">the "dict" directory in the <a href="./MoinMoin.html">MoinMoin</a> package directory (this is mostly below the directory <tt>site-packages</tt> of your Python installation) <span class="anchor" id="line-11"></span></li><li>the "dict" directory of data directory of your wiki (per-wiki dictionnary) <span class="anchor" id="line-12"></span></li><li><p class="line862">the page <a href="./LocalSpellingWords.html">LocalSpellingWords</a> <span class="anchor" id="line-13"></span><span class="anchor" id="line-14"></span></li></ul><p class="line862">If the "dbhash" module is available with your Python installation, the files in "dict" are read only <em>once</em> and stored in a hash table. This speeds up the spell checking process because the number of words in the <em>checked page</em> determines the time needed for the checking, <em>not</em> the number of words in the dictionary (with 250000 words, some hundred milliseconds instead of several seconds). <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span><p class="line862">Note that it may take a few minutes to build up this database, but only the first time the spellchecker is called. If your browser or the webserver timeouts before the file is completely built, one solution is to telnet into your webserver, and manually request the page<sup><a href="#fndef-fa70526d5a4b477eae10a097384ffc1bae30d37e-0" id="fnref-fa70526d5a4b477eae10a097384ffc1bae30d37e-0">1</a></sup>. <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><p class="line874">BTW, a UNIX machine normally comes with at least one words file; to use those, create a symlink within the dict directory, like so: <span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span><pre>MoinMoin/dict&gt; ln -s /usr/dict/words .
+<span class="anchor" id="line-21"></span></pre><span class="anchor" id="line-22"></span><p class="line874">On some systems, the words file is found in "/usr/share/dict/words" instead. <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><p class="line867">
+<h3 id="head-aaac2bc8b2e73582d5f16a5d99dbdca8d956bf92">Example</h3>
+<span class="anchor" id="line-25"></span><p class="line867"><span class="anchor" id="line-26"></span><pre>MoinMoin&gt; ls -l dict
+<span class="anchor" id="line-27"></span>-rw-r--r--   1 544      everyone   409067 Jan 04 06:38 american-english
+<span class="anchor" id="line-28"></span>-rw-r--r--   1 544      everyone  2913577 Jan 25  2000 german.txt
+<span class="anchor" id="line-29"></span>-rw-r--r--   1 544      everyone    92631 Nov 30 15:24 top10000de.txt
+<span class="anchor" id="line-30"></span></pre><span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span><p class="line867">
+<h3 id="head-394ddc8390d96544cd73865fce153181afdd9b69">Words files</h3>
+<span class="anchor" id="line-33"></span><p class="line862">If you need words files for US English or German, you can find them <a class="http" href="http://moin.sf.net/files/">here</a>. <span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span><p class="line867">
+<h3 id="head-b08d43644ac75711f1d18c1f453ab2864c05347b">If it does not work</h3>
+<span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span><p class="line862">If you change the contents of <tt>MoinMoin/dict/</tt> or <tt>data/dict/</tt> (because of adding new / removing old dictionaries) or if you create a new <tt>MoinMoin/dict/</tt> or <tt>data/dict/</tt> directory, then you have to delete the file <tt>&lt;yourwiki&gt;/data/cache/spellchecker.dict</tt> (a new one will be created automagically). <span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><p class="line862">If you don't, your new dictionaries won't be recognized (e.g. it will use only <a href="./LocalSpellingWords.html">LocalSpellingWords</a>). Another possible cause of problems is that you did not place the dictionaries in the <em>active</em> "<a href="./MoinMoin.html">MoinMoin</a>" package directory, i.e. the one that is actually imported by your CGI script. <span class="anchor" id="line-40"></span><div class="footnotes"><ul><li><p><a href="#fnref-fa70526d5a4b477eae10a097384ffc1bae30d37e-0" id="fndef-fa70526d5a4b477eae10a097384ffc1bae30d37e-0">1</a> The next version will provide a tool to create the database on the command line. </li></ul></div><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TmdaPatchSubmissions</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TmdaPatchSubmissions</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867">
+<h3 id="head-50bb0f3e8d2c35af3230159dbecce3cc14b37911">TMDA Patches</h3>
+<span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><p class="line874">Contributing code is encouraged, but to make <span class="anchor" id="line-4"></span>things easier on the developers, please adhere to the following guidelines. <span class="anchor" id="line-5"></span><span class="anchor" id="line-6"></span><p class="line874">Patch submissions should be sent to the tmda-workers mailing list.  <span class="anchor" id="line-7"></span>You <strong>do not</strong> need to be subscribed to post a message there. <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line867">
+<h4 id="head-4f0b636e298a8023aa401fdba54439a74bb5b6fc">1. Submitting Patches</h4>
+<span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><ul><li>Please make sure your patch works with the earliest supported version of Python.  For example, if TMDA supports Python 2.3 and above, you should test your changes with Python 2.3, even if you normally use a more recent version of Python. If you plan to contribute code on a frequent basis, you should get into the habit of using the earliest supported Python for all of your TMDA development. <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span></li><li class="gap"><p class="line862">As far as preferred coding style, I try to follow the general <a class="http" href="http://www.python.org/doc/essays/styleguide.html">Python Style Guide</a>.  Strict coherence to this is not necessary when working on TMDA, but I'd prefer that you match the existing coding style whenever you can.  In particular, use the existing indentation style in the file(s) you are editing (Emacs handles this for you automatically).  Also, please limit all lines to a maximum of 79 characters. <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span></li><li class="gap">Emailed patches should preferably be sent in MIME format, with the actual patch included as an attachment. <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span></li><li class="gap"><p class="line862">When making patches with <em>diff</em>, please use the <tt>-u</tt> option, or if your diff doesn't support it, <tt>-c</tt>.  Also, it is helpful if you create the patch from the top level of the TMDA source directory. <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span></li><li class="gap"><p class="line862">Diffs should be made against the current development source from <a class="http" href="http://sourceforge.net/svn/?group_id=24680">Subversion</a> rather than the particular TMDA release you happen to be using. <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span></li></ul><p class="line874">Here is an example illustrating some of the above concepts: <span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><ol type="1"><li>Checkout the latest developement sources from TMDA's Subversion repository. This will create a 'tmda' subdirectory in your current working directory containing the source: <span class="anchor" id="line-24"></span><span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><pre> % cd /usr/local/src
+<span class="anchor" id="line-27"></span> % svn co https://svn.sourceforge.net/svnroot/tmda/trunk/tmda</pre><span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span></li><li class="gap">Make the necessary changes: <span class="anchor" id="line-30"></span><span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span><pre> % cd /usr/local/src/tmda
+<span class="anchor" id="line-33"></span> (hack, hack, hack....)</pre><span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span></li><li class="gap">Create your patch called "tmda.diff": <span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><pre> % cd /usr/local/src/tmda
+<span class="anchor" id="line-39"></span> % svn diff &gt; tmda.diff</pre><span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span></li></ol><p class="line862">If you wish, accompany your patch with an update to the apropriate <a class="nonexistent" href="./ChangeLog.html">ChangeLog</a> file.  If you use Emacs, you can use the <em>M-x add-change-log-entry</em> command to do this automatically. <span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><p class="line862">Guidelines for writing <a class="nonexistent" href="./ChangeLog.html">ChangeLog</a> entries are governed by the <a class="http" href="http://www.gnu.org/prep/standards_toc.html">GNU coding standards</a>.  See the <em>Change Logs</em> section for details.  <span class="anchor" id="line-44"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

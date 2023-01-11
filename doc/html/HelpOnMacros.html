@@ -1,0 +1,407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnMacros</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnMacros</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867"><table class="navigation"><tr><td><a href="./HelpOnMacros(2f)ImageLink.html">/ImageLink</a> &nbsp; <a href="./HelpOnMacros(2f)Include.html">/Include</a> &nbsp; <a href="./HelpOnMacros(2f)MailTo.html">/MailTo</a> &nbsp; </td></tr></table> <span class="anchor" id="line-8"></span><div class="table-of-contents"><p class="table-of-contents-heading">Contents<ol><li><a href="#head-3eacc2516714216647d49e5340a1e9bd34e16169">Macros</a><ol><li><a href="#head-0d8399025ba5f8cdaf78b836e5ebe71e1df5674e">Search macros</a></li><li><a href="#head-3bd981f061f262d3605935dfe29519d9be970487">Navigation</a></li><li><a href="#head-77fefb8c4d977604284320c3f8f3c70f07820d3b">System information</a></li><li><a href="#head-734ab035917c8a1abee0a9b1af803096ebf5a3a6">Others</a></li><li><a href="#head-7c57db7e2451458a42840f17268344df06492a2e">Writing your own macro</a></li></ol></li></ol></div><p class="line874"> <span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line867">
+<h2 id="head-3eacc2516714216647d49e5340a1e9bd34e16169">1. Macros</h2>
+<span class="anchor" id="line-11"></span><p class="line862">Macros allow the insertion of system features into normal wiki pages; the only thing that makes those pages special is that they contain macros. If you edit pages like <a href="./RecentChanges.html">RecentChanges</a> or <a href="./SystemInfo.html">SystemInfo</a>, you'll see what that means. <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line862">For more information on the possible markup, see <a href="./HelpOnEditing.html">HelpOnEditing</a>.  <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line867">
+<h3 id="head-0d8399025ba5f8cdaf78b836e5ebe71e1df5674e">1.1. Search macros</h3>
+<span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line867"><a href="./MoinMoin.html">MoinMoin</a> now uses a new search engine, that lets your make sophisticated searches using both the interactive search box or any of the search macros. For more help, see <a href="./HelpOnSearching.html">HelpOnSearching</a>. <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><div><table style="width: 100%"><tbody><tr>  <td><p class="line891"><strong>Macro</strong></td>
+  <td><p class="line891"><strong>Description</strong></td>
+  <td><p class="line891"><strong>Example</strong></td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-20"></span><p class="line891"><tt>[[TitleSearch]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-21"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> create a search box on the page, which search the page titles </td>
+  <td><p class="line862"> See <a href="./FindPage.html">FindPage</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-22"></span><p class="line891"><tt>[[FullSearch]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-23"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> create a search box on the page, which search the page contents </td>
+  <td><p class="line862"> See <a href="./FindPage.html">FindPage</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-24"></span><p class="line891"><tt>[[FullSearch()]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-25"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> print a list of pages whose content matches the current page title (like clicking on the page title) </td>
+  <td><p class="line862"> See the <a href="./CategoryCategory.html">CategoryCategory</a> page </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-26"></span><p class="line891"><tt>[[FullSearch(text)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-27"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> print a list of pages whose content matches the search term </td>
+  <td><p class="line862"> Search for <tt>powered</tt>:<div class="searchresults">
+<ol><li><a href="./HelpOnMacros.html?highlight=%28powered%29">HelpOnMacros</a></li><li><a href="./TmdaOneDotTwoTodoList.html?highlight=%28powered%29">TmdaOneDotTwoTodoList</a></li><li><a href="./WhyWikiWorks.html?highlight=%28powered%29">WhyWikiWorks</a></li></ol>
+</div> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-28"></span><p class="line891"><tt>[[FullSearchCached(text)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-29"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> Works like the <tt class="backtick">FullSearch</tt> macro but caches the results statically. Use it if you prefer speed over an up-to-date result </td>
+  <td><p class="line862"> Search for <tt>powered</tt>:<div class="searchresults">
+<ol><li><a href="./HelpOnMacros.html?highlight=%28powered%29">HelpOnMacros</a></li><li><a href="./TmdaOneDotTwoTodoList.html?highlight=%28powered%29">TmdaOneDotTwoTodoList</a></li><li><a href="./WhyWikiWorks.html?highlight=%28powered%29">WhyWikiWorks</a></li></ol>
+</div> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-30"></span><p class="line891"><tt>[[GoTo]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-31"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> directly go to the page you enter </td>
+  <td><p class="line862"> See the <a href="./FindPage.html">FindPage</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-32"></span><p class="line891"><tt>[[PageList(Help)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-33"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> print a list of pages whose title matches the search term </td>
+  <td><p class="line862"> See the <a href="./HelpIndex.html">HelpIndex</a> </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span><p class="line867">
+<h3 id="head-3bd981f061f262d3605935dfe29519d9be970487">1.2. Navigation</h3>
+<span class="anchor" id="line-36"></span><div><table style="width: 100%"><tbody><tr>  <td><p class="line891"><strong>Macro</strong></td>
+  <td><p class="line891"><strong>Description</strong></td>
+  <td><p class="line891"><strong>Example</strong></td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-37"></span><p class="line891"><tt>[[RecentChanges]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-38"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> a list of recently edited pages </td>
+  <td><p class="line862"> See <a href="./RecentChanges.html">RecentChanges</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-39"></span><p class="line891"><tt>[[TitleIndex]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-40"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> an index of all page titles </td>
+  <td><p class="line862"> See <a href="./TitleIndex.html">TitleIndex</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-41"></span><p class="line891"><tt>[[WordIndex]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-42"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> an index of all words in page titles </td>
+  <td><p class="line862"> See <a href="./WordIndex.html">WordIndex</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-43"></span><p class="line891"><tt>[[WantedPages]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-44"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> list links to non-existent pages </td>
+  <td><p class="line862"> See <a href="./WantedPages.html">WantedPages</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-45"></span><p class="line891"><tt>[[OrphanedPages]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-46"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> list pages no other page links to </td>
+  <td><p class="line862"> See <a href="./OrphanedPages.html">OrphanedPages</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-47"></span><p class="line891"><tt>[[AbandonedPages]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-48"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> list pages that were not edited for the longest time </td>
+  <td><p class="line862"> See <a href="./AbandonedPages.html">AbandonedPages</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-49"></span><p class="line891"><tt>[[RandomPage]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-50"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> a link to a random page </td>
+  <td><p class="line862"> <a generated="1" href="./TmdaLogos.html">TmdaLogos</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-51"></span><p class="line891"><tt>[[RandomPage(#)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-52"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> links to a number of random pages </td>
+  <td><p class="line862"> Two random pages:<ul><li><a generated="1" href="./HelpOnInstalling(2f)WebLogic.html">HelpOnInstalling/WebLogic</a></li><li><a generated="1" href="./WhyWikiWorks.html">WhyWikiWorks</a></li></ul> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-53"></span><p class="line891"><tt>[[TableOfContents([maxdepth])]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-54"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> display a local table of contents, possibly limited to a maximal depth </td>
+  <td><p class="line862"> See above </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-55"></span><p class="line891"><tt>[[Anchor(anchorname)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-56"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> macro to insert anchors into a page </td>
+  <td><p class="line862"> <span class="anchor" id="here"></span><a href="#here">#here</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-57"></span><p class="line891"><tt>[[Navigation(children[,maxdepth])]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-58"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> macro to list all of a pages' children </td>
+  <td><p class="line862"> See start of this page </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-59"></span><p class="line891"><tt>[[Navigation(siblings[,maxdepth])]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-60"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> quick navigation to siblings of a page </td>
+  <td><p class="line862"> See <a href="./HelpOnMacros(2f)MailTo.html">/MailTo</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-61"></span><p class="line891"><tt>[[Navigation(slideshow)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-62"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> creates a link to toggle between slide show and wiki mode, and a link to start the slide show </td>
+  <td><p class="line862"> See <a href="./HelpOnSlideShows.html">HelpOnSlideShows</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-63"></span><p class="line891"><tt>[[Navigation(slides)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-64"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> displays first/prev/next/last links </td>
+  <td><p class="line862"> See <a href="./HelpOnSlideShows.html">HelpOnSlideShows</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-65"></span><p class="line891"><tt>[[AttachInfo]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-66"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> displays number of attachments for current page </td>
+  <td><p class="line862"> See <a href="./HelpOnActions(2f)AttachFile.html">HelpOnActions/AttachFile</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-67"></span><p class="line891"><tt>[[AttachInfo(page)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-68"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> displays number of attachments for page </td>
+  <td><p class="line862"> See <a href="./HelpOnActions(2f)AttachFile.html">HelpOnActions/AttachFile</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-69"></span><p class="line891"><tt>[[AttachList]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-70"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> displays list of attachments for current page </td>
+  <td><p class="line862"> See <a href="./HelpOnActions(2f)AttachFile.html">HelpOnActions/AttachFile</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-71"></span><p class="line891"><tt>[[AttachList(page)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-72"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> displays list of attachments for page </td>
+  <td><p class="line862"> See <a href="./HelpOnActions(2f)AttachFile.html">HelpOnActions/AttachFile</a> </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-73"></span><span class="anchor" id="line-74"></span><p class="line867">
+<h3 id="head-77fefb8c4d977604284320c3f8f3c70f07820d3b">1.3. System information</h3>
+<span class="anchor" id="line-75"></span><div><table style="width: 100%"><tbody><tr>  <td><p class="line891"><strong>Macro</strong></td>
+  <td><p class="line891"><strong>Description</strong></td>
+  <td><p class="line891"><strong>Example</strong></td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-76"></span><p class="line891"><tt>[[InterWiki]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-77"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> a list of all known <a href="./InterWiki.html">InterWiki</a> names </td>
+  <td><p class="line862"> <a href="./InterWiki.html">InterWiki</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-78"></span><p class="line891"><tt>[[SystemInfo]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-79"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> info on the wiki, the python interpreter and the host system </td>
+  <td><p class="line862"> <a href="./SystemInfo.html">SystemInfo</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-80"></span><p class="line891"><tt>[[PageCount(exists)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-81"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> current page count. If <tt class="backtick">exists</tt> is supplied as an argument, only existing pages will be shown. </td>
+  <td><p class="line862"> 626 pages </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-82"></span><p class="line891"><tt>[[PageSize]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-83"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> list the sizes of all pages </td>
+  <td><p class="line862"> See <a href="./PageSize.html">PageSize</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-84"></span><p class="line891"><tt>[[StatsChart(type)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-85"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> shows statistical charts (currently defined types: hitcounts, pagesize, useragents) </td>
+  <td><p class="line862"> See <a href="./EventStats.html">EventStats</a> and subpages  </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-86"></span><p class="line891"><tt>[[SystemAdmin]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-87"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> Information for system administrators </td>
+  <td><p class="line862"> Needs admin rights.<br />
+  </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span><p class="line867">
+<h3 id="head-734ab035917c8a1abee0a9b1af803096ebf5a3a6">1.4. Others</h3>
+<span class="anchor" id="line-90"></span><div><table style="width: 100%"><tbody><tr>  <td><p class="line891"><strong>Macro</strong></td>
+  <td><p class="line891"><strong>Description</strong></td>
+  <td><p class="line891"><strong>Example</strong></td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-91"></span><p class="line891"><tt>[[ImageLink(image,target[,width=width[,height=height]][,alt=alttag])]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-92"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> This macro is used to make a link that displays an image (can be given as either attachment or URL) and links to either an URL or a wiki page. Optionally the size of the image can be adjusted. If no target is given the link will point to the image itself. </td>
+  <td><p class="line862"> See <a href="./HelpOnMacros(2f)ImageLink.html">/ImageLink</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-93"></span><p class="line891"><tt>[[Icon(image)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-94"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862">display system icons</td>
+  <td><p class="line862">  See <a href="./HelpOnNavigation.html">HelpOnNavigation</a></td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-95"></span><p class="line891"><tt>[[UserPreferences]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-96"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> display a user preferences dialog </td>
+  <td><p class="line862"> See <a href="./UserPreferences.html">UserPreferences</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-97"></span><p class="line891"><tt>[[UserPreferences(createonly)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-98"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> display user creation dialog </td>
+  <td><p class="line862">  </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-99"></span><p class="line891"><tt>[[BR]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-100"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> insert a line break </td>
+  <td><p class="line862"> 1st line<br />
+2nd line </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-101"></span><p class="line891"><tt>[[RandomQuote(pagename)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-102"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> Select a random quote from the given page, or from <tt class="backtick">FortuneCookies</tt> if ommitted </td>
+  <td><p class="line862"> <div dir="ltr" id="RandomQuote_FortuneCookies" lang="en"><span class="anchor" id="top_RandomQuote_FortuneCookies"></span>
+<span class="anchor" id="line-1"></span><p class="line862">Hint: set your pages language with <tt>#language&nbsp;en</tt> processing instruction. See also <a href="./HelpOnLanguages.html">HelpOnLanguages</a>. <span class="anchor" id="bottom_RandomQuote_FortuneCookies"></span></div> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-103"></span><p class="line891"><tt>[[Include(HelloWorld[,"heading"[,level]])]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-104"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> include contents of another page </td>
+  <td><p class="line862"> for details see <a href="./HelpOnMacros(2f)Include.html">/Include</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-105"></span><p class="line891"><tt>[[FootNote(text)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-106"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> Add a footnote<sup><a href="#fndef-20f25675be2608a0416555faab22516d2d9a84d2-0" id="fnref-20f25675be2608a0416555faab22516d2d9a84d2-0">1</a></sup>, or explicitely display collected footnotes when no args are given </td>
+  <td><p class="line862"> See below for an example. </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-107"></span><p class="line891"><tt>[[Date(timestamp)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-108"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> display a timestamp according to system settings </td>
+  <td><p class="line862"> 2007-07-30 </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-109"></span><p class="line891"><tt>[[DateTime(timestamp)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-110"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> display a timestamp<sup><a href="#fndef-4e2be9fcccab96fc091ee101f59fc48f969086bb-1" id="fnref-4e2be9fcccab96fc091ee101f59fc48f969086bb-1">2</a></sup> according to user settings </td>
+  <td><p class="line862"> 2007-07-30 19:45:18 </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-111"></span><p class="line891"><tt>[[GetText(text)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-112"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> loads I18N texts (mainly intended for use on Help pages) </td>
+  <td><p class="line862"> "Edit<tt class="backtick"></tt>Text" is translated to "EditText" </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-113"></span><p class="line891"><tt>[[TeudView]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-114"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> useful for intranet developer wikis, a means to view pydoc documentation, formatted via a XSLT stylesheet </td>
+  <td><p class="line862"> See <a class="http" href="http://twistedmatrix.com/wiki/python/TeudProject">http://twistedmatrix.com/wiki/python/TeudProject</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-115"></span><p class="line891"><tt>[[MailTo(email)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-116"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> protect your email address from spam bots </td>
+  <td><p class="line862"> for details see <a href="./HelpOnMacros(2f)MailTo.html">/MailTo</a> </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-117"></span><p class="line891"><tt>[[NewPage(PageTemplate,ButtonLabel,ParentPage[,NameTemplate])]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-118"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> Allow the user to create (sub-) pages easily, using the page <tt class="backtick">PageTemplate</tt>as the template for the new page and the string <tt class="backtick">NameTemplate</tt> as a template for the name.<sup><a href="#fndef-381bfa3b6ca655a70a38ce8bea2d77e8ab6ca15c-2" id="fnref-381bfa3b6ca655a70a38ce8bea2d77e8ab6ca15c-2">3</a></sup> </td>
+  <td><p class="line862"> <form class="macro" method="get" action=""><div>
+<input type="hidden" name="action" value="newpage">
+<input type="hidden" name="parent" value="">
+<input type="hidden" name="template" value="CategoryTemplate">
+<input type="hidden" name="nametemplate" value="Category%s">
+<input type="text" name="pagename" size="30">
+<input type="submit" value="Create new category">
+</div></form></td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-119"></span><p class="line891"><tt>[[GetVal(NeatSnippets,regards)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-120"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> Retrieve dictionary entries from dict pages. </td>
+  <td><p class="line862"> If you have a page called <a class="nonexistent" href="./GermanDict.html">GermanDict</a> which contains the entry <em>Test</em>, you should see the translation here:  </td>
+</tr>
+<tr>  <td colspan="3"><span class="anchor" id="line-121"></span><p class="line891"><tt>&nbsp;[[MonthCalendar(,,12)]]</tt></td>
+</tr>
+<tr>  <td style="width: 5%"><span class="anchor" id="line-122"></span><br />
+</td>
+  <td style="margin: 10px; ; width: 75%; vertical-align: top"><p class="line862"> Displays a Calendar and creates link for entries to each day on subpages </td>
+  <td><p class="line862"> See <a class="interwiki" href="http://purl.net/wiki/moin/MonthCalendar" title="MoinMoin">MonthCalendar</a> </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-123"></span><span class="anchor" id="line-124"></span><p class="line867"><div class="footnotes"><ul><li><p><a href="#fnref-20f25675be2608a0416555faab22516d2d9a84d2-0" id="fndef-20f25675be2608a0416555faab22516d2d9a84d2-0">1</a> the text cannot contain any wiki markup </li><li><p><a href="#fnref-4e2be9fcccab96fc091ee101f59fc48f969086bb-1" id="fndef-4e2be9fcccab96fc091ee101f59fc48f969086bb-1">2</a> "timestamp" can be empty (current time), a number of seconds since 1970 (unix timestamp), or a W3C time specification ("2002-01-23T12:34:56"). See RFC822, sect. 5.  </li><li><p><a href="#fnref-381bfa3b6ca655a70a38ce8bea2d77e8ab6ca15c-2" id="fndef-381bfa3b6ca655a70a38ce8bea2d77e8ab6ca15c-2">3</a> <tt class="backtick">NameTemplate</tt> is formatted with <tt class="backtick">time.strftime()</tt>, with the exception of <tt class="backtick">%s</tt> which is replaced by the input into the edit box (which is only shown if necessary). If <tt class="backtick">NameTemplate</tt> is not specified or empty, it defaults to <tt class="backtick">%s</tt>. </li></ul></div><p class="line874"> <span class="anchor" id="line-125"></span><span class="anchor" id="line-126"></span><p class="line867">
+<h3 id="head-7c57db7e2451458a42840f17268344df06492a2e">1.5. Writing your own macro</h3>
+<span class="anchor" id="line-127"></span><p class="line862">Create a python file called <tt>MacroName.py</tt> located in your <tt>data/plugin/macro</tt> directory. Ensure it has a single method called <tt>execute(macro,&nbsp;arguments)</tt>, which is the entry-point. <span class="anchor" id="line-128"></span><ul><li><p class="line891"><em>macro</em> is an instance of class Macro, and also evaluates to a string of the macroname. <span class="anchor" id="line-129"></span></li><li><p class="line891"><em>arguments</em> is an arbitrary argument string you can pass in with parameters to your macro. <span class="anchor" id="line-130"></span><span class="anchor" id="line-131"></span></li></ul><p class="line862">All <tt>Macro</tt> instances have a <tt>request</tt> member through which you can access the form parameters and other information related to user interaction. <span class="anchor" id="line-132"></span><span class="anchor" id="line-133"></span><p class="line867"><tt>execute()</tt> should use the formatter to construct valid markup for the current target format. In most cases this is HTML, so writing a macro which returns HTML will work in most cases but fail when formats like XML or <tt class="backtick">text/plain</tt> are requested. <span class="anchor" id="line-134"></span><span class="anchor" id="line-135"></span><p class="line874">For example, your wiki page has the following line on it: <span class="anchor" id="line-136"></span><span class="anchor" id="line-137"></span><pre>[[MacroName(arg1,arg2,arg3)]]
+<span class="anchor" id="line-138"></span></pre><span class="anchor" id="line-139"></span><span class="anchor" id="line-140"></span><p class="line862">You could write a MacroName.py file like this: <span class="anchor" id="line-141"></span><span class="anchor" id="line-142"></span><pre>Dependencies = []
+<span class="anchor" id="line-143"></span>
+<span class="anchor" id="line-144"></span>def execute(macro, args):
+<span class="anchor" id="line-145"></span>    return macro.formatter.text("I got these args from a macro %s: %s" %
+<span class="anchor" id="line-146"></span>    (str(macro), args))
+<span class="anchor" id="line-147"></span></pre><span class="anchor" id="line-148"></span><span class="anchor" id="line-149"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> Add an entry into <tt>Dependencies</tt> if the output from your macro should not be cached. This is important if the macro output could change from one moment to another, for example if your macro searches in wiki pages which may be being edited by other users, or loads information from an external database whose contents may change. Currently the value of any entry does not matter and may be considered a short description for 'why results from this macro should not be cached', but please look at the entries used in other macros for values which may be suitable.  <span class="anchor" id="line-150"></span><span class="anchor" id="line-151"></span></li></ul><p class="line867"> <span class="anchor" id="line-152"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnConfiguration/ApacheVoodoo</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnConfiguration/ApacheVoodoo</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line867"><div class="table-of-contents"><p class="table-of-contents-heading">Contents</div><p class="line874"> <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line867"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> Voodoo is not for newbies! <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line874">This page gives some nice but advanced tricks for a moin apache setup. The directives on this page assume that you have knowledge about apache configuration, newbies should stick to the basic setup. <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line867">
+<h1 id="head-6d520b8005dedcf3bc74a16d267deaf5a5d38c77">Apache Root Wiki</h1>
+<span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line867"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> This requires an apache including mod_rewrite (which should be standard) <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line862">An apache root wiki is a easy thing, but it has its 'edges': cause moin needs to access certain static files (images, css, etc.) its steals a part of the possible <a href="./WikiName.html">WikiName</a> namespace. <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><ol type="1"><li>Install moin as normal. <span class="anchor" id="line-22"></span></li><li><p class="line862">Set <tt class="backtick">url_prefix</tt> in your <tt class="backtick">wikiconfig.py</tt>: <span class="anchor" id="line-23"></span><ul><li style="list-style-type:none"><span class="anchor" id="line-24"></span><pre>    url_prefix = '/_static'
+<span class="anchor" id="line-25"></span></pre><span class="anchor" id="line-26"></span></li></ul></li><li>Add the following lines to your apache (vhost?) config: <span class="anchor" id="line-27"></span><ul><li style="list-style-type:none"><span class="anchor" id="line-28"></span><pre>  RewriteEngine On
+<span class="anchor" id="line-29"></span>  RewriteLogLevel 0
+<span class="anchor" id="line-30"></span>  
+<span class="anchor" id="line-31"></span>  # Point to moin shared static files
+<span class="anchor" id="line-32"></span>  RewriteRule ^/_static/(.*)$ /prefix/share/moin/htdocs/$1 [last]
+<span class="anchor" id="line-33"></span>  
+<span class="anchor" id="line-34"></span>  # Map everything else to moin cgi script
+<span class="anchor" id="line-35"></span>  RewriteRule ^(.*)$ /path/to/moin.cgi$1 [type=application/x-httpd-cgi]
+<span class="anchor" id="line-36"></span>  
+<span class="anchor" id="line-37"></span>  # Setting for FastCGI
+<span class="anchor" id="line-38"></span>  ##RewriteRule ^(.*)$ /path/to/moin.fcg$1 [type=application/x-httpd-fcgi]
+<span class="anchor" id="line-39"></span></pre><span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span></li></ul></li></ol><p class="line862">The <a class="nonexistent" href="./RewriteRule.html">RewriteRule</a> for Fast<strong></strong>CGI here does not work for me: <span class="anchor" id="line-42"></span><pre>[Wed Jan 05 01:43:41 2005] [error] [client 10.0.0.1] File does not exist: /home/apache/moin/wiki/share/moin/pw/moin.fcg/RecentChanges, referer: http://moin.dahoam/StartSeite
+<span class="anchor" id="line-43"></span>duplo:/home/danielt# ls /home/apache/moin/wiki/share/moin/pw/moin.fcg
+<span class="anchor" id="line-44"></span>-rwxr-xr-x  1 root  www  1088 Jan  4 23:35 /home/apache/moin/wiki/share/moin/pw/moin.fcg*
+<span class="anchor" id="line-45"></span></pre><span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span><p class="line862">As a workaround I use this: <span class="anchor" id="line-48"></span><pre>  RewriteRule ^/?(.*) /_Wikiscript_/moin.fcg/$1
+<span class="anchor" id="line-49"></span>  RewriteRule ^/_Wikiscript_/(.*) /home/apache/moin/wiki/share/moin/pw/$1 [last]
+<span class="anchor" id="line-50"></span></pre><span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span><p class="line867">
+<h1 id="head-93bbc27238801b2af471bc3d752926a7da206ac6">Root wiki with mod python recipe</h1>
+<span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span><p class="line874">Using the previous example, I got this working like this: <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><ol type="1"><li>Install moin as usual and create instance <span class="anchor" id="line-57"></span></li><li>Use this config in httpd.conf <span class="anchor" id="line-58"></span><ul><li style="list-style-type:none"><span class="anchor" id="line-59"></span><pre>NameVirtualHost 192.115.134.51:80
+<span class="anchor" id="line-60"></span>&lt;VirtualHost 192.115.134.51:80&gt;
+<span class="anchor" id="line-61"></span>    ServerName wiki.nirs.dyndns.org
+<span class="anchor" id="line-62"></span>    ServerAlias wiki
+<span class="anchor" id="line-63"></span>    
+<span class="anchor" id="line-64"></span>    # Rewrite urls
+<span class="anchor" id="line-65"></span>    RewriteEngine On
+<span class="anchor" id="line-66"></span>    RewriteLogLevel 0
+<span class="anchor" id="line-67"></span>    # map static files to htdocs
+<span class="anchor" id="line-68"></span>    RewriteRule ^/wiki/(.*)$ /usr/share/moin/htdocs/$1 [last]
+<span class="anchor" id="line-69"></span>    # map everything else to server script
+<span class="anchor" id="line-70"></span>    RewriteRule ^(.*)$ /usr/share/moin/mywiki/moinmodpy.py$1
+<span class="anchor" id="line-71"></span>
+<span class="anchor" id="line-72"></span>    &lt;Directory "/usr/share/moin/mywiki"&gt;
+<span class="anchor" id="line-73"></span>        # These are copied from the default cgi-bin directory
+<span class="anchor" id="line-74"></span>        AllowOverride None
+<span class="anchor" id="line-75"></span>        Options None
+<span class="anchor" id="line-76"></span>        Order allow,deny
+<span class="anchor" id="line-77"></span>        Allow from all
+<span class="anchor" id="line-78"></span>
+<span class="anchor" id="line-79"></span>        # Modpy stuff
+<span class="anchor" id="line-80"></span>        AddHandler python-program .py
+<span class="anchor" id="line-81"></span>        # Add the path to the wiki directory, where moinmodpy.py and 
+<span class="anchor" id="line-82"></span>        # wikiconfig.py are located.
+<span class="anchor" id="line-83"></span>        PythonPath "['/usr/share/moin/mywiki'] + sys.path"
+<span class="anchor" id="line-84"></span>        PythonHandler moinmodpy
+<span class="anchor" id="line-85"></span>        PythonDebug On 
+<span class="anchor" id="line-86"></span>    &lt;/Directory&gt;
+<span class="anchor" id="line-87"></span>&lt;/VirtualHost&gt;
+<span class="anchor" id="line-88"></span></pre><span class="anchor" id="line-89"></span><span class="anchor" id="line-90"></span></li></ul></li></ol><p class="line867"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> It seems to be impossible to get a root modpy wiki without using the moinmodpy wrapper script. <span class="anchor" id="line-91"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

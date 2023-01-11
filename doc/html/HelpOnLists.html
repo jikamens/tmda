@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnLists</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnLists</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867">
+<h2 id="head-4bd3d19d2a3fe229976064e1b8ab1a80a9155e9c">1. Lists and Indenting</h2>
+<span class="anchor" id="line-7"></span><p class="line862">You can create bulleted, bulletless and numbered lists in a quite natural way. All you do is indent the line containing the list item. To get bulleted items, start the item with an asterisk "<tt>*</tt>"; to get bulletless, start the item with a dot "<tt>.</tt>"; to get numbered items, start it with a number template "<tt>1.</tt>", "<tt>a.</tt>", "<tt>A.</tt>", "<tt>i.</tt>" or "<tt>I.</tt>". To start a numbered list with a certain initial value, append "<tt>#</tt><em>value</em>" to the number template. <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line867"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> The asterisk, the dot and the number template must be preceded and followed by at least one space. <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line874">To nest lists of different levels, you use different depths of indenting. All items on the same indent level belong to the same (sub-)list. That also means that you cannot change the style of a list after you started it. <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line862">Definition lists can be created by items of the form <tt>&lt;whitespace&gt;term::&nbsp;definition</tt>; note that the <em>term</em> cannot currently contain any wiki markup. <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line862">For more information on the possible markup, see <a href="./HelpOnEditing.html">HelpOnEditing</a>.  <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line867">
+<h3 id="head-5fdf3407e5b3aaac2099197f4811d2b2dd892d83">1.1. Example</h3>
+<span class="anchor" id="line-18"></span><p class="line867"><span class="anchor" id="line-19"></span><pre>If you indent text
+<span class="anchor" id="line-20"></span>  like this, then it is indented in the output
+<span class="anchor" id="line-21"></span>    you can have multiple levels of indent
+<span class="anchor" id="line-22"></span>
+<span class="anchor" id="line-23"></span>And if you put asterisks at the start of the line
+<span class="anchor" id="line-24"></span>  * you get a 
+<span class="anchor" id="line-25"></span>  * bulleted
+<span class="anchor" id="line-26"></span>  * list
+<span class="anchor" id="line-27"></span>    * which can also be indented
+<span class="anchor" id="line-28"></span>      * to several levels
+<span class="anchor" id="line-29"></span>  * you can put linebreaks in the wiki markup of a list item by
+<span class="anchor" id="line-30"></span>  indenting the additional lines at the same
+<span class="anchor" id="line-31"></span>  level as the initial star that began the list item.
+<span class="anchor" id="line-32"></span>   &lt;!&gt; does not work for numbered list
+<span class="anchor" id="line-33"></span>
+<span class="anchor" id="line-34"></span> Note two lines at the same indent
+<span class="anchor" id="line-35"></span> are actually joined together.  You need to use
+<span class="anchor" id="line-36"></span> . the dot
+<span class="anchor" id="line-37"></span> . template
+<span class="anchor" id="line-38"></span> . to get a list
+<span class="anchor" id="line-39"></span>   . which can also be indented
+<span class="anchor" id="line-40"></span>     . to several levels
+<span class="anchor" id="line-41"></span> . like the bulleted list example above
+<span class="anchor" id="line-42"></span>
+<span class="anchor" id="line-43"></span>
+<span class="anchor" id="line-44"></span>A numbered list, mixed with bullets:
+<span class="anchor" id="line-45"></span>  1. one
+<span class="anchor" id="line-46"></span>  1. two
+<span class="anchor" id="line-47"></span>    1. one
+<span class="anchor" id="line-48"></span>      * bullet 1
+<span class="anchor" id="line-49"></span>      * bullet 2
+<span class="anchor" id="line-50"></span>    1. two
+<span class="anchor" id="line-51"></span>  1. three
+<span class="anchor" id="line-52"></span>    * bullet
+<span class="anchor" id="line-53"></span>      1. one
+<span class="anchor" id="line-54"></span>
+<span class="anchor" id="line-55"></span>Variations of numbered lists:
+<span class="anchor" id="line-56"></span>  * Lowercase roman
+<span class="anchor" id="line-57"></span>    i. one
+<span class="anchor" id="line-58"></span>    i. two
+<span class="anchor" id="line-59"></span>  * Uppercase roman (with start offset 42)
+<span class="anchor" id="line-60"></span>    I.#42 forty-two
+<span class="anchor" id="line-61"></span>    I. forty-three
+<span class="anchor" id="line-62"></span>  * Lowercase alpha
+<span class="anchor" id="line-63"></span>    a. one
+<span class="anchor" id="line-64"></span>    a. two
+<span class="anchor" id="line-65"></span>  * Uppercase alpha
+<span class="anchor" id="line-66"></span>    A. one
+<span class="anchor" id="line-67"></span>    A. two
+<span class="anchor" id="line-68"></span>
+<span class="anchor" id="line-69"></span> term:: definition
+<span class="anchor" id="line-70"></span> another term:: and its definition
+<span class="anchor" id="line-71"></span></pre><p class="line874"> <span class="anchor" id="line-72"></span><span class="anchor" id="line-73"></span><p class="line867">
+<h3 id="head-b4ff5570259784ec775cff19f83555802ad24776">1.2. Display</h3>
+<span class="anchor" id="line-74"></span><p class="line874">If you indent text <span class="anchor" id="line-75"></span><ul><li style="list-style-type:none">like this, then it is indented in the output <span class="anchor" id="line-76"></span><ul><li style="list-style-type:none">you can have multiple levels of indent <span class="anchor" id="line-77"></span><span class="anchor" id="line-78"></span></li></ul></li></ul><p class="line874">And if you put asterisks at the start of the line <span class="anchor" id="line-79"></span><ul><li>you get a  <span class="anchor" id="line-80"></span></li><li>bulleted <span class="anchor" id="line-81"></span></li><li>list <span class="anchor" id="line-82"></span><ul><li>which can also be indented <span class="anchor" id="line-83"></span><ul><li>to several levels <span class="anchor" id="line-84"></span></li></ul></li></ul></li><li>you can put linebreaks in the wiki markup of a list item by <span class="anchor" id="line-85"></span>indenting the additional lines at the same <span class="anchor" id="line-86"></span>level as the initial star that began the list item. <span class="anchor" id="line-87"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="&lt;!&gt;" height="15" src="./mentalwealth/img/attention.png" title="&lt;!&gt;" width="15" /> does not work for numbered list <span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span></li></ul></li></ul><ul><li style="list-style-type:none">Note two lines at the same indent <span class="anchor" id="line-90"></span>are actually joined together.  You need to use <span class="anchor" id="line-91"></span></li><li style="list-style-type:none">the dot <span class="anchor" id="line-92"></span></li><li style="list-style-type:none">template <span class="anchor" id="line-93"></span></li><li style="list-style-type:none">to get a list <span class="anchor" id="line-94"></span><ul><li style="list-style-type:none">which can also be indented <span class="anchor" id="line-95"></span><ul><li style="list-style-type:none">to several levels <span class="anchor" id="line-96"></span><span class="anchor" id="line-97"></span></li></ul></li></ul></li></ul><p class="line874">A numbered list, mixed with bullets: <span class="anchor" id="line-98"></span><ol type="1"><li>one <span class="anchor" id="line-99"></span></li><li>two <span class="anchor" id="line-100"></span><ol type="1"><li>one <span class="anchor" id="line-101"></span><ul><li>bullet 1 <span class="anchor" id="line-102"></span></li><li>bullet 2 <span class="anchor" id="line-103"></span></li></ul></li><li>two <span class="anchor" id="line-104"></span></li></ol></li><li>three <span class="anchor" id="line-105"></span><ul><li>bullet <span class="anchor" id="line-106"></span><ol type="1"><li>one <span class="anchor" id="line-107"></span><span class="anchor" id="line-108"></span></li></ol></li></ul></li></ol><p class="line874">Variations of numbered lists: <span class="anchor" id="line-109"></span><ul><li>Lowercase roman <span class="anchor" id="line-110"></span><ol type="i"><li>one <span class="anchor" id="line-111"></span></li><li>two <span class="anchor" id="line-112"></span></li></ol></li><li>Uppercase roman (with start offset 42) <span class="anchor" id="line-113"></span><ol start="42" type="I"><li>forty-two <span class="anchor" id="line-114"></span></li><li>forty-three <span class="anchor" id="line-115"></span></li></ol></li><li>Lowercase alpha <span class="anchor" id="line-116"></span><ol type="a"><li>one <span class="anchor" id="line-117"></span></li><li>two <span class="anchor" id="line-118"></span></li></ol></li><li>Uppercase alpha <span class="anchor" id="line-119"></span><ol type="A"><li>one <span class="anchor" id="line-120"></span></li><li>two <span class="anchor" id="line-121"></span><span class="anchor" id="line-122"></span></li></ol></li></ul><dl><dt>term</dt><dd>definition <span class="anchor" id="line-123"></span></dd><dt>another term</dt><dd>and its definition <span class="anchor" id="line-124"></span></dd></dl><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

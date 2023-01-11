@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnInstalling/ApacheOnLinuxFtp</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnInstalling/ApacheOnLinuxFtp</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867"><a href="./HelpContents.html">HelpContents</a> &gt; <a href="./HelpOnAdministration.html">HelpOnAdministration</a> &gt; <a href="./HelpOnInstalling.html">HelpOnInstalling</a> <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line867">
+<h1 id="head-92c0e811893ea465c9ff6774cc2dd5da9c43ab43">1. Installing MoinMoin with Apache using ftp</h1>
+<span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">This document describes how to install <a class="interwiki" href="http://purl.net/wiki/moin/MoinMoin" title="MoinMoin">MoinMoin</a> on the webserver of your <a class="interwiki" href="http://www.wikipedia.com/wiki.phtml?title=Internet_service_provider" title="WikiPedia">ISP</a>.  <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> Please be warned that installing just by FTP (and not having shell access) is the least comfortable and most work intensive method to do it. If you need to change a file, you will have to ftp it back and forth. If you need to change many files (like your complete data_dir like when having to run some migration script) you will have to ftp many files back and forth. So if you like to have it comfortable, better get some server with shell access. <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span></li></ul><p class="line874">We will assume a few things: <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><ul><li>Your ISP supports Python (with the right version) via CGI. <span class="anchor" id="line-18"></span></li><li>You have no telnet/ssh-access to the webserver, but ftp access.  <span class="anchor" id="line-19"></span></li><li><p class="line862">You are not allowed to write into Python's <tt>site-packages</tt> directory. <span class="anchor" id="line-20"></span></li><li>You are not allowed to access apache's main config file.  <span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span></li></ul><p class="line867"><strong>Follow these steps:</strong> <span class="anchor" id="line-23"></span><div class="table-of-contents"><p class="table-of-contents-heading">Contents<ol><li><a href="#head-92c0e811893ea465c9ff6774cc2dd5da9c43ab43">Installing MoinMoin with Apache using ftp</a><ol><li><a href="#head-2f37e818fe9dc8f71aa078f0ed6dc4a863dc279e">Download the latest distribution of MoinMoin</a></li><li><a href="#head-2a666d03826e144f307a8e7029205c96eb499b0b">Explore the webserver configuration</a></li><li><a href="#head-7b8099e4d660758f4b8192d9224f162c6342683f">Copy directories</a></li><li><a href="#head-d64b25a5824207a31070de27a215045a7a3a2b00">Configure</a><ol><li><a href="#head-cb7aac535ecc81c4c7d18758a1e1ab38e130a67b">moin.cgi</a></li><li><a href="#head-31fb1d71a7528347f427fbeb5f328027c7e8fcc8">wikiconfig.py</a></li></ol><li><a href="#head-4f801f79cd94fd13c27bcd9e46854fa54ed3b81e">Upload moin.cgi and wikiconfig.py</a></li></ol><li><a href="#head-a6d86da64dd7dec710af86095056d059f70eb3da">Summary</a></li><li><a href="#head-d8bc1c1ca1524a00264f78109042a18a7716f062">If your provider's python is stoneage ...</a></li></ol></div><p class="line874"> <span class="anchor" id="line-24"></span><span class="anchor" id="line-25"></span><p class="line867">
+<h2 id="head-2f37e818fe9dc8f71aa078f0ed6dc4a863dc279e">1.1. Download the latest distribution of MoinMoin</h2>
+<span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span><p class="line862">Download the latest distribution of Moin<tt class="backtick"></tt>Moin from <a class="interwiki" href="http://purl.net/wiki/moin/MoinMoinDownload" title="MoinMoin">MoinMoinDownload</a>. Unpack it into a local directory. We do not need to run the setup.py script, we just work with the source code! <span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line867">
+<h2 id="head-2a666d03826e144f307a8e7029205c96eb499b0b">1.2. Explore the webserver configuration</h2>
+<span class="anchor" id="line-30"></span><p class="line862">Now it is time to find out how your ISP supports Python. Unfortunately, python is not as popular as PHP. Therefore, it is quite likely that your ISP does not support fancy Python stuff like <tt>mod_python</tt>. If they support Python at all, they probably support the Common Gateway Interface (CGI). As noted above, I describe only this installation option. Now there is some homework for you to do: <span class="anchor" id="line-31"></span><ul><li><p class="line862">Find out where the Python binary resides on your webserver. You should be able to find some hints in the ISPs online documentation, or you can ask their support team, or you can guess. Common locations are <tt>/usr/bin/python</tt>, <tt>/usr/bin/pythonX.X</tt> (X.X means the version number of Python like 2.3, 2.4 or newer) or <tt>/usr/local/bin/python</tt>. Sometimes, an ISP chooses to support more than one Python version, usually indicated by a version number in the search path. If possible, choose the latest version. <em>Modify the first line of the explore script and the <tt class="backtick">moin.cgi</tt> file to match the path of the python executable.</em> <span class="anchor" id="line-32"></span></li><li>Try to find a place where Python scripts can be executed. To help you with that task, I have written a small script. Upload it to your webserver and see whether it gets executed or not. Here are some hints: <span class="anchor" id="line-33"></span><ul><li><p class="line862">Use your favorite FTP-client and transfer your script to your webserver's <tt>cgi-bin</tt> directory, using the <tt>.cgi</tt> file extension. Try to call its URL via a web browser. If you don't have a <tt>cgi-bin</tt>, <span class="anchor" id="line-34"></span></li><li><p class="line862">copy the script into your favorite directory on your webserver, using the <tt>.py</tt> or <tt>.cgi</tt> file extension. Try to call its URL via a web browser. <span class="anchor" id="line-35"></span></li><li><p class="line862">First check it using the <tt>.cgi</tt> extension, then try the <tt>.py</tt> extension if necessary. <span class="anchor" id="line-36"></span></li></ul></li></ul><p class="line867"><span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span><span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span><span class="anchor" id="line-45"></span><span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span><span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span><span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span><span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span><span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span><span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span><span class="anchor" id="line-63"></span><span class="anchor" id="line-64"></span><span class="anchor" id="line-65"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+function isnumbered(obj) {
+  return obj.childNodes.length && obj.firstChild.childNodes.length && obj.firstChild.firstChild.className == 'LineNumber';
+}
+function nformat(num,chrs,add) {
+  var nlen = Math.max(0,chrs-(''+num).length), res = '';
+  while (nlen>0) { res += ' '; nlen-- }
+  return res+num+add;
+}
+function addnumber(did, nstart, nstep) {
+  var c = document.getElementById(did), l = c.firstChild, n = 1;
+  if (!isnumbered(c))
+    if (typeof nstart == 'undefined') nstart = 1;
+    if (typeof nstep  == 'undefined') nstep = 1;
+    n = nstart;
+    while (l != null) {
+      if (l.tagName == 'SPAN') {
+        var s = document.createElement('SPAN');
+        s.className = 'LineNumber'
+        s.appendChild(document.createTextNode(nformat(n,4,' ')));
+        n += nstep;
+        if (l.childNodes.length)
+          l.insertBefore(s, l.firstChild)
+        else
+          l.appendChild(s)
+      }
+      l = l.nextSibling;
+    }
+  return false;
+}
+function remnumber(did) {
+  var c = document.getElementById(did), l = c.firstChild;
+  if (isnumbered(c))
+    while (l != null) {
+      if (l.tagName == 'SPAN' && l.firstChild.className == 'LineNumber') l.removeChild(l.firstChild);
+      l = l.nextSibling;
+    }
+  return false;
+}
+function togglenumber(did, nstart, nstep) {
+  var c = document.getElementById(did);
+  if (isnumbered(c)) {
+    remnumber(did);
+  } else {
+    addnumber(did,nstart,nstep);
+  }
+  return false;
+}
+</script>
+
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-5e0518dee60ce66570496d4a132cc6b24d844cfa_000\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-5e0518dee60ce66570496d4a132cc6b24d844cfa_000" lang="en"><span class="line"><span class="LineNumber">   1 </span><span class="Comment">#!/usr/bin/python2</span></span>
+<span class="line"><span class="LineNumber">   2 </span><span class="Comment"></span></span>
+<span class="line"><span class="LineNumber">   3 </span><span class="ResWord">import</span> <span class="ID">os</span><span class="Operator">.</span><span class="ID">path</span></span>
+<span class="line"><span class="LineNumber">   4 </span><span class="ResWord">import</span> <span class="ID">os</span></span>
+<span class="line"><span class="LineNumber">   5 </span><span class="ResWord">import</span> <span class="ID">sys</span></span>
+<span class="line"><span class="LineNumber">   6 </span></span>
+<span class="line"><span class="LineNumber">   7 </span><span class="ResWord">try</span><span class="Operator">:</span></span>
+<span class="line"><span class="LineNumber">   8 </span>    <span class="ID">__file__</span></span>
+<span class="line"><span class="LineNumber">   9 </span><span class="ResWord">except</span> <span class="ID">NameError</span><span class="Operator">:</span></span>
+<span class="line"><span class="LineNumber">  10 </span>    <span class="ID">__file__</span> <span class="Operator">=</span> <span class="String">'?'</span></span>
+<span class="line"><span class="LineNumber">  11 </span></span>
+<span class="line"><span class="LineNumber">  12 </span><span class="ResWord">print</span> <span class="String">"""Content-type: text/html</span></span>
+<span class="line"><span class="LineNumber">  13 </span><span class="String"></span></span>
+<span class="line"><span class="LineNumber">  14 </span><span class="String">&lt;html&gt;&lt;head&gt;&lt;title&gt;Python Exploration&lt;/title&gt;&lt;/head&gt;&lt;body&gt;</span></span>
+<span class="line"><span class="LineNumber">  15 </span><span class="String">&lt;table border=1&gt;</span></span>
+<span class="line"><span class="LineNumber">  16 </span><span class="String">&lt;tr&gt;&lt;th colspan=2&gt;1. System Information&lt;/th&gt;&lt;/tr&gt;</span></span>
+<span class="line"><span class="LineNumber">  17 </span><span class="String">&lt;tr&gt;&lt;td&gt;Python&lt;/td&gt;&lt;td&gt;%s&lt;/td&gt;&lt;/tr&gt;</span></span>
+<span class="line"><span class="LineNumber">  18 </span><span class="String">&lt;tr&gt;&lt;td&gt;Platform&lt;/td&gt;&lt;td&gt;%s&lt;/td&gt;&lt;/tr&gt;</span></span>
+<span class="line"><span class="LineNumber">  19 </span><span class="String">&lt;tr&gt;&lt;td&gt;Absolute path of this script&lt;/td&gt;&lt;td&gt;%s&lt;/td&gt;&lt;/tr&gt;</span></span>
+<span class="line"><span class="LineNumber">  20 </span><span class="String">&lt;tr&gt;&lt;td&gt;Filename&lt;/td&gt;&lt;td&gt;%s&lt;/td&gt;&lt;/tr&gt;</span></span>
+<span class="line"><span class="LineNumber">  21 </span><span class="String">"""</span> <span class="Operator">%</span> <span class="Operator">(</span><span class="ID">sys</span><span class="Operator">.</span><span class="ID">version</span><span class="Operator">,</span></span>
+<span class="line"><span class="LineNumber">  22 </span>       <span class="ID">sys</span><span class="Operator">.</span><span class="ID">platform</span><span class="Operator">,</span></span>
+<span class="line"><span class="LineNumber">  23 </span>       <span class="ID">os</span><span class="Operator">.</span><span class="ID">path</span><span class="Operator">.</span><span class="ID">abspath</span><span class="Operator">(</span><span class="String">'.'</span><span class="Operator">)</span><span class="Operator">,</span></span>
+<span class="line"><span class="LineNumber">  24 </span>       <span class="ID">__file__</span><span class="Operator">)</span></span>
+<span class="line"><span class="LineNumber">  25 </span><span class="ResWord">print</span> <span class="String">"&lt;th colspan=2&gt;2. Environment Variables&lt;/th&gt;\n"</span></span>
+<span class="line"><span class="LineNumber">  26 </span><span class="ResWord">for</span> <span class="ID">variable</span> <span class="ResWord">in</span> <span class="ID">os</span><span class="Operator">.</span><span class="ID">environ</span><span class="Operator">:</span></span>
+<span class="line"><span class="LineNumber">  27 </span>    <span class="ResWord">print</span> <span class="String">"&lt;tr&gt;&lt;td&gt;%s&lt;/td&gt;&lt;td&gt;%s&lt;/td&gt;&lt;/tr&gt;\n"</span> <span class="Operator">%</span> <span class="Operator">(</span><span class="ID">variable</span><span class="Operator">,</span> <span class="ID">os</span><span class="Operator">.</span><span class="ID">environ</span><span class="Operator">[</span><span class="ID">variable</span><span class="Operator">]</span><span class="Operator">)</span></span>
+<span class="line"><span class="LineNumber">  28 </span><span class="ResWord">print</span> <span class="String">"&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;"</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-66"></span><p class="line862">Download: <a class="attachment" href="attachments/HelpOnInstalling(2f)ApacheOnLinuxFtp/explore.py" title="attachment:explore.py">explore.py</a> <span class="anchor" id="line-67"></span><span class="anchor" id="line-68"></span><p class="line874">Some of the following problems may show up: <span class="anchor" id="line-69"></span><ul><li>If only the source code appears in your browser window, your file has not been processed by the CGI. Probably some kind of apache configuration is required to make things work. Consult your ISPs documentation.  <span class="anchor" id="line-70"></span></li><li><p class="line862">If you encounter a <tt>404&nbsp;Not&nbsp;found</tt> error, that probably means what it says: you have chosen the wrong URL.   <span class="anchor" id="line-71"></span></li><li><p class="line862">If you have errors in your script, apache usually reports an <tt>Internal&nbsp;Server&nbsp;Error</tt>. <span class="anchor" id="line-72"></span></li><li><p class="line862">If your script has wrong file privileges, apache may report a <tt>Premature&nbsp;End&nbsp;of&nbsp;Script&nbsp;Headers</tt>. Set the file permission so as to allow execution of the script. Your FTP-client will do the job. <span class="anchor" id="line-73"></span><span class="anchor" id="line-74"></span></li></ul><p class="line862">If everything works, a table should appear on your screen. It gives you some basic information on your webserver. Later we will need <strong>Python version</strong>, <strong>absolute path of this script</strong>, <strong><tt>DOCUMENT_ROOT</tt></strong> and <strong><tt>SITE_URI</tt></strong>. <span class="anchor" id="line-75"></span><span class="anchor" id="line-76"></span><p class="line867">
+<h2 id="head-7b8099e4d660758f4b8192d9224f162c6342683f">1.3. Copy directories</h2>
+<span class="anchor" id="line-77"></span><p class="line874">You have to transfer four directories in the moin directory to your webserver. <span class="anchor" id="line-78"></span><ul><li><p class="line891"><tt>./wiki/htdocs</tt> contains static files (e. g. css stylesheets and icons). Place this directory on your server somewhere under apache's <tt>DOCUMENT_ROOT</tt> and rename it to 'wiki'. Apache has to deliver them directly. <span class="anchor" id="line-79"></span></li><li><p class="line891"><tt>./wiki/underlay</tt> contains wiki templates and help pages. Place this directory on your server outside the <tt>DOCUMENT_ROOT</tt>, if possible. Apache should not be able to deliver these files directly. <span class="anchor" id="line-80"></span></li><li><p class="line891"><tt>./wiki/data</tt> is going to contain your wiki pages. Place this outside apache's <tt>DOCUMENT_ROOT</tt>. <span class="anchor" id="line-81"></span></li><li><p class="line891"><tt>./MoinMoin</tt> contains python source code. Place this outside apache's <tt>DOCUMENT_ROOT</tt>. <span class="anchor" id="line-82"></span></li></ul><div><table><tbody><tr>  <td style="background-color: #FFAAAA"><p class="line891"><strong>SECURITY WARNING</strong>: If you have no choice but to place <tt>MoinMoin</tt>, <tt>underlay</tt> or <tt>data</tt> under apache's <tt>DOCUMENT_ROOT</tt>, it is very important to hinder apache from directly accessing them.</td>
+</tr>
+<tr>  <td><span class="anchor" id="line-83"></span><p class="line862">1. Use your favorite editor to create a file named <tt>.htaccess</tt>.</td>
+</tr>
+<tr>  <td><span class="anchor" id="line-84"></span><p class="line862">2. Insert into this file the text <tt>deny&nbsp;from&nbsp;all</tt></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-85"></span><p class="line862">3. Copy it via FTP into the directory you want to protect. </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-86"></span><p class="line862">4. Try to access the protected directory via your webbrowser. If protection does work, you should see <tt>Access&nbsp;denied</tt>.</td>
+</tr>
+<tr>  <td style="background-color: #FFAAAA"><span class="anchor" id="line-87"></span><p class="line862">5. <strong>If you cannot protect these directories, please delete them from your webserver immediately. Do not continue your installation.</strong></td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span><p class="line867">
+<h2 id="head-d64b25a5824207a31070de27a215045a7a3a2b00">1.4. Configure</h2>
+<span class="anchor" id="line-90"></span><p class="line874">There are two files that need fine tuning:  <span class="anchor" id="line-91"></span><ul><li><p class="line891"><tt>./wiki/server/moin.cgi</tt> is going to be called by apache whenever a wiki page is requested. <span class="anchor" id="line-92"></span></li><li><p class="line891"><tt>./wiki/config/wikiconfig.py</tt> contains configuration options for your wiki. <span class="anchor" id="line-93"></span></li></ul><p class="line862">Choose a location for these files on your webserver. You are free to choose, but apache must be able to execute <tt>moin.cgi</tt>. If necessary, you can even rename <tt>moin.cgi</tt>, for example to <tt>moin.py</tt>. I would recommend placing <tt>wikiconfig.py</tt> in a separate <tt>config</tt> directory that is not accessible by apache. Do not start uploading, we are going to make some modifications first.# <span class="anchor" id="line-94"></span><span class="anchor" id="line-95"></span><ul><li><p class="line891"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> If you want to host more than one Wiki you need to work with farmconfig.py ! <span class="anchor" id="line-96"></span><span class="anchor" id="line-97"></span></li></ul><p class="line867">
+<h3 id="head-cb7aac535ecc81c4c7d18758a1e1ab38e130a67b">1.4.1. moin.cgi</h3>
+<span class="anchor" id="line-98"></span><p class="line862">Now open <tt>./wiki/server/moin.cgi</tt> in your favorite editor.  <span class="anchor" id="line-99"></span><span class="anchor" id="line-100"></span><p class="line867"><strong>(1) Adjust python path</strong>. First you have to adjust your python path in line 1. The new value depends on your ISPs setting. <span class="anchor" id="line-101"></span><span class="anchor" id="line-102"></span><pre>#!/usr/bin/python
+<span class="anchor" id="line-103"></span></pre><span class="anchor" id="line-104"></span><span class="anchor" id="line-105"></span><p class="line867"><strong>(2) Set the path to Moin<tt class="backtick"></tt>Moin.</strong> You will find a line <span class="anchor" id="line-106"></span><span class="anchor" id="line-107"></span><pre>## sys.path.insert(0, 'PREFIX/lib/pythonX.X/site-packages')
+<span class="anchor" id="line-108"></span></pre><span class="anchor" id="line-109"></span><p class="line862">Uncomment this line and replace the path information. If you have run <a class="attachment" href="attachments/HelpOnInstalling(2f)ApacheOnLinuxFtp/explore.py" title="attachment:explore.py">explore.py</a> on your webserver, you may use your knowledge of <strong>absolute path of this script</strong> to guess the absolute path to the <tt>MoinMoin</tt> directory. <span class="anchor" id="line-110"></span><span class="anchor" id="line-111"></span><p class="line867"><strong>Example</strong>: You transfered <tt>explore.py</tt> with your FTP-client into <tt>/public_html</tt> on your webserver. <tt>Absolute&nbsp;path&nbsp;of&nbsp;this&nbsp;script</tt> reveals <tt>/home/nowhere.com/public_html</tt>. You transfered <tt>MoinMoin</tt> to <tt>/MoinMoin</tt>. You plan to place <tt>moin.cgi</tt> as <tt>/pubic_html/index.py</tt> on your webserver. You would have to insert <span class="anchor" id="line-112"></span><span class="anchor" id="line-113"></span><pre>sys.path.insert(0, '/home/nowhere.com')   # REPLACED!
+<span class="anchor" id="line-114"></span></pre><span class="anchor" id="line-115"></span><span class="anchor" id="line-116"></span><p class="line874">Of course a relative path will be allright, too. So, sticking to our example, you could also insert <span class="anchor" id="line-117"></span><span class="anchor" id="line-118"></span><pre>sys.path.insert(0, '..')
+<span class="anchor" id="line-119"></span></pre><span class="anchor" id="line-120"></span><p class="line867"><strong>(3) Set the path to wikiconfig.py.</strong> Now search for <span class="anchor" id="line-121"></span><span class="anchor" id="line-122"></span><pre>sys.path.insert(0, '/path/to/wikiconfig')
+<span class="anchor" id="line-123"></span></pre><span class="anchor" id="line-124"></span><p class="line862">Insert the path to <tt>wikiconfig.py</tt> on your webserver. <span class="anchor" id="line-125"></span><span class="anchor" id="line-126"></span><p class="line867"><strong>Example</strong>: You transfered <tt>explore.py</tt> with your FTP-client into <tt>/public_html</tt> on your webserver. <tt>Absolute&nbsp;path&nbsp;of&nbsp;this&nbsp;script</tt> reveals <tt>/home/nowhere.com/public_html</tt>. Your planned location for <tt>wikiconfig.py</tt> is <tt>/config</tt>. You plan to place <tt>moin.cgi</tt> as <tt>/pubic_html/index.py</tt> on your webserver. You would have to insert <span class="anchor" id="line-127"></span><span class="anchor" id="line-128"></span><pre># choose one:
+<span class="anchor" id="line-129"></span>sys.path.insert(0, '/home/nowhere.com/config')           # absolute path
+<span class="anchor" id="line-130"></span>sys.path.insert(0, '../config')                          # path relative to moin.cgi
+<span class="anchor" id="line-131"></span></pre><span class="anchor" id="line-132"></span><span class="anchor" id="line-133"></span><p class="line867">
+<h3 id="head-31fb1d71a7528347f427fbeb5f328027c7e8fcc8">1.4.2. wikiconfig.py</h3>
+<span class="anchor" id="line-134"></span><p class="line862">Open <tt>./wiki/config/wikiconfig.py</tt>.  <span class="anchor" id="line-135"></span><span class="anchor" id="line-136"></span><p class="line867"><strong>(1) Set the path to your <tt>data</tt> directory</strong>. Try to find <span class="anchor" id="line-137"></span><span class="anchor" id="line-138"></span><pre>data_dir = './data/'
+<span class="anchor" id="line-139"></span></pre><span class="anchor" id="line-140"></span><p class="line862">Replace <tt>'./data/'</tt> with whatever leads to your data directory. <span class="anchor" id="line-141"></span><span class="anchor" id="line-142"></span><p class="line867"><strong>Example:</strong> You transfered <tt>explore.py</tt> with your FTP-client into <tt>/public_html</tt> on your webserver. <tt>Absolute&nbsp;path&nbsp;of&nbsp;this&nbsp;script</tt> reveals <tt>/home/nowhere.com/public_html</tt>. You transfered <tt>data</tt> to <tt>/data</tt>. You plan to place <tt>moin.cgi</tt> as <tt>/pubic_html/index.py</tt> on your webserver. You would have to insert <span class="anchor" id="line-143"></span><span class="anchor" id="line-144"></span><pre># choose one:
+<span class="anchor" id="line-145"></span>data_dir = '/home/nowhere.com/data/'   # absolute path
+<span class="anchor" id="line-146"></span>data_dir = '../data/'                  # path relative to moin.cgi
+<span class="anchor" id="line-147"></span></pre><span class="anchor" id="line-148"></span><span class="anchor" id="line-149"></span><p class="line867"><strong>(2) Set the path to your <tt>underlay</tt> directory</strong>. Try to find <span class="anchor" id="line-150"></span><span class="anchor" id="line-151"></span><pre>data_underlay_dir = './underlay/'
+<span class="anchor" id="line-152"></span></pre><span class="anchor" id="line-153"></span><p class="line862">Replace <tt>'./underlay/'</tt> with whatever leads to the <tt>underlay</tt> directory on your webserver. <span class="anchor" id="line-154"></span><span class="anchor" id="line-155"></span><p class="line867"><strong>Example:</strong> You transfered <tt>explore.py</tt> with your FTP-client into <tt>/public_html</tt> on your webserver. <tt>Absolute&nbsp;path&nbsp;of&nbsp;this&nbsp;script</tt> reveals <tt>/home/nowhere.com/public_html</tt>. You transfered <tt>underlay</tt> to <tt>/underlay</tt>. You plan to place <tt>moin.cgi</tt> as <tt>/pubic_html/index.py</tt> on your webserver. You would have to insert <span class="anchor" id="line-156"></span><span class="anchor" id="line-157"></span><pre># choose one:
+<span class="anchor" id="line-158"></span>data_underlay_dir = '/home/nowhere.com/data/'   # absolute path
+<span class="anchor" id="line-159"></span>data_underlay_dir = '../data/'                  # path relative to moin.cgi
+<span class="anchor" id="line-160"></span></pre><span class="anchor" id="line-161"></span><span class="anchor" id="line-162"></span><p class="line867"><strong>(3) Set the URL of your static files.</strong> <span class="anchor" id="line-163"></span><span class="anchor" id="line-164"></span><p class="line874">Static files like images and css files are served by Apache, not by moin. You install them in a location accessible by Apache, and tell moin what is the url of those files. <span class="anchor" id="line-165"></span><span class="anchor" id="line-166"></span><p class="line867"><span class="anchor" id="line-167"></span><pre>url_prefix = '/wiki'
+<span class="anchor" id="line-168"></span></pre><span class="anchor" id="line-169"></span><span class="anchor" id="line-170"></span><p class="line862">If you copied your <tt>htdocs</tt> directory to <tt>/wiki</tt> under your document root, you don't need to change this. <span class="anchor" id="line-171"></span><span class="anchor" id="line-172"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> Important: url_prefix must start with a slash <span class="anchor" id="line-173"></span><span class="anchor" id="line-174"></span></li></ul><p class="line867"><strong>Example:</strong> You placed <tt>explore.py</tt> under <tt>/public_html</tt> and called it with <tt>http://www.your-domain.com/explore.py</tt>. You placed <tt>htdocs</tt> as <tt>/public_html/wiki</tt>. So url_prefix is correct as it is, don't change it. <span class="anchor" id="line-175"></span><span class="anchor" id="line-176"></span><p class="line867"><strong>(4) Set configuration options.</strong> If you browse through <tt>wikiconfig.py</tt>, you will see a bunch of options. Set these options as you like. See <a href="./HelpOnConfiguration.html">HelpOnConfiguration</a> for details. <span class="anchor" id="line-177"></span><span class="anchor" id="line-178"></span><p class="line867">
+<h2 id="head-4f801f79cd94fd13c27bcd9e46854fa54ed3b81e">1.5. Upload moin.cgi and wikiconfig.py</h2>
+<span class="anchor" id="line-179"></span><p class="line862">You are done! Upload <tt>moin.cgi</tt> and <tt>wikiconfig.py</tt> and test your wiki by calling <tt>moin.cgi</tt> through your webbrowser. You may have to set file permissions manually to allow the execution of <tt>moin.cgi</tt>. Be sure to upload both files to the directories described above. <span class="anchor" id="line-180"></span><span class="anchor" id="line-181"></span><p class="line867">
+<h1 id="head-a6d86da64dd7dec710af86095056d059f70eb3da">2. Summary</h1>
+<span class="anchor" id="line-182"></span><p class="line874">Here is a short summary of an example installation. Having read this document, I hope you see what I did and why I did it. <span class="anchor" id="line-183"></span><span class="anchor" id="line-184"></span><pre>
+<span class="anchor" id="line-185"></span>ftp       ./wiki/data       ==&gt;           /data
+<span class="anchor" id="line-186"></span>ftp       ./wiki/htdocs     ==&gt;           /wiki
+<span class="anchor" id="line-187"></span>ftp       ./wiki/underlay   ==&gt;           /underlay
+<span class="anchor" id="line-188"></span>ftp       ./MoinMoin        ==&gt;           /MoinMoin
+<span class="anchor" id="line-189"></span>
+<span class="anchor" id="line-190"></span>ftp       create directory     /config
+<span class="anchor" id="line-191"></span>
+<span class="anchor" id="line-192"></span>create     ./.htaccess      insert content:
+<span class="anchor" id="line-193"></span>deny from all
+<span class="anchor" id="line-194"></span>
+<span class="anchor" id="line-195"></span>ftp       ./.htaccess      ==&gt;           /data
+<span class="anchor" id="line-196"></span>ftp       ./.htaccess      ==&gt;           /underlay
+<span class="anchor" id="line-197"></span>ftp       ./.htaccess      ==&gt;           /MoinMoin
+<span class="anchor" id="line-198"></span>ftp       ./.htaccess      ==&gt;           /config
+<span class="anchor" id="line-199"></span>
+<span class="anchor" id="line-200"></span>edit ./wiki/server/moin.cgi:
+<span class="anchor" id="line-201"></span>
+<span class="anchor" id="line-202"></span>  replace:
+<span class="anchor" id="line-203"></span>           #!/usr/bin/env python
+<span class="anchor" id="line-204"></span>    by:
+<span class="anchor" id="line-205"></span>           #!/usr/bin/pythonX.X
+<span class="anchor" id="line-206"></span>
+<span class="anchor" id="line-207"></span>  replace:
+<span class="anchor" id="line-208"></span>           ## sys.path.insert(0, 'PREFIX/lib/pythonX.X/site-packages')
+<span class="anchor" id="line-209"></span>    by:
+<span class="anchor" id="line-210"></span>           sys.path.insert(0, '.')
+<span class="anchor" id="line-211"></span>
+<span class="anchor" id="line-212"></span>  replace:
+<span class="anchor" id="line-213"></span>           sys.path.insert(0, '/path/to/wikiconfig')
+<span class="anchor" id="line-214"></span>    by:
+<span class="anchor" id="line-215"></span>           sys.path.insert(0, './config')
+<span class="anchor" id="line-216"></span>
+<span class="anchor" id="line-217"></span>ftp      ./wiki/server/moin.cgi   ==&gt;     /moin.py
+<span class="anchor" id="line-218"></span>    
+<span class="anchor" id="line-219"></span>edit ./wiki/config/wikiconfig.py:
+<span class="anchor" id="line-220"></span>
+<span class="anchor" id="line-221"></span>   set data_dir:
+<span class="anchor" id="line-222"></span>                   data_dir = './data/'
+<span class="anchor" id="line-223"></span>
+<span class="anchor" id="line-224"></span>   set data_underlay_dir:
+<span class="anchor" id="line-225"></span>                   data_underlay_dir = './underlay/'
+<span class="anchor" id="line-226"></span>
+<span class="anchor" id="line-227"></span>   set url_prefix:
+<span class="anchor" id="line-228"></span>                   url_prefix = '/wiki'
+<span class="anchor" id="line-229"></span>
+<span class="anchor" id="line-230"></span>ftp      ./wiki/config/wikiconfig.py   ==&gt;    /config/wikiconfig.py
+<span class="anchor" id="line-231"></span></pre><p class="line874"> <span class="anchor" id="line-232"></span><span class="anchor" id="line-233"></span><p class="line867">
+<h1 id="head-d8bc1c1ca1524a00264f78109042a18a7716f062">3. If your provider's python is stoneage ...</h1>
+<span class="anchor" id="line-234"></span><span class="anchor" id="line-235"></span><span class="anchor" id="line-236"></span><ul><li>find out what Python version the server runs <span class="anchor" id="line-237"></span></li><li>find another server that runs the same Python version and there: <span class="anchor" id="line-238"></span><ul><li><p class="line862">download and unpack the same version of Python from <a class="http" href="http://www.python.org">http://www.python.org</a> <span class="anchor" id="line-239"></span></li><li>install it on that server <span class="anchor" id="line-240"></span></li></ul></li><li>after that, you have a nice, fresh python in $PREFIX <span class="anchor" id="line-241"></span></li><li>you can ftp it to your home directory at provider and use it from there <span class="anchor" id="line-242"></span></li></ul><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

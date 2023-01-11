@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnEditLocks</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnEditLocks</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867">
+<h2 id="head-53805a9a73ad0b807091381507b7fdbc1261d775">Locking against concurrent editing</h2>
+<span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line874">If two people try and edit the same wiki page at once some nasty conflicts can occur. Without any kind of warning system one of the editors can save the page, which leaves the other editor with a message warning them about the conflict. An easy way around this is to display warnings for editors that try to start editing wiki pages that are already being edited. i.e. the wiki keeps track of pages being edited. <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">This can be done in Moin using the <em>editlock</em> system. There are three levels of locking: to <em>warn</em>, to <em>lock</em> and <em>None</em> (turned off). <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line862">If you configure Moin to <strong>warn</strong>, when someone tries to edit a page that is already being edited, they will be presented with a warning message asking them to consider waiting until the current editor has finished. <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line862">Moin can also be configured to <strong>lock</strong> an edited page, only during editing. Here, if some tries to edit a page that is being edited they will receive a message saying that the page is locked and will not be able to edit it until the editor has finished. <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line874">A complication of this feature is that an editing session might be started and might not be finished. e.g.: <span class="anchor" id="line-18"></span><ul><li>Someone presses edit and then clicks on a link to exit the page without cancelling. <span class="anchor" id="line-19"></span></li><li>The browser window is closed without cancelling. <span class="anchor" id="line-20"></span></li><li>The back button is pressed. <span class="anchor" id="line-21"></span></li><li>Someone starts editing a page and forgets and leaves it open overnight. <span class="anchor" id="line-22"></span></li></ul><p class="line862">This would result in a page having permanent warnings or being permanently locked. Therefore, both <em>warn</em> and <em>lock</em> have a <strong>timeout</strong> feature. After a specified number of minutes the feature expires. Note that the timer restarts when you hit preview. If you are actively editing a page and hit preview it is assumed you are still busy and the timer starts again. If you leave the page, or exit it for more time than the timer allows the edit locking runs out and other people are free to edit the page. <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><p class="line867">
+<h3 id="head-6543e4c665ccfab98b05f72decdd5e392d83993e">1. Configuration</h3>
+<span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line862">The <tt class="backtick">edit_locking</tt> config variable controls the behaviour of the locking system. This can have the following values: <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><ul><li><p class="line891"><tt class="backtick">None</tt>, i.e. there is no edit locking. The feature is turned off and nobody is warned or stopped from doing simultaneous edits of a page. <span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span></li><li class="gap"><p class="line862">"<tt class="backtick">warn&nbsp;&lt;timeout&gt;</tt>" tells Moin to warn anyone trying to concurrently editing a page, with a specified timeout, e.g. "<tt class="backtick">warn&nbsp;10</tt>" will warn for 10 minutes after an edit is started. <span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span></li><li class="gap"><p class="line862">"<tt class="backtick">lock&nbsp;&lt;timeout&gt;</tt>" tells Moin to lock a page for the specified amount of time after an edit started. e.g. "<tt class="backtick">lock&nbsp;5</tt>" locks a page for 5 minutes. <span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span></li></ul><p class="line867">
+<h3 id="head-daff9a7a66b0607ad080855cf647d9a943603cbb">2. Aborting an edit</h3>
+<span class="anchor" id="line-35"></span><span class="anchor" id="line-36"></span><p class="line862">For the reasons explained in the timeout description above, you should <strong>always use Cancel</strong> to cancel an edit if you have enabled edit locking! <span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><p class="line867">
+<h2 id="head-2f94fe735a697a006d00de9daf585080f6069fbb">Example</h2>
+<span class="anchor" id="line-39"></span><span class="anchor" id="line-40"></span><p class="line862">Sample interaction of John<tt class="backtick"></tt>Miller and Jane<tt class="backtick"></tt>Doe... <span class="anchor" id="line-41"></span><span class="anchor" id="line-42"></span><dl><dt>no locking (None)</dt><dd><p class="line862">John<tt class="backtick"></tt>Miller starts editing a page and Jane<tt class="backtick"></tt>Doe thinks she'll edit the same page. She has no idea that someone else is editing the page so they both edit away and hit save. It doesn't matter who started first and did the most editing, whoever hits <em>save changes</em> first will have their changes committed and the unfortunate 2nd editor will have to try and merge their changes in or lose them. <span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span></dd><dt>edit warnings (warn)</dt><dd><p class="line862">John<tt class="backtick"></tt>Miller starts editing a page and Jane<tt class="backtick"></tt>Doe thinks she'll edit the same page. When she hits edit she'll see a warning telling her that someone else got there first. If she is polite she'll leave the page, but she can still save before John and he may lose his changes. <span class="anchor" id="line-45"></span><span class="anchor" id="line-46"></span></dd><dt>edit locking (lock)</dt><dd><p class="line862">John<tt class="backtick"></tt>Miller starts editing a page and Jane<tt class="backtick"></tt>Doe thinks she'll edit the same page. When she hits edit she'll see a warning telling her that someone else got there first and the page is locked. She will have to wait for the page to become available. <span class="anchor" id="line-47"></span></dd></dl><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnInstalling/TroubleShooting</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnInstalling/TroubleShooting</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867"><strong>How to deal with common errors</strong> <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line867">
+<h1 id="head-19c97c74376eccc15bf415113eb35925fb0600ef">1. First follow the instructions</h1>
+<span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">Moin has provided instructions for common usage.  Try creating a wiki using the default values within the instructions. Your wiki would then be stored where ours is, and named <tt class="backtick">mywiki</tt> ... but you can change that place, and this name, AFTER you have a working wiki. The default values have been chosen carefully to work for most people on most platforms, or at least be a good start. <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><ul><li>First follow the instructions <span class="anchor" id="line-14"></span></li><li>Do not change any configuration option unless you must. <span class="anchor" id="line-15"></span></li><li>Play with a working wiki before you try to customize it. <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span></li></ul><p class="line867">
+<h1 id="head-d6d40372ac4a2b91da396f084ba3faaf3e6c3845">2. Change one thing at a time</h1>
+<span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line874">When your wiki is running, go and customize it to your needs, but remember to change only one option at a time. You probably don't fully understand how all options work, and if you go and break few things in the same step, you will have hard time to fix it.  <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><p class="line867">
+<h1 id="head-1372c460df94281a98cdde429b2496bdfd6e2677">3. Check That Your Webserver Can Use Python</h1>
+<span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><p class="line862">This is also in <a href="./HelpOnInstalling(2f)BasicInstallation.html">HelpOnInstalling/BasicInstallation</a>.  Use this script: <span class="anchor" id="line-24"></span><span class="anchor" id="line-25"></span><p class="line867"><span class="anchor" id="line-26"></span><pre>#!/bin/sh
+<span class="anchor" id="line-27"></span>echo Content-Type: text/plain
+<span class="anchor" id="line-28"></span>echo
+<span class="anchor" id="line-29"></span>echo "Your web server is running as:"
+<span class="anchor" id="line-30"></span>id
+<span class="anchor" id="line-31"></span>echo "CGI scripts work"
+<span class="anchor" id="line-32"></span>echo "Now we try to invoke Python interpreters and get their versions:"
+<span class="anchor" id="line-33"></span>python -V 2&gt;&amp;1
+<span class="anchor" id="line-34"></span>python2.3 -V 2&gt;&amp;1
+<span class="anchor" id="line-35"></span>python2.4 -V 2&gt;&amp;1
+<span class="anchor" id="line-36"></span>echo "Finished."
+<span class="anchor" id="line-37"></span></pre><span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><p class="line874">to see if you can get it to announce that cgi works. Then you will also know which versions of python are usable.  This is especially handy for users with no root access. <span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span><p class="line867">
+<h1 id="head-82d34035b28a82ec380913906a9c676a0c20ecf3">4. Built-in test</h1>
+<span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><p class="line862">There's a built-in diagnostic mode that's useful when doing an install; just append "<tt class="backtick">?action=test</tt>" to the URL of your wiki: <span class="anchor" id="line-44"></span><span class="anchor" id="line-45"></span><pre>lynx --dump http://`hostname`/mywiki?action=test
+<span class="anchor" id="line-46"></span></pre><span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span><p class="line874">If you see an import error here, but  <span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span><p class="line867"><span class="anchor" id="line-51"></span><pre>python -c "import MoinMoin"
+<span class="anchor" id="line-52"></span></pre><span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span><p class="line874">works, it's likely a result of missing file permissions or a wrong PYTHONPATH setting within the web server environment. <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line867">
+<h1 id="head-68a88c328bf1907f03ed306eb15199cc98b2cd6a">5. Duelling Pythons</h1>
+<span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><p class="line862">The most common problem you might encounter is when you have an old Python version installed into "<tt class="backtick">/usr</tt>", and a newer Python distribution into "<tt class="backtick">/usr/local</tt>"; this is typical for GNU/Linux distributions that still come bundled with an old Python version. <span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span><p class="line862">In that case, if you enter "<tt class="backtick">python</tt>" on your prompt, you will usually get the more recent Python interpreter, because "<tt class="backtick">/usr/local/bin</tt>" is in your <tt class="backtick">PATH</tt>. The situation is different in your webserver environment, and thus you might have to change the bang path of "<tt class="backtick">moin.cgi</tt>", like this: <span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span><pre>#!/usr/local/bin/python
+<span class="anchor" id="line-63"></span>
+<span class="anchor" id="line-64"></span>"""
+<span class="anchor" id="line-65"></span>    MoinMoin - CGI Driver Script
+<span class="anchor" id="line-66"></span>...
+<span class="anchor" id="line-67"></span>"""
+<span class="anchor" id="line-68"></span></pre><span class="anchor" id="line-69"></span><span class="anchor" id="line-70"></span><ul><li>Debian stable users might want to look for backport of newer Python, or download and build Python from source. <span class="anchor" id="line-71"></span><span class="anchor" id="line-72"></span></li><li class="gap"><p class="line862">When installing, make sure you install with the version of python you want to run moin with. <tt class="backtick">python&nbsp;setup.py&nbsp;install</tt> will install with the first python in the path, which may be the version you expect or not! <tt class="backtick">/usr/local/bin/python2.4</tt> will install in specific python. You will have to use the same path in the moin server script. <span class="anchor" id="line-73"></span><span class="anchor" id="line-74"></span></li></ul><p class="line867">
+<h1 id="head-8e72ddd753a6ead652d17bd2c24324a9a0dc9512">6. Missing file permissions</h1>
+<span class="anchor" id="line-75"></span><span class="anchor" id="line-76"></span><p class="line862">If you are root, the installed files may be readable only by root, but they must also be readable by the web server before the wiki will work. This includes both the Python modules and the site itself. For the data directory, the wiki engine also needs <em>write</em> access.  To fix this, first find out where the Python module directory is; look in <tt class="backtick">install.log</tt>, or run the command:  <span class="anchor" id="line-77"></span><span class="anchor" id="line-78"></span><p class="line867"><span class="anchor" id="line-79"></span><pre>python -c "import sys; print '%s/lib/python%s/site-packages' % ( sys.prefix, sys.version[:3] )"
+<span class="anchor" id="line-80"></span></pre><span class="anchor" id="line-81"></span><span class="anchor" id="line-82"></span><p class="line862">For the example below, we'll assume that the Python module directory is <tt class="backtick">/usr/local/lib/python2.3/site-packages</tt>. <span class="anchor" id="line-83"></span>Make the files world-readable using the following commands: <span class="anchor" id="line-84"></span><span class="anchor" id="line-85"></span><pre>cd /usr/local
+<span class="anchor" id="line-86"></span>chmod -R a+rX lib/python2.3/site-packages/MoinMoin
+<span class="anchor" id="line-87"></span></pre><span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span><p class="line867">
+<h1 id="head-bf2856e568e384c1b4da0403cfee28297345e8a9">7. Set Your Variables Carefully</h1>
+<span class="anchor" id="line-90"></span><span class="anchor" id="line-91"></span><p class="line862">Be especially careful when you retype instead of cut and paste. Quoting errors in <tt class="backtick">wikiconfig.py</tt> can cause things to fail.  The following items are also variable issues.  Also, some features only work if they are enabled by their option in either <tt class="backtick">wikiconfig.py</tt> or <tt class="backtick">farmconfig.py</tt>. <span class="anchor" id="line-92"></span><span class="anchor" id="line-93"></span><p class="line867">
+<h2 id="head-b3137d96e505ef20d7cff55253012674ea4a5d10">7.1. moin.cgi found, Moin doesn't run</h2>
+<span class="anchor" id="line-94"></span><span class="anchor" id="line-95"></span><p class="line862">If you have to add the moin code location into the system path, make sure to specify the place <tt class="backtick"></tt>above<tt class="backtick"></tt> MoinMoin itself, so that the word MoinMoin is recognized during the import request.   <span class="anchor" id="line-96"></span><span class="anchor" id="line-97"></span><p class="line867">
+<h2 id="head-ecc94aa011a0d0de8cfa6123fcfd70164d85a139">7.2. CSS files do not work</h2>
+<span class="anchor" id="line-98"></span><span class="anchor" id="line-99"></span><p class="line862">Very common error is missing CSS styles. Your wiki look bare and ugly, unlike this nice wiki. In most cases, you did broke the configuration by not reading the instructions, or by trying to customize the instructions because you are smarter then us. <img alt=":-)" height="15" src="./mentalwealth/img/smile.png" title=":-)" width="15" /> <span class="anchor" id="line-100"></span><span class="anchor" id="line-101"></span><p class="line862">The fix is very easy: make sure your Apache Alias and <a class="nonexistent" href="./ScriptAlias.html">ScriptAlias</a> are NOT the same. This Apache setup will never work: <span class="anchor" id="line-102"></span><span class="anchor" id="line-103"></span><pre>Alias /wiki/ "/prefix/share/moin/htdocs/"
+<span class="anchor" id="line-104"></span>ScriptAlias /wiki/ "/var/www/wiki/moin.cgi"
+<span class="anchor" id="line-105"></span></pre><span class="anchor" id="line-106"></span><span class="anchor" id="line-107"></span><p class="line862">Alias is used to server static files: css, images etc. <a class="nonexistent" href="./ScriptAlias.html">ScriptAlias</a> is used to hide moin.cgi from the url. You must use different values! You can use anything you like for <a class="nonexistent" href="./ScriptAlias.html">ScriptAlias</a>, or Alias, but Alias must match the <tt class="backtick">url_prefix</tt> configuration option. Here is an example that works (the default): <span class="anchor" id="line-108"></span><span class="anchor" id="line-109"></span><pre># Apache config
+<span class="anchor" id="line-110"></span>Alias /wiki/ "/prefix/share/moin/htdocs/"
+<span class="anchor" id="line-111"></span></pre><span class="anchor" id="line-112"></span><p class="line867"><span class="anchor" id="line-113"></span><pre># Wiki config
+<span class="anchor" id="line-114"></span>    url_prefix = '/wiki'
+<span class="anchor" id="line-115"></span></pre><span class="anchor" id="line-116"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

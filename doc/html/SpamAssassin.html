@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>SpamAssassin</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">SpamAssassin</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line862">Leveraging SpamAssassin analysis from TMDA provides a nice way to reduce TMDA's challenge-response workload, in particular towards messages that are clearly spam, and/or those that are clearly ham according to SpamAssassin.  There are countless ways to combine SA with TMDA, so this page is here to collect descriptions of users different configurations.  Feel free to add your own page below describing how you use SA with TMDA, or add comments to an existing page. <span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><p class="line867">
+<h1 id="head-8a694810eb5522edbf417bb0357bcbe161ed45f3">Serverwide Setup</h1>
+<span class="anchor" id="line-6"></span><p class="line874">I use Spamassassin globaly with 'qmailqueue' Patch.   <span class="anchor" id="line-7"></span>My Configuration: <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><ul><li>daemontools <span class="anchor" id="line-10"></span></li><li>tcpserver <span class="anchor" id="line-11"></span></li><li><p class="line862">qmail with <a class="http" href="http://www.tnpi.biz/internet/mail/toaster/">Mail::Toaster Patch</a> by Matt Simerson and the actual 'SMTP AUTH' patch contributed by 'vpopmail 5.4.x' <span class="anchor" id="line-12"></span></li><li>vpopmail <span class="anchor" id="line-13"></span></li><li>spamassassin <span class="anchor" id="line-14"></span></li><li>tmda 1.0.2 <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span></li></ul><p class="line862">In my tcpserver rules file i use: <span class="anchor" id="line-17"></span><pre>127.0.0.1:allow,RELAYCLIENT=""
+<span class="anchor" id="line-18"></span>server_ip:allow,RELAYCLIENT=""
+<span class="anchor" id="line-19"></span>:allow,QMAILQUEUE="/var/qmail/bin/qmail-queue.spamd"
+<span class="anchor" id="line-20"></span></pre><span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line862">qmail-queue.spamd: <span class="anchor" id="line-23"></span><pre>#!/bin/sh
+<span class="anchor" id="line-24"></span>/usr/bin/spamc | /var/qmail/bin/qmail-queue.orig
+<span class="anchor" id="line-25"></span></pre><span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span><p class="line874">So only incoming mails are checked, not mails from localhost or ofmipd. <span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line862">my 'user/.qmail' files: <span class="anchor" id="line-30"></span><pre>|preline /usr/local/src/tmda/bin/tmda-filter -S ~vpopmail/bin/vpopmail-vdir.sh
+<span class="anchor" id="line-31"></span>./Maildir/
+<span class="anchor" id="line-32"></span></pre><span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span><p class="line862">my 'user/.tmda/config' files: <span class="anchor" id="line-35"></span><pre>macro SPAM_DELIVER deliver=/usr/local/vpopmail/domains/xxx.xx/enrico/Maildir/.spam/
+<span class="anchor" id="line-36"></span># spam to the spam folder
+<span class="anchor" id="line-37"></span>headers 'X-Spam-Level: \*\*\*\*\*\*\*\*' SPAM_DELIVER
+<span class="anchor" id="line-38"></span>headers 'Subject: \*\*\*\*\*SPAM\*\*\*\*\*' SPAM_DELIVER
+<span class="anchor" id="line-39"></span></pre><span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span><p class="line874">Quick and dirty... any comments, questions? <span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><p class="line867">
+<h2 id="head-52f16c00ff107b559238e900b6375f76b17f142b">Slight variation (spamd/spamc)</h2>
+<span class="anchor" id="line-44"></span><span class="anchor" id="line-45"></span><p class="line874">By using spamd/spamc, you can gain some efficiency by not having to launch two processes for every arriving message.  This setup is on a mailserver inside a firewall, which explains why I'm using a non-routable IP address in the second line of tcp.smtp. <span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span><p class="line862">tcp.smtp: <span class="anchor" id="line-48"></span><pre>127.:allow,RELAYCLIENT=""
+<span class="anchor" id="line-49"></span>192.168.0.:allow,RELAYCLIENT="",QMAILQUEUE="/usr/local/bin/qmail-spamc"
+<span class="anchor" id="line-50"></span></pre><span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span><p class="line862">rc.local: <span class="anchor" id="line-53"></span><pre>/usr/local/bin/spamd &amp;
+<span class="anchor" id="line-54"></span></pre><span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line862">~/.tmda/filters/incoming: <span class="anchor" id="line-57"></span><pre># Whitelist/blacklist/filter rules here...
+<span class="anchor" id="line-58"></span># Drop spam above a certain threshold
+<span class="anchor" id="line-59"></span>headers "^X-Spam-Level: \*\*\*\*\*\*\*\*\*\*\*" drop 
+<span class="anchor" id="line-60"></span># Save questionable spam for later review
+<span class="anchor" id="line-61"></span>headers "^X-Spam-Level: \*\*\*\*\*" deliver=~/MailFolders/spam/
+<span class="anchor" id="line-62"></span>EOF
+<span class="anchor" id="line-63"></span></pre><span class="anchor" id="line-64"></span><span class="anchor" id="line-65"></span><p class="line874">Messages that aren't marked as spam are handled by the TMDA confirmation process. <span class="anchor" id="line-66"></span><span class="anchor" id="line-67"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-68"></span>
+<h1 id="head-f275bb5aedbd32db6c90b8ff85e88bd0758acd69">Shell Account Setup (non-serverwide)</h1>
+<span class="anchor" id="line-69"></span><p class="line874">A simple setup for a qmail server where you only have access through .qmail files (like on a shell account with an ISP) <span class="anchor" id="line-70"></span><span class="anchor" id="line-71"></span><p class="line862">First set up a file ".default-delivery" that contains: <span class="anchor" id="line-72"></span><pre>| /var/qmail/bin/preline /path/to/spamassassin | /path/to/tmda/bin/tmda-filter
+<span class="anchor" id="line-73"></span>/path/to/Maildir/
+<span class="anchor" id="line-74"></span></pre><span class="anchor" id="line-75"></span><span class="anchor" id="line-76"></span><p class="line874">Now soft link .qmail-default and .qmail to this file. In my case I have a set of domains pointed at my shell account, so I set up specific users on domains and dont use a catch all .qmail file. To do this I soft link .qmail-mydomain:com-marcus-default and .qmail-mydomain:com-marcus to this file - your setup may well be different. <span class="anchor" id="line-77"></span><span class="anchor" id="line-78"></span><p class="line874">My incoming filter deals with mail in this order: virus tagged mail gets put on hold, blacklisted mail gets bounced, whitelisted mail gets allowed through, mail tagged as spam is put on hold (I trust spamassassin enough that I rarely look at the pending directory and it gets cleaned out every 30 days). <span class="anchor" id="line-79"></span><span class="anchor" id="line-80"></span><p class="line862">So in my incoming filter I have something like: <span class="anchor" id="line-81"></span><pre>
+<span class="anchor" id="line-82"></span># Put virus tagged mail on hold
+<span class="anchor" id="line-83"></span>pipe "/path/to/virusscan" hold
+<span class="anchor" id="line-84"></span>
+<span class="anchor" id="line-85"></span># bounce blacklisted email
+<span class="anchor" id="line-86"></span>from-file ${DATADIR}/lists/blacklist bounce
+<span class="anchor" id="line-87"></span>
+<span class="anchor" id="line-88"></span># allow whitelisted email
+<span class="anchor" id="line-89"></span>from-file ${DATADIR}/lists/whitelist ok
+<span class="anchor" id="line-90"></span>from-file ${DATADIR}/lists/whitelist-confirmed ok
+<span class="anchor" id="line-91"></span>
+<span class="anchor" id="line-92"></span># Put all spam on hold
+<span class="anchor" id="line-93"></span>headers "X-Spam-Status: YES.*" hold
+<span class="anchor" id="line-94"></span>
+<span class="anchor" id="line-95"></span># confirm everything else
+<span class="anchor" id="line-96"></span>from * confirm
+<span class="anchor" id="line-97"></span>
+<span class="anchor" id="line-98"></span></pre><span class="anchor" id="line-99"></span><span class="anchor" id="line-100"></span><p class="line862">Where ${DATADIR} is my .tmda directory. I set spamassassins spam level score to 5 points - this generates a few incorrect results but they end up going though the confirm process mainly anyway. I used to be clever and drop spam with scores over 10 points but I dont get much spam on my ISP account (I'm _very_ protective about my home email address). If you want to drop spams over a certain score and hold spams under that score you can use: <span class="anchor" id="line-101"></span><pre>
+<span class="anchor" id="line-102"></span># drop all spam with a level 10+
+<span class="anchor" id="line-103"></span>
+<span class="anchor" id="line-104"></span>headers 'X-Spam-Level: \*\*\*\*\*\*\*\*\*\*.*' drop
+<span class="anchor" id="line-105"></span>
+<span class="anchor" id="line-106"></span># hold all spam above level 5, below 10 (header rule above deals
+<span class="anchor" id="line-107"></span># with level 10 and above remember)
+<span class="anchor" id="line-108"></span>
+<span class="anchor" id="line-109"></span>headers 'X-Spam-Level: \*\*\*\*\*.*' hold
+<span class="anchor" id="line-110"></span>
+<span class="anchor" id="line-111"></span># confirm all spam above level 4, below 5 (header rules above deal
+<span class="anchor" id="line-112"></span># with levels 5 and above remember)
+<span class="anchor" id="line-113"></span>
+<span class="anchor" id="line-114"></span>headers 'X-Spam-Level: \*\*\*\*.*' confirm
+<span class="anchor" id="line-115"></span>
+<span class="anchor" id="line-116"></span></pre><span class="anchor" id="line-117"></span><span class="anchor" id="line-118"></span><p class="line862">If you prefer you can use the regexp <span class="anchor" id="line-119"></span><pre>
+<span class="anchor" id="line-120"></span># 10 *'s or more
+<span class="anchor" id="line-121"></span>headers 'X-Spam-Level: \*\{10\}' drop
+<span class="anchor" id="line-122"></span># 5 *'s or more
+<span class="anchor" id="line-123"></span>headers 'X-Spam-Level: \*\{5\}' hold
+<span class="anchor" id="line-124"></span># 4 *'s or more
+<span class="anchor" id="line-125"></span>headers 'X-Spam-Level: \*\{4\}' confirm
+<span class="anchor" id="line-126"></span>
+<span class="anchor" id="line-127"></span></pre><span class="anchor" id="line-128"></span><span class="anchor" id="line-129"></span><p class="line874">You may need to add ".*" to the end of the regexp (after the curly brace). <span class="anchor" id="line-130"></span><span class="anchor" id="line-131"></span><span class="anchor" id="line-132"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-133"></span>
+<h1 id="head-ea22456bbc0e117004ecd50426b64402bfa1c550">Via procmail</h1>
+<span class="anchor" id="line-134"></span><span class="anchor" id="line-135"></span><p class="line867">
+<h2 id="head-b302333a8732b2e6d469c17968e2aedf1be5e58e">.procmailrc</h2>
+<span class="anchor" id="line-136"></span><p class="line862">I have this in my .procmailrc: <pre># If it's not going to a TMDA tagged address, 
+<span class="anchor" id="line-137"></span># and it's not already been to see TMDA (because it's a confirmed message),
+<span class="anchor" id="line-138"></span># then run it through spamassassin
+<span class="anchor" id="line-139"></span>
+<span class="anchor" id="line-140"></span>:0 fw
+<span class="anchor" id="line-141"></span>* !^To: .*kyle-(exp|expires|dated|d|key|keyword|kw|cnf|confirm|c|snd|src|sender|
+<span class="anchor" id="line-142"></span>s)-.*@
+<span class="anchor" id="line-143"></span>* !^X-TMDA-
+<span class="anchor" id="line-144"></span>| spamassassin
+<span class="anchor" id="line-145"></span>
+<span class="anchor" id="line-146"></span># If it's to a dated address, I want to give it a chance to deliver even if
+<span class="anchor" id="line-147"></span># TMDA considers the address expired.  If it's still valid, don't spam check
+<span class="anchor" id="line-148"></span># it.  TMDA may act on the SA headers before it realizes it's a valid dated
+<span class="anchor" id="line-149"></span># address.  That is, I want valid dated addresses to deliver even if SA thinks
+<span class="anchor" id="line-150"></span># they're spam.
+<span class="anchor" id="line-151"></span>
+<span class="anchor" id="line-152"></span>:0 fw
+<span class="anchor" id="line-153"></span>* !^X-TMDA-
+<span class="anchor" id="line-154"></span>* ^To: .*\/kyle-(exp|expires|dated|d)-.*@
+<span class="anchor" id="line-155"></span>* $!? /usr/bin/tmda-check-address '$MATCH' | grep -q '^STATUS: VALID'
+<span class="anchor" id="line-156"></span>| spamassassin
+<span class="anchor" id="line-157"></span>
+<span class="anchor" id="line-158"></span># There's no point in letting TMDA see these now.
+<span class="anchor" id="line-159"></span>:0
+<span class="anchor" id="line-160"></span>* ^X-Spam-Status: No
+<span class="anchor" id="line-161"></span>$DEFAULT
+<span class="anchor" id="line-162"></span>
+<span class="anchor" id="line-163"></span># Run the message through tmda-filter.
+<span class="anchor" id="line-164"></span></pre><span class="anchor" id="line-165"></span><span class="anchor" id="line-166"></span><p class="line874">Before pasting that into your own config, be sure to change the login name (kyle) to your own, <span class="anchor" id="line-167"></span>and use the <a class="http" href="http://www.tmda.net/config-vars.html#TAGS_CONFIRM">tags</a> from your own TMDA setup. <span class="anchor" id="line-168"></span><span class="anchor" id="line-169"></span><p class="line862">It's important to avoid running SpamAssassin on anything that TMDA will consider a valid tagged address.  We want those messages to be delivered by TMDA regardless of what SpamAssassin thinks of them.  If we add the SpamAssassin analysis, TMDA could act on that when we don't want it to. <span class="anchor" id="line-170"></span><span class="anchor" id="line-171"></span><p class="line867"><strong>There are a couple of "gotchas" here.</strong> One is that delivering email that SpamAssassin considers ham directly to your mailbox bypasses blacklist entries that TMDA knows about.  It's possible for a blacklisted spammer to send a low scoring message and have it get to your mailbox.  The other thing is that the patterns above match the To: header for tagged addresses, but email can be sent to you at those addresses without it showing up in the To: part of the header.  If your MTA inserts Delivered-To: headers, it might be better to match those. <span class="anchor" id="line-172"></span><span class="anchor" id="line-173"></span><p class="line867">
+<h2 id="head-5a2db78fc9d1ed7462db160750c8768323ead953">.spamassassin/user_prefs</h2>
+<span class="anchor" id="line-174"></span><span class="anchor" id="line-175"></span><p class="line862">Here are parts of my SpamAssassin user_prefs: <pre># Don't fold the message into an attachment. 
+<span class="anchor" id="line-176"></span>report_safe 0
+<span class="anchor" id="line-177"></span>use_terse_report 1
+<span class="anchor" id="line-178"></span>
+<span class="anchor" id="line-179"></span># Messages -1.5 and higher are "suspicious"
+<span class="anchor" id="line-180"></span>required_hits -1.5
+<span class="anchor" id="line-181"></span>
+<span class="anchor" id="line-182"></span>bayes_ignore_header X-TMDA-Recipient
+<span class="anchor" id="line-183"></span>bayes_ignore_header X-TMDA-Action
+<span class="anchor" id="line-184"></span>bayes_ignore_header X-TMDA-Fingerprint
+<span class="anchor" id="line-185"></span>bayes_ignore_header X-TMDA-Confirmed
+<span class="anchor" id="line-186"></span>bayes_ignore_header X-TMDA-Confirm-Done
+<span class="anchor" id="line-187"></span>bayes_ignore_header X-TMDA-Originally-To
+<span class="anchor" id="line-188"></span></pre><span class="anchor" id="line-189"></span><span class="anchor" id="line-190"></span><p class="line862">The report_safe and use_terse_report settings are to accommodate confirmed messages.  Normally SpamAssassin will take the original message and fold it into an attachment and create a new message that encompasses it.  The problem I encountered was that the wrapper did not have a Return-Path: header, and TMDA didn't want to release it from pending when it was confirmed.  I use_terse_report just so that a released message doesn't have a big ugly SpamAssassin report at the top of it after it's confirmed.  I see now from <a class="http" href="http://www.spamassassin.org/doc/Mail_SpamAssassin_Conf.html#message%20tagging%20options">the documentation</a> that you can avoid the Return-Path: problem also using the report_safe_copy_headers option to include the Return-Path.  I haven't tried this myself. <span class="anchor" id="line-191"></span><span class="anchor" id="line-192"></span><p class="line862">The required_hits parameter is the maximum score at which SpamAssassin considers a message ham.  When I first implemented this, the SpamAssassin default (5) allowed all of SpamAssassin's false positives to get into my mailbox.  I set required_hits very low (-1.5) to avoid that problem.  You could also avoid the problem by eliminating the rules in .procmailrc and .tmda/filters/incoming which allow SpamAssassin-approved mail to be delivered. <span class="anchor" id="line-193"></span><span class="anchor" id="line-194"></span><p class="line862">The <a class="http" href="http://www.spamassassin.org/doc/Mail_SpamAssassin_Conf.html#learning%20options">bayes_ignore_header options</a> are used to make sure that SpamAssassin's bayesian classifier doesn't try to use those to identify messages. <span class="anchor" id="line-195"></span><span class="anchor" id="line-196"></span><p class="line867">
+<h2 id="head-da9b2e81e64d15039bbaea8254613de8432eeedc">.tmda/filters/incoming</h2>
+<span class="anchor" id="line-197"></span><p class="line862">Finally, the TMDA part of this setup is pretty simple.  This is at the end of my <a class="http" href="http://www.tmda.net/config-vars.html#FILTER_INCOMING">FILTER_INCOMING</a>: <pre># 
+<span class="anchor" id="line-198"></span># At this point, we know the message is NOT on my whitelist,
+<span class="anchor" id="line-199"></span># and it's also not on any blacklist.  Procmail is set up to
+<span class="anchor" id="line-200"></span># filter the message through SpamAssassin only when it's not
+<span class="anchor" id="line-201"></span># to a tagged address.  Therefore, the following rules will not
+<span class="anchor" id="line-202"></span># match a tagged addressed mail, and those will be evaluated
+<span class="anchor" id="line-203"></span># based on their tags.
+<span class="anchor" id="line-204"></span>#
+<span class="anchor" id="line-205"></span>
+<span class="anchor" id="line-206"></span>#                       1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+<span class="anchor" id="line-207"></span>headers 'X-Spam-Level: \*\*\*\*\*\*\*\*\*\*\*' hold
+<span class="anchor" id="line-208"></span>headers 'X-Spam-Status: No' ok
+<span class="anchor" id="line-209"></span></pre><span class="anchor" id="line-210"></span><span class="anchor" id="line-211"></span><p class="line862">The first rule says that a message with a spam level of 11 or more will be held without challenge.  Note that the second rule is redundant since those messages were already delivered by procmail using a similar rule.  It's important that this come at the end of the config so that whitelists and blacklists have a chance to deliver/drop the message first.  The rule based on SpamAssassin's headers is the last thing TMDA sees before it takes its <a class="http" href="http://www.tmda.net/config-vars.html#ACTION_INCOMING">ACTION_INCOMING</a>. <span class="anchor" id="line-212"></span>
+<h2 id="head-16c0d2e9d9b3207db06fa33e24b75b8b32e718ea">Summary</h2>
+<span class="anchor" id="line-213"></span><span class="anchor" id="line-214"></span><ul><li><p class="line862">Email to TMDA tagged addresses does <em>not</em> go to SpamAssassin. <span class="anchor" id="line-215"></span></li><li><p class="line862">Email to invalid (typically expired) dated addresses <em>does</em> go to SpamAssassin. <span class="anchor" id="line-216"></span></li><li><p class="line862">Anything that goes to SpamAssassin can be delivered directly if SpamAssassin loves it (i.e., it scores less than the required_hits parameter in the SpamAssassin config). <span class="anchor" id="line-217"></span></li><li><p class="line862">TMDA's whitelist, etc., in filters/incoming takes precedence over SpamAssassin. <span class="anchor" id="line-218"></span></li><li><p class="line862">Anything that goes to SpamAssassin can be held without challenge if SpamAssassin hates it (based on the X-Spam-Level that filters/incoming sees). <span class="anchor" id="line-219"></span></li><li><p class="line862">Email that does not go to SpamAssassin is treated however TMDA wants to treat it. <span class="anchor" id="line-220"></span><span class="anchor" id="line-221"></span></li></ul><p class="line874">Ultimately, TMDA gets the mail meant for it (tagged addresses) and treats <span class="anchor" id="line-222"></span>it on its terms.  Email that SpamAssassin loves (scores under required_hits) bypasses <span class="anchor" id="line-223"></span>TMDA.  Everything else is subject to TMDA's white/black lists and then <span class="anchor" id="line-224"></span>either held or challenged based on how much SpamAssassin hated it (X-Spam-Level). <span class="anchor" id="line-225"></span><span class="anchor" id="line-226"></span><p class="line867">
+<h1 id="head-dcef8b7c15d66b6a2202881b00b5dbfe5e9f9e75">Another procmail approach</h1>
+<span class="anchor" id="line-227"></span><p class="line874">This is much more simplistic than the previous approach. <span class="anchor" id="line-228"></span><span class="anchor" id="line-229"></span><p class="line874">Here's the relevant portion of my .procmailrc.  It runs spamc rather than the full SA, then runs tmda, which delivers my mail:  <span class="anchor" id="line-230"></span><span class="anchor" id="line-231"></span><pre>#spam assassin
+<span class="anchor" id="line-232"></span>#spamc requires spamd (/etc/init.d/spamassassin) to be running
+<span class="anchor" id="line-233"></span>#f = consider this a filter; w = wait for completion
+<span class="anchor" id="line-234"></span>#:0 fw: spamassassin.lock
+<span class="anchor" id="line-235"></span>:0 fw
+<span class="anchor" id="line-236"></span>| /usr/bin/spamc
+<span class="anchor" id="line-237"></span>
+<span class="anchor" id="line-238"></span>
+<span class="anchor" id="line-239"></span># Run the message through tmda-filter.
+<span class="anchor" id="line-240"></span>:0 w
+<span class="anchor" id="line-241"></span>| /usr/bin/tmda-filter
+<span class="anchor" id="line-242"></span>
+<span class="anchor" id="line-243"></span># Take the exit code from TMDA.
+<span class="anchor" id="line-244"></span># If the exit code indicates failure,
+<span class="anchor" id="line-245"></span># exim will keep the message in its queue, even if
+<span class="anchor" id="line-246"></span># it's already been delivered
+<span class="anchor" id="line-247"></span>EXITCODE=$?
+<span class="anchor" id="line-248"></span>
+<span class="anchor" id="line-249"></span># TMDA takes care of final delivery 
+<span class="anchor" id="line-250"></span># NOTE THIS WILL LOSE ALL YOU EMAIL IF TMDA HAS NOT BEEN
+<span class="anchor" id="line-251"></span># SET UP TO DELIVER YOUR EMAIL.....
+<span class="anchor" id="line-252"></span>DEFAULT=/dev/null
+<span class="anchor" id="line-253"></span>
+<span class="anchor" id="line-254"></span></pre><span class="anchor" id="line-255"></span><span class="anchor" id="line-256"></span><p class="line862">Then, in my .tmda/filters/incoming, I have the following -- <em>after</em> all of my whitelists and various acceptance rules : <span class="anchor" id="line-257"></span><span class="anchor" id="line-258"></span><p class="line867"><span class="anchor" id="line-259"></span><pre>#from SpamAssassin
+<span class="anchor" id="line-260"></span>headers 'X-Spam-Flag: YES' deliver=~/mail/spam
+<span class="anchor" id="line-261"></span></pre><span class="anchor" id="line-262"></span><span class="anchor" id="line-263"></span><p class="line867">SpamAssassin on my system sets the above flag when a message scores at least a five.  Here's the relevant portion of my /etc/spamassassin/local.cf :  <span class="anchor" id="line-264"></span><span class="anchor" id="line-265"></span><p class="line867"><span class="anchor" id="line-266"></span><pre>required_hits 5.0 
+<span class="anchor" id="line-267"></span></pre><span class="anchor" id="line-268"></span><span class="anchor" id="line-269"></span><p class="line874">And that's it! <span class="anchor" id="line-270"></span><span class="anchor" id="line-271"></span><span class="anchor" id="line-272"></span><p class="line867">
+<h1 id="head-32e455ee7d41581c8def602826101e3e72c6367a">qmail-smtpd with tmda-inject for vpopmail users</h1>
+<span class="anchor" id="line-273"></span><span class="anchor" id="line-274"></span><p class="line874">This setup allows for only running one daemon for incoming smtp connection.  It uses tmda-inject for users that authenicated and have tmda installed on there account.  I find it works very well, but on the the big downsides is that qmail-smtpd must be running as the UID and GID of the vpopmail accounts.  In the future I think a small C wrapper program could be have the suid set and it will then run tmda-inject.  I just have not gotten around to this, as it works now, and I am lazy. <span class="anchor" id="line-275"></span><span class="anchor" id="line-276"></span><p class="line874">Somethings used to get this working: <span class="anchor" id="line-277"></span><ul><li><p class="line862">[^<a class="http" href="http://tmda.net">http://tmda.net</a> TMDA] <img alt=";)" height="15" src="./mentalwealth/img/smile4.png" title=";)" width="15" /> <span class="anchor" id="line-278"></span></li><li><p class="line862">[^<a class="http" href="http://www.skarnet.org/software/execline/index.html">http://www.skarnet.org/software/execline/index.html</a> execline] not required but fun to learn and gets rid of all the little /bin/sh  <span class="anchor" id="line-279"></span></li><li><p class="line862">[<sup>http://smarden.org/ipsvd/ ipsvd] Because I could have make it easy.  Easy replaced with [</sup><a class="http" href="http://cr.yp.to/ucspi-tcp.html">http://cr.yp.to/ucspi-tcp.html</a> ucspi] <span class="anchor" id="line-280"></span></li><li><p class="line862">[^<a class="http" href="http://untroubled.org/qmail-qfilter/">http://untroubled.org/qmail-qfilter/</a> qmail-qfilter]  <span class="anchor" id="line-281"></span></li><li><p class="line862">[^<a class="http" href="http://cr.yp.to/qmail.html">http://cr.yp.to/qmail.html</a> Qmail] Plus the SMTP-AUTH and STARTTLS Patches. <span class="anchor" id="line-282"></span></li><li><p class="line862">[^<a class="http" href="http://www.inter7.com/index.php?page=vpopmail">http://www.inter7.com/index.php?page=vpopmail</a> Vpopmail]  <span class="anchor" id="line-283"></span><span class="anchor" id="line-284"></span></li></ul><p class="line867">
+<h2 id="head-fcab2fb4edfa7f97aecb1b80ce88c09dc5131dab">qmail-smtpd run script</h2>
+<span class="anchor" id="line-285"></span><p class="line867"><span class="anchor" id="line-286"></span><pre>#!/command/execlineb
+<span class="anchor" id="line-287"></span>multisubstitute
+<span class="anchor" id="line-288"></span>{
+<span class="anchor" id="line-289"></span>  define limit "421 per host concurrency limit reached\\r\\n"
+<span class="anchor" id="line-290"></span>  backtick -n me { head -1 /var/qmail/control/me }
+<span class="anchor" id="line-291"></span>  backtick -n concurrencysmtp { head -1 /var/qmail/control/concurrencysmtp }
+<span class="anchor" id="line-292"></span>  backtick -n QMAILQUEUE { head -1 /var/qmail/control/qmailqueue }
+<span class="anchor" id="line-293"></span>}
+<span class="anchor" id="line-294"></span>export QMAILQUEUE ${QMAILQUEUE}
+<span class="anchor" id="line-295"></span>fdmove -c 2 1
+<span class="anchor" id="line-296"></span>chpst -m 8000000
+<span class="anchor" id="line-297"></span>tcpsvd -vv -uvpopmail -x./peers.cdb -c100 -C${concurrencysmtp} 0.0.0.0 25 /var/qmail/bin/qmail-smtpd ${me} /usr/local/vpopmail/bin/vchkpw /usr/bin/true
+<span class="anchor" id="line-298"></span></pre><span class="anchor" id="line-299"></span><p class="line874">/var/qmail/control/qmailqueue File in the run script allows me to keep my default settings in /var/qmail/control.  This File just contains: <span class="anchor" id="line-300"></span><span class="anchor" id="line-301"></span><pre>/var/qmail/bin/qfilter-tmda
+<span class="anchor" id="line-302"></span></pre><span class="anchor" id="line-303"></span><p class="line867">
+<h2 id="head-8c2610a969c5991119ba2d4bb233f19b33be8ecc">qmail-queue processing</h2>
+<span class="anchor" id="line-304"></span><p class="line874">The File Below /var/qmail/bin/qfilter-tmda is called for with the QMAILQUEUE Patch on all incoming smtp connection.  This little script will first check to see if SMTP-AUTH was use and if so it will check for that a .tmda/config file in the users vpopmail homedir.  If any test fails the mail will be handed off to qmail-scanner.pl to be scanned and processed as normal. <span class="anchor" id="line-305"></span><span class="anchor" id="line-306"></span><pre>#!/command/execlineb
+<span class="anchor" id="line-307"></span>unexport QMAILQUEUE
+<span class="anchor" id="line-308"></span>importas WHO TCPREMOTEINFO
+<span class="anchor" id="line-309"></span>ifthenelse { test "X${WHO}" != "X" }
+<span class="anchor" id="line-310"></span>{
+<span class="anchor" id="line-311"></span>  backtick -n HOMEDIR { /usr/local/vpopmail/bin/vuserinfo -d ${WHO} }
+<span class="anchor" id="line-312"></span>  ifthenelse { test -r ${HOMEDIR}/.tmda/config }
+<span class="anchor" id="line-313"></span>  {
+<span class="anchor" id="line-314"></span>    /var/qmail/bin/qmail-qfilter /usr/local/share/tmda/bin/tmda-inject -q -c ${HOMEDIR}/.tmda/config
+<span class="anchor" id="line-315"></span>  }
+<span class="anchor" id="line-316"></span>  {
+<span class="anchor" id="line-317"></span>    /var/qmail/bin/qmail-scanner-queue.pl
+<span class="anchor" id="line-318"></span>  }
+<span class="anchor" id="line-319"></span>}
+<span class="anchor" id="line-320"></span>{
+<span class="anchor" id="line-321"></span>  /var/qmail/bin/qmail-scanner-queue.pl
+<span class="anchor" id="line-322"></span>}
+<span class="anchor" id="line-323"></span></pre><span class="anchor" id="line-324"></span><span class="anchor" id="line-325"></span><p class="line874">Have fun........ <span class="anchor" id="line-326"></span><span class="anchor" id="line-327"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-328"></span>
+<h1 id="head-dbab524eb038187ed10827e008cb94c32cc41312">Qmailrocks installation + TMDA</h1>
+<span class="anchor" id="line-329"></span><p class="line862">I did a complete qmailrocks installation (<a class="http" href="http://www.qmailrocks.org/">http://www.qmailrocks.org/</a>) with Vpopmail, Clam Antivirus and SpamAssassin and then I installed TMDA. <span class="anchor" id="line-330"></span><span class="anchor" id="line-331"></span><p class="line862">Contents of my /home/vpopmail/domains/xxx.yyy/user/.tmda/filters/incoming: <span class="anchor" id="line-332"></span><pre>from-file /home/vpopmail/domains/xxx.yyy/user/.tmda/lists/whitelist ok
+<span class="anchor" id="line-333"></span>from-file /home/vpopmail/domains/xxx.yyy/user/.tmda/lists/blacklist drop
+<span class="anchor" id="line-334"></span>#
+<span class="anchor" id="line-335"></span># Option: Deliver spamassassin spamtagged mail directly to spam folder,
+<span class="anchor" id="line-336"></span># do not challenge it:
+<span class="anchor" id="line-337"></span>#macro SPAM_DELIVER deliver=/home/vpopmail/domains/xxx.yyy/user/Maildir/.spam/
+<span class="anchor" id="line-338"></span>#headers 'Subject: :SPAM:' SPAM_DELIVER
+<span class="anchor" id="line-339"></span>#
+<span class="anchor" id="line-340"></span># Option: Deliver spamassassin spamtagged mail as usual,
+<span class="anchor" id="line-341"></span># do not challenge it (MUA spam sorting rule perhaps?):
+<span class="anchor" id="line-342"></span>headers 'Subject: :SPAM:' ok
+<span class="anchor" id="line-343"></span># Option: Deliver sa spam level &lt;= 1.0 as usual:
+<span class="anchor" id="line-344"></span>headers 'X-Spam-Status:.*hits=0\..*' ok
+<span class="anchor" id="line-345"></span>headers 'X-Spam-Status:.*hits=1\.0.*' ok
+<span class="anchor" id="line-346"></span>
+<span class="anchor" id="line-347"></span></pre><span class="anchor" id="line-348"></span><span class="anchor" id="line-349"></span><p class="line874">Order of spam detection checks: <span class="anchor" id="line-350"></span><span class="anchor" id="line-351"></span><p class="line862">1. MTA level: RBL lookups with rblsmtpd, permanent error 553 if sender blacklisted.<br />
+ <span class="anchor" id="line-352"></span>2. qmail-scanner + Clam Antivirus: quarantine if virus found<br />
+ <span class="anchor" id="line-353"></span>3. SpamAssassin: Only tag Subject as spam if score treshold reached (never delete, reject or quarantine)<br />
+ <span class="anchor" id="line-354"></span>4. TMDA: check lists and follow rules, possible c/r<br />
+ <span class="anchor" id="line-355"></span>5. MUA: Filter mail tagged as spam to special folder<br />
+ <span class="anchor" id="line-356"></span>6. Wetware: Have a quick look on mails in spam folder, perhaps a look on TMDA Pending with tmda-cgi also. <span class="anchor" id="line-357"></span><span class="anchor" id="line-358"></span><p class="line874">Some scenarios: <span class="anchor" id="line-359"></span><span class="anchor" id="line-360"></span><p class="line874">1. A virus infected mail arrives: clamav takes care of it and quarantines it. No notification is sent from clamav to the sender: this address is probably spoofed anyway. This mail will not be processed by spamassassin or TMDA. <span class="anchor" id="line-361"></span><span class="anchor" id="line-362"></span><p class="line874">2. A clean mail arrives (no virus found) but spamassassin tags it as spam (Subject: :SPAM:): I prefer to not challenge it with TMDA, the sender address is likely spoofed anyway, and instead deliver it as usual and let the recipient deal with it in the MUA: a rule which matches the ":SPAM:" in the Subject: and moves it to a dedicated spam folder might be a good idea. <span class="anchor" id="line-363"></span><span class="anchor" id="line-364"></span><p class="line874">3. A clean mail arrives (no virus found) and spamassassin does not tag it as spam and the sender is TMDA whitelisted: Deliver it as usual. No other action taken. <span class="anchor" id="line-365"></span><span class="anchor" id="line-366"></span><p class="line862">4. A clean mail arrives (no virus found) and spamassassin does not tag it as spam and the sender is not TMDA whitelisted but spamassassin gives it a score &lt;= 1.0: Deliver it as usual. No other action taken. <span class="anchor" id="line-367"></span><span class="anchor" id="line-368"></span><p class="line862">5. A clean mail arrives (no virus found) and spamassassin does not tag it as spam and the sender is not TMDA whitelisted but spamassassin gives it a score &gt; 1.0: Finally, this is the right time for TMDA to do it's job and send a challenge to the sender <img alt=":-)" height="15" src="./mentalwealth/img/smile.png" title=":-)" width="15" /> <span class="anchor" id="line-369"></span><span class="anchor" id="line-370"></span><p class="line874">I use one or two relatively safe RBL lists with rblsmtpd (few false positives). One improvement to this setup would be to check if the sender domain is valid at the MTA level (check domain for MX/A records). <span class="anchor" id="line-371"></span><span class="anchor" id="line-372"></span><p class="line874">Summary: <span class="anchor" id="line-373"></span><span class="anchor" id="line-374"></span><p class="line874">I think this is a good configuration which ensures that TMDA is pretty quiet and avoids sending challenges to spoofed sender addresses, which anti C/R people usually complain about. <span class="anchor" id="line-375"></span><span class="anchor" id="line-376"></span><span class="anchor" id="line-377"></span><p class="line874">Timo <span class="anchor" id="line-378"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

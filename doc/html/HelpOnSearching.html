@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnSearching</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnSearching</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867">
+<h1 id="head-e8b204d51c2b2ec78708e2ff72413e6178e1799f">1. Queries</h1>
+<span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line862">With the <a href="./MoinMoin.html">MoinMoin</a> search engine the same search patterns are allowed in the search and title search input fields as in the parameters for the <tt>FullSearch</tt> and the <tt>PageList</tt> macros. <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><ul><li>There may be several search term seperated by white space <span class="anchor" id="line-12"></span><ul><li>Terms are combined by default with an AND operation - only pages containing all search term are returned <span class="anchor" id="line-13"></span></li><li>Double or single quotes may be used to include white space into search terms. <span class="anchor" id="line-14"></span></li></ul></li><li><p class="line891"><tt>-</tt> before a search term means NOT - pages containing this term are excluded from the result <span class="anchor" id="line-15"></span></li><li><p class="line891"><tt>regex:TERM</tt> is treated as regular expression <span class="anchor" id="line-16"></span></li><li><p class="line891"><tt>title:TERM</tt> searches in pages that their titles match TERM <span class="anchor" id="line-17"></span><ul><li>Normal search terms do search the titles, too. Matches in titles get more weight as matches in pages. <span class="anchor" id="line-18"></span></li></ul></li><li><p class="line891"><tt>case:TERM</tt> searches case sensitive <span class="anchor" id="line-19"></span></li><li><p class="line891"><tt>linkto:TERM</tt> searches for links to TERM <span class="anchor" id="line-20"></span></li><li><p class="line891"><tt>title:</tt>, <tt>regex:</tt>, <tt>linkto:</tt> and <tt>case:</tt> may be used in combination in one search term <span class="anchor" id="line-21"></span><ul><li><p class="line862">these modifiers may be abbreviated to any length: e. g. <tt>re:</tt>, <tt>t:</tt>, <tt>reg:</tt>, <tt>cas:</tt>, <tt>l:</tt> <span class="anchor" id="line-22"></span></li><li><p class="line891"><tt>-</tt> must be put before any other modifiers <span class="anchor" id="line-23"></span></li></ul></li><li><p class="line891"><tt>or</tt> operator has a lower precedence than the implicit AND <span class="anchor" id="line-24"></span></li><li>Parentheses can be used for grouping <span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span></li></ul><p class="line867">
+<h2 id="head-6f8e9e70d1510805dd3a13bb693142f256c5003d">1.1. Examples</h2>
+<span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line867"><span class="anchor" id="line-29"></span><pre>title:Help macro
+<span class="anchor" id="line-30"></span></pre><span class="anchor" id="line-31"></span><p class="line874">searches for help pages that contain the word "macro". <span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span><p class="line867"><span class="anchor" id="line-34"></span><pre>apple (computer or "operating system")
+<span class="anchor" id="line-35"></span></pre><span class="anchor" id="line-36"></span><p class="line874">searches for pages containing the word "apple" and at least one of "computer" or "operating system". <span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><p class="line867"><span class="anchor" id="line-39"></span><pre>windows winamp or linux xmms
+<span class="anchor" id="line-40"></span></pre><span class="anchor" id="line-41"></span><p class="line874">searches for pages containing both "windows" and "winamp", and also for pages containing both "linux" and "xmms". <span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><p class="line867"><span class="anchor" id="line-44"></span><pre>"is text"
+<span class="anchor" id="line-45"></span></pre><span class="anchor" id="line-46"></span><p class="line862">Will match "th<strong>is text</strong>" or "<strong>is text</strong>s". Quotes are used only to include whitespace, and do not mean "exactly this phrase". <span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span><p class="line867"><span class="anchor" id="line-49"></span><pre>linkto:WindowsPage title:Linux
+<span class="anchor" id="line-50"></span></pre><p class="line862"> searches for pages that have "Linux" in the page name and that link to WindowsPage<span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span><p class="line867"><span class="anchor" id="line-53"></span><pre>r:\bdog\b
+<span class="anchor" id="line-54"></span></pre><p class="line862"> searches for the word "dog" and does <em>not</em> find e.g. the word "doggy"<span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line867">
+<h2 id="head-c8ae2de9d1eed6db4bf9247c1c99f48d65958063">1.2. TitleSearch and PageList</h2>
+<span class="anchor" id="line-57"></span><ul><li>uses the same patterns <span class="anchor" id="line-58"></span></li><li><p class="line891"><tt>title:</tt> is virtually added to every search term <span class="anchor" id="line-59"></span></li></ul><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

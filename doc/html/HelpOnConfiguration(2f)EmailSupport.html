@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnConfiguration/EmailSupport</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnConfiguration/EmailSupport</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867">
+<h2 id="head-d92e50cee00792eb1b81c8453c4754a8d0d4e998">Enabling Email Support</h2>
+<span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line862">In order to enable email support, you must specify the <tt class="backtick">From:</tt> address with "<tt class="backtick">mail_from</tt>".  Furthermore, you must enable a transport, either by SMTP (use "<tt class="backtick">mail_smarthost</tt>" to enable it) or by sendmail (use "<tt class="backtick">mail_sendmail</tt>" to enable it). If you use "<tt class="backtick">mail_smarthost</tt>" and the server requires authentication, then set "<tt class="backtick">mail_login</tt>", too.  <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><dl><dt>mail_from</dt><dd><p class="line862">This value is used for the "<tt class="backtick">From:</tt>" and "<tt class="backtick">To:</tt>" headers in the emails sent (the "<tt class="backtick">To:</tt>" has email address privacy reasons, email is not really sent to this address, but we don't want to disclose any real recipient address). <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span></dd><dt>mail_smarthost</dt><dd><p class="line862">This is the IP or domain name of an <a class="interwiki" href="http://foldoc.doc.ic.ac.uk/foldoc/foldoc.cgi?query=SMTP" title="FOLDOC">SMTP</a> enabled server. On a Unix host, you can try to use <tt class="backtick">localhost</tt>; on a Windows machine this will normally be a machine in your LAN or some host of your ISP. <span class="anchor" id="line-14"></span></dd><dt>mail_login</dt><dd><p class="line862">This is only needed when you use <tt class="backtick">mail_smarthost</tt> and a server that requires SMTP AUTH to send mail; in that case, set this to the username and password separated by a space, i.e. <tt class="backtick">"user&nbsp;pwd"</tt>. <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span></dd><dt>mail_sendmail</dt><dd>This is a local command to run to send a message.  If set to e.g. '/usr/sbin/sendmail -t -i', use this sendmail command to send mail.  This is only useful on machines that have a mail transport agent installed. <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span></dd></dl><p class="line862">See also <a href="./HelpOnConfiguration.html">HelpOnConfiguration</a>. <span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span><p class="line867">
+<h2 id="head-74b9b5c6f9d75a9401bab6f155a976df75e4d623">Email Features</h2>
+<span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line867"><a href="./MoinMoin.html">MoinMoin</a> currently offers two email-based services, which are explained in the following sections. <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><p class="line867">
+<h3 id="head-af01f3e2f44dcb56855265e9acb167c078f5ce6c">1. Sending Login Data</h3>
+<span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line862">If emailing is available, the <a href="./UserPreferences.html">UserPreferences</a> dialog is expanded with a field "Your email address" and a button " Mail me my account data ". The user can enter the email address he provided at registration and then gets an email containing all necessary data to re-login, after clicking the button. <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line867">
+<h3 id="head-0b5d2f980bbfac9ea21fdb5342c543bd1100809f">2. Change Notification</h3>
+<span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span><p class="line862">Any user can subscribe to changes of wiki pages by either clicking on the envelope icon <img alt="Subscribe" height="10" src="./mentalwealth/img/moin-subscribe.png" title="Subscribe" width="14" />, or by adding a regex to the "Subscribed wiki pages" field of his <a href="./UserPreferences.html">UserPreferences</a>. The system then sends, whenever a page is changed and the author doesn't uncheck the "Send mail notification" checkbox, an email with the author, a link to the page, and the diff of the change. The author does not get notified of his own changes. <span class="anchor" id="line-31"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

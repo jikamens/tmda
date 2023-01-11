@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TmdaFetchMailHowTo</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TmdaFetchMailHowTo</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-2"></span><p class="line867">
+<h2 id="head-05bdf92eb867d731b34dd0c6edf963bbac44767b">Fetchmail howto</h2>
+<span class="anchor" id="line-3"></span><p class="line874">How to use TMDA with fetchmail. <span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><p class="line874">This document explains how to install TMDA (tested with ver 1.0) to work with fetchmail. Only things that should be made differently from normal <span class="anchor" id="line-6"></span>TMDA configuration are explained; please read the TMDA documentation first! <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line874">My MTA is postfix, but I quess this should be easily converted to <span class="anchor" id="line-9"></span>work with other MTA's also. You need c-compiler to do this (unless <span class="anchor" id="line-10"></span>someone will translate the xtmdaheader.c to python...). My TMDA <span class="anchor" id="line-11"></span>version is 1.0 <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line874">1. Install fetchmail. <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line874">2. Install TMDA <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line862">3. Compile the <a class="attachment" href="attachments/TmdaFetchMailHowTo/xtmdaheader-1.1.c" title="attachment:xtmdaheader-1.1.c">xtmdaheader-1.1.c</a> (new version! finds also To: and Cc: - headers) and copy the result to your preferred directory. I copied it to ~/.tmda. <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line867"><span class="anchor" id="line-20"></span><pre>cc xtmdaheader.c -o xtmdaheader
+<span class="anchor" id="line-21"></span></pre><span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><p class="line874">4. when feeding the mail to TMDA, feed it first throught xtmdaheader. <span class="anchor" id="line-24"></span>With other MTA's, this might be different. This is how to do it in <span class="anchor" id="line-25"></span>postfix: <span class="anchor" id="line-26"></span>In .forward - file, instead of using <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line867"><span class="anchor" id="line-29"></span><pre>"| /path/to/bin/tmda-filter"
+<span class="anchor" id="line-30"></span></pre><span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span><p class="line874">use <span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span><pre>"| ~/.tmda/xtmdaheader youremailaddress@domain.xxx | /path/to/bin/tmda-filter"
+<span class="anchor" id="line-35"></span></pre><span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><p class="line874">5 Add the following lines (with your own data) to your ~/.tmda/config. Use the hostname of your email address, not your local hostname. <span class="anchor" id="line-39"></span><span class="anchor" id="line-40"></span><p class="line874">Recipient header is needed, because the recipient information is lost <span class="anchor" id="line-41"></span>with fetchmail. xtmdaheader extracts this from the mail headers. <span class="anchor" id="line-42"></span>Email addresses are needed, because your local email address will <span class="anchor" id="line-43"></span>propably not be the same than the address fetchmail gets the mail to. <span class="anchor" id="line-44"></span><span class="anchor" id="line-45"></span><p class="line867"><span class="anchor" id="line-46"></span><pre>RECIPIENT_HEADER = "X-RecFor-Recipient"
+<span class="anchor" id="line-47"></span>
+<span class="anchor" id="line-48"></span>CONFIRM_ADDRESS = "youremailaddress@domain.xxx"
+<span class="anchor" id="line-49"></span>
+<span class="anchor" id="line-50"></span>USERNAME = "username"
+<span class="anchor" id="line-51"></span>
+<span class="anchor" id="line-52"></span>HOSTNAME = "domain.xxx"
+<span class="anchor" id="line-53"></span>
+<span class="anchor" id="line-54"></span>FULLNAME = "Surname Lastname"
+<span class="anchor" id="line-55"></span></pre><span class="anchor" id="line-56"></span><span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><span class="anchor" id="line-59"></span><p class="line874">6. Optionally you can patch the tmda source; With the original <span class="anchor" id="line-60"></span>source, the emails that are released from the pending queue will <span class="anchor" id="line-61"></span>go to another round on the outside word. This does not stop it <span class="anchor" id="line-62"></span>from working, but it adds some (minimal) overhead to email servers. <span class="anchor" id="line-63"></span>Also mail is delayed a bit; you will not get the <span class="anchor" id="line-64"></span>released mail until the next fetchmail check. <span class="anchor" id="line-65"></span>By patching the TMDA, the mail won't get the extra round and you <span class="anchor" id="line-66"></span>get the mail immediately when it is released from the pending queue. <span class="anchor" id="line-67"></span>And here is the patch: <span class="anchor" id="line-68"></span><span class="anchor" id="line-69"></span><p class="line874">In the TMDA/Pending.Py, class Message: Change the line <span class="anchor" id="line-70"></span><span class="anchor" id="line-71"></span><pre>            self.recipient = self.msgobj.get('x-tmda-recipient')
+<span class="anchor" id="line-72"></span>to
+<span class="anchor" id="line-73"></span>            self.recipient = self.msgobj.get('delivered-to')
+<span class="anchor" id="line-74"></span></pre><span class="anchor" id="line-75"></span><span class="anchor" id="line-76"></span><p class="line874">In the bin/tmda-rfilter, in function def release_pending, change <span class="anchor" id="line-77"></span>the line <span class="anchor" id="line-78"></span><span class="anchor" id="line-79"></span><pre>    recipient = msg.get('x-tmda-recipient')
+<span class="anchor" id="line-80"></span>to
+<span class="anchor" id="line-81"></span>    recipient = msg.get('delivered-to')
+<span class="anchor" id="line-82"></span></pre><span class="anchor" id="line-83"></span><span class="anchor" id="line-84"></span><p class="line874">Remember to compile the source by running compileall... <span class="anchor" id="line-85"></span>--- <span class="anchor" id="line-86"></span>That should be it. I have been happily using this for over a year! <span class="anchor" id="line-87"></span><span class="anchor" id="line-88"></span><p class="line874">A new version of xtmdaheader searches also To: and Cc: headers for your own email address. It works better with emails sent to several recipients on the same domain. <span class="anchor" id="line-89"></span><span class="anchor" id="line-90"></span><p class="line874">Comments, questions: please mail me (Hannu Kotipalo) by adding @iki.fi after my names separated with a dot. (And see the drawback of using fetchmail with tmda; you might need to wait until I turn my computer on before you get the confirmation message) <span class="anchor" id="line-91"></span><span class="anchor" id="line-92"></span><p class="line874">If you would like to convert the c-file to python, you can do it, but please share the result with the others. Basicly xtmdaheader.c replaces the RECIPIENT environment variable with added header, "x-recfor-recipient". The recipient is searched from 'received for' headers in the mail. Please note; I'm not sure, if this is 100% accurate in all cases. Anyway, it has been working for over a year for me. <span class="anchor" id="line-93"></span><span class="anchor" id="line-94"></span><p class="line867">
+<h3 id="head-3e52d5fa7100b16400130d00a0367346b02bfb24">Perl version of xtmda_header</h3>
+<span class="anchor" id="line-95"></span><p class="line874">If my reading/interpretation of the above code is correct, it will: <span class="anchor" id="line-96"></span>1. check To: for an address that "matches" yours.  Use this if found. <span class="anchor" id="line-97"></span>2. check CC: for an address that "matches" yours.  Use this if found. <span class="anchor" id="line-98"></span>3. use the last email from the Received: headers. <span class="anchor" id="line-99"></span><span class="anchor" id="line-100"></span><p class="line874">This will work if you are in the To, CC, or BCC header of the mail. <span class="anchor" id="line-101"></span><span class="anchor" id="line-102"></span><p class="line874">For mailing list mail, it will say that the Recipient was the list.  This could be a problem if you subscribed to the list using a keyword address. <span class="anchor" id="line-103"></span><span class="anchor" id="line-104"></span><p class="line874">For mail that is forward in transit (say by a .forward file from  old_user@old_domain to username+keyword_address@domain), it will say that the recipient was old_user@old_domain. <span class="anchor" id="line-105"></span><span class="anchor" id="line-106"></span><p class="line874">I *think* that an MTA would report the recipient the keyword address in the above two examples.  The perl code below does just that. <span class="anchor" id="line-107"></span><span class="anchor" id="line-108"></span><p class="line867"><span class="anchor" id="line-109"></span><pre>#!/usr/bin/perl
+<span class="anchor" id="line-110"></span># xtmda_header.pl - extract received for info from headers
+<span class="anchor" id="line-111"></span># by Corey Halpin &lt;chalpin@cs.wisc.edu&gt;
+<span class="anchor" id="line-112"></span># This is public domain software, use it however you want.
+<span class="anchor" id="line-113"></span>########## Need to set this:
+<span class="anchor" id="line-114"></span>$my_name = "chalpin";
+<span class="anchor" id="line-115"></span>$my_domain = "cs\.wisc\.edu";
+<span class="anchor" id="line-116"></span>##########
+<span class="anchor" id="line-117"></span>
+<span class="anchor" id="line-118"></span>use Email::Filter;
+<span class="anchor" id="line-119"></span>
+<span class="anchor" id="line-120"></span>my $email = Email::Filter-&gt;new();
+<span class="anchor" id="line-121"></span>my $fallback = "";
+<span class="anchor" id="line-122"></span>my $recfor = "";
+<span class="anchor" id="line-123"></span>
+<span class="anchor" id="line-124"></span>my @to_cc;
+<span class="anchor" id="line-125"></span>for $header ( $email-&gt;to(), $email-&gt;cc()){
+<span class="anchor" id="line-126"></span>  my @addrs = split(/,/,$header);
+<span class="anchor" id="line-127"></span>  for $addr ( @addrs ){ push(@to_cc, $addr); }
+<span class="anchor" id="line-128"></span>}
+<span class="anchor" id="line-129"></span>
+<span class="anchor" id="line-130"></span>for $header ( @to_cc, $email-&gt;received() ){
+<span class="anchor" id="line-131"></span>  if( $header =~ /([A-Za-z0-9+.-]+\@[A-Za-z0-9+.-]+)/ ){
+<span class="anchor" id="line-132"></span>    my $addr = $1;
+<span class="anchor" id="line-133"></span>    if( length($fallback)==0 ){ $fallback=$addr; }
+<span class="anchor" id="line-134"></span>    if( $addr =~ /$my_name(\+[^@]+)?\@$my_domain/ &amp;&amp;
+<span class="anchor" id="line-135"></span>        length($addr) &gt; length($recfor) ){
+<span class="anchor" id="line-136"></span>      $recfor = $addr;
+<span class="anchor" id="line-137"></span>    }
+<span class="anchor" id="line-138"></span>  }
+<span class="anchor" id="line-139"></span>}
+<span class="anchor" id="line-140"></span>
+<span class="anchor" id="line-141"></span>$email-&gt;simple-&gt;header_set("X-RecFor-Recipient",
+<span class="anchor" id="line-142"></span>                             length($recfor)&gt;0 ? $recfor : $fallback );
+<span class="anchor" id="line-143"></span>
+<span class="anchor" id="line-144"></span>print($email-&gt;simple-&gt;as_string);
+<span class="anchor" id="line-145"></span>
+<span class="anchor" id="line-146"></span></pre><span class="anchor" id="line-147"></span><span class="anchor" id="line-148"></span><p class="line867">
+<h3 id="head-47aa26a07c9d7a688057943ef7a42131ff61f94c">Using Fetchmail and TMDA with a catch-all e-mail address</h3>
+<span class="anchor" id="line-149"></span><span class="anchor" id="line-150"></span><p class="line874">Many hosting companies allow users to specify a catch-all address for domains hosted on the company's shared hosting servers.  This catch-all address generally receives all e-mail sent to the hosted domain that isn't explicitly delivered to a mailbox or forwarding address. <span class="anchor" id="line-151"></span><span class="anchor" id="line-152"></span><p class="line874">This is very convenient for those using TMDA as all the dated, keyword, and whatnot addresses will all dump into the catch-all address.  However, not all addresses and hosting companies are created equally.  As such, using the approach suggested above will only get you so far. <span class="anchor" id="line-153"></span><span class="anchor" id="line-154"></span><p class="line874">For instance, while e-mail sent to my primary e-mail address worked just fine with TMDA, e-mail sent to other virtual addresses that were configured to pass through TMDA for delivery would always trigger confirmation. <span class="anchor" id="line-155"></span><span class="anchor" id="line-156"></span><p class="line874">The solution I found after much experimentation and rooting around online was to add the following to my .procmailrc file: <span class="anchor" id="line-157"></span><span class="anchor" id="line-158"></span><p class="line867"><span class="anchor" id="line-159"></span><pre>RECIPIENT=`formail  -UDelivered-to: -xDelivered-To: | perl  -e '$_=&lt;STDIN&gt;;s#\sdbogen-example:com-##;print "$_";'`
+<span class="anchor" id="line-160"></span>:0fw
+<span class="anchor" id="line-161"></span>| formail -i "X-Procmail-Recipient:  $RECIPIENT"
+<span class="anchor" id="line-162"></span>
+<span class="anchor" id="line-163"></span>:0fw
+<span class="anchor" id="line-164"></span>| /usr/local/bin/xtmdaheader $RECIPIENT
+<span class="anchor" id="line-165"></span>
+<span class="anchor" id="line-166"></span># Run the message through tmda-filter.
+<span class="anchor" id="line-167"></span></pre><span class="anchor" id="line-168"></span><span class="anchor" id="line-169"></span><p class="line874">This uses formail to isolate the last Delivered-To: header in the message. From this I can derive the address to which the message was originally delivered.  perl is used to strip out the part of the Delivered-To: header I don't want, which leaves me with just the e-mail address to which the message was originally delivered.  Obviously, you'll need to remove/replace the dbogen-example:com from the perl code before it will work for you.  In addition, if your hosting company uses a different scheme for their Delivered-To: headers, you may need to tweak the perl regexp to get something that works for you.  You may need to examine the headers of some messages, and experiment with the commands above before implementing anything in a live environment. <span class="anchor" id="line-170"></span><span class="anchor" id="line-171"></span><p class="line874">Then, I add this information to the messages headers for later debugging, if necessary. <span class="anchor" id="line-172"></span><span class="anchor" id="line-173"></span><p class="line874">Finally, I call xtmdaheader as described above with the value we derived from header parsing. <span class="anchor" id="line-174"></span><span class="anchor" id="line-175"></span><p class="line874">I won't guarantee that this is the Right Way to solve this problem, but it works for me.  You can contact me at djb at bogen org if you have questions about this. <span class="anchor" id="line-176"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

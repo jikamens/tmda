@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TmdaOneDotTwoDesign</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TmdaOneDotTwoDesign</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><p class="line862">This is one of <a class="nonexistent" href="./TimLegant.html">TimLegant</a>'s pages, not mine, so ignore it unless he resurfaces. I am adding my thoughts to <a href="./TmdaOneDotTwoTodoList.html">TmdaOneDotTwoTodoList</a> instead. -- <a href="./JasonMastaler.html">JasonMastaler</a> (2006-09-16 06:55:56) <span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><p class="line867">
+<h1 id="head-4cb90046c37214055a2aa70cfbd30086a5c8e8a5">Overview</h1>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line874">This page is an overview of (and sometimes a rationale for) the <span class="anchor" id="line-8"></span>internal design of TMDA moving forward from TMDA v1.0.  The primary <span class="anchor" id="line-9"></span>point of these choices is to enable the <a class="nonexistent" href="./TmdaOneDotTwo.html">TmdaOneDotTwo</a> features.  We <span class="anchor" id="line-10"></span>want to reorganize the internals of TMDA so that third-party utilities <span class="anchor" id="line-11"></span>can more easily use core TMDA facilities.  We want to eliminate <span class="anchor" id="line-12"></span>redundant code by combining multiple code fragments performing similar <span class="anchor" id="line-13"></span>tasks into single, more general interfaces. <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line874">Discussion related to any topic here should take place on the <span class="anchor" id="line-16"></span>tmda-workers list.  Expect this page to be reorganized and updated <span class="anchor" id="line-17"></span>based on discussions that take place there. <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line867">
+<h2 id="head-4d9c9dfd9d6dbab018b40ecc7b11d2dacc603794">1. General</h2>
+<span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><p class="line874">These are areas that will affect more than one part of the design. <span class="anchor" id="line-22"></span>They are grouped here for background and as pre-suppositions for some <span class="anchor" id="line-23"></span>of the following ideas. <span class="anchor" id="line-24"></span><span class="anchor" id="line-25"></span><ul><li><p class="line891"><strong>Easier ISP / virtual user / mailhub configuration</strong> <span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span>Not a whole lot of specifics here, yet.  Database configuration for <span class="anchor" id="line-28"></span>individual users should be possible.  There should be no assumption <span class="anchor" id="line-29"></span>that a user has a home directory; particularly, any pathname that <span class="anchor" id="line-30"></span>uses a tilde to represent a home directory must be overridable. <span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span>At a conceptual level, the tilde provides a shortcut meaning "the <span class="anchor" id="line-33"></span>location where user-specific data is stored."  This kind of shortcut <span class="anchor" id="line-34"></span>must be available for virtual users and database-based <span class="anchor" id="line-35"></span>configurations, not just disk-based, system-user configurations. <span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span></li><li class="gap"><p class="line891"><strong>Separate loading of global and local settings</strong> <span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span>Global settings (/etc/tmdarc) will be loaded when Defaults.py is <span class="anchor" id="line-40"></span>imported.  Local settings (~/.tmda/config, database?) will be loaded <span class="anchor" id="line-41"></span>when Defaults.load_user_config() is called. <span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span>This allows programs to configure their initialization behavior <span class="anchor" id="line-44"></span>based on settings in /etc/tmdarc.  As an hypothetical example, if <span class="anchor" id="line-45"></span>VIRTUAL_USERS (doesn't yet exist) is set to True in /etc/tmdarc, a <span class="anchor" id="line-46"></span>program like tmda-filter can adjust where it searches for an <span class="anchor" id="line-47"></span>individual user's config (database or disk).  Currently, tmda-filter <span class="anchor" id="line-48"></span>can set $HOME to a path other than the default so that '~' refers to <span class="anchor" id="line-49"></span>the new path.  This only works for qmail and is a rather ugly hack. <span class="anchor" id="line-50"></span><span class="anchor" id="line-51"></span>Other opportunities to take advantage of this may present themselves. <span class="anchor" id="line-52"></span><span class="anchor" id="line-53"></span>This also implies that certain variables MUST be set in /etc/tmdarc. <span class="anchor" id="line-54"></span>Which variables these are will depend on the particular <span class="anchor" id="line-55"></span>configuration (if a database is being used, the database connection <span class="anchor" id="line-56"></span>information would obviously have to occur before trying to read the <span class="anchor" id="line-57"></span>user's config from that database).  If a feature requires a variable <span class="anchor" id="line-58"></span>to be set in /etc/tmdarc, it should be documented as such. <span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span>In the rare case that a particular user needs to override a global <span class="anchor" id="line-61"></span>setting, an environment variable can be used, as in "make -E". <span class="anchor" id="line-62"></span><span class="anchor" id="line-63"></span></li></ul><p class="line867">
+<h2 id="head-0a8738d9e138e2c44d22ed6e18af5ca3cb8e3de1">2. MTA.py</h2>
+<span class="anchor" id="line-64"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

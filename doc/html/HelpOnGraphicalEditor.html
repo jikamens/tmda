@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnGraphicalEditor</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnGraphicalEditor</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867">
+<h2 id="head-6f317efdefdc6e569fb5902fcecce7bd869813e8">Basics</h2>
+<span class="anchor" id="line-9"></span><p class="line867"><a href="./MoinMoin.html">MoinMoin</a> 1.5 comes with a GUI editor. It requires Firefox (1.0+), Mozilla (1.3+), Netscape (7+) or Internet Explorer (5.5+). GUI editor integration is quite new, non-trivial code and still has bugs. Be careful and safe often.  <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">Although the <em>GUI editor</em> is an HTML editor running in your browser the wiki itself does not work with HTML internally, but uses a special markup called "wiki markup" - it can be viewed with the "Show Raw Text" action or while editing with the <em>text editor</em>. The wiki markup is much easier to edit than raw HTML, but has several restrictions: <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><ul><li><p class="line862">No text formats, links, images, icons, ... within headings, links, most text formats except <strong>bold</strong> and <em>italic.</em> <span class="anchor" id="line-14"></span></li><li>No headings, bullet and numbered list, horizontal lines tables, ... within tables. Use tables for listing data not for page layout. <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span></li></ul><p class="line874">The editor only allows legal formattings but it is possible to get around this restriction with copy and paste. As the HTML has to be translated to wiki markup this don't do any good. As soon as non supported formatting is translated to wiki markup it will either break or  be ignored. <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><p class="line867">
+<h2 id="head-046de872e13ac691764f7261b53fcc644baa11ad">CamelCase</h2>
+<span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span><p class="line862">In the wiki markup CamelCase words (at least two word with one capital letter at the beginning written together) are automatically turned into a link to a wiki page of that name. In the Graphical Editor this works, too. To get the CamelCase links detected hit the preview button or simply save the page. CamelCase can be avoided by prepending an exclamation mark. <span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line867">
+<h2 id="head-ea1248b8a2b651140ba021285df16f3146677d0b">Using wiki markup within the GUI editor</h2>
+<span class="anchor" id="line-23"></span><ul><li>backticks ("`") surrounding text  (formatted) <span class="anchor" id="line-24"></span></li><li>single quotes (bold, italic) <span class="anchor" id="line-25"></span></li><li>underscores (underlined) <span class="anchor" id="line-26"></span></li><li>... <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span></li></ul><p class="line867">
+<h2 id="head-d622b9d9cc1e9e3777fcaa1dbe4a813d84d678a8">Special elements</h2>
+<span class="anchor" id="line-29"></span><p class="line862">There are some elements in the <a href="./MoinMoin.html">MoinMoin</a> markup that cannot be represented as own HTML entities in the editor. These are left as plain text. They are coloured yellow in the editor to show you that they have special meaning. These elements are: <span class="anchor" id="line-30"></span><span class="anchor" id="line-31"></span><ul><li><p class="line862">Macros (see <a href="./HelpOnMacros.html">HelpOnMacros</a>) <span class="anchor" id="line-32"></span></li><li><p class="line862">inlined attachments (see <a href="./HelpOnActions(2f)AttachFile.html">HelpOnActions/AttachFile</a>) <span class="anchor" id="line-33"></span></li><li><p class="line862">Exclamation marks (<tt class="backtick">!</tt>) used for quoting <a class="nonexistent" href="./CamelCase.html">CamelCase</a> links <span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span></li></ul><p class="line874">The yellow is for your information only and has no further effect. You can just type in these items as plain text although the editor does not recognize them as special and does not color them for you. But when the page is rendered after you pressed Save or Preview these items are recognized. <span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span><p class="line867">
+<h2 id="head-47cf9a71b1e3af34721f6038efdfcb0822dbaa00">Features not supported within the Graphical Editor</h2>
+<span class="anchor" id="line-38"></span><ul><li>thickness of horizontal lines <span class="anchor" id="line-39"></span></li><li><p class="line891"><tt class="backtick">id</tt>, <tt class="backtick">class</tt> and <tt class="backtick">style</tt> attributes in tables <span class="anchor" id="line-40"></span></li><li>setting the starting number of numbered lists <span class="anchor" id="line-41"></span></li></ul><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

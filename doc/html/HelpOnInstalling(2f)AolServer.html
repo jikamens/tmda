@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnInstalling/AolServer</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnInstalling/AolServer</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-7"></span><p class="line867">
+<h2 id="head-d3654a38bdc27d6283bee35d545d5b7e4148a46b">1. Configure Aolservers nscgi module for MoinMoin</h2>
+<span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line862">Put the following lines in the <a class="http" href="http://www.aolserver.com/">Aolserver</a> configuration file, inside the <tt class="backtick">nscgi</tt> module configuration <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line867"><span class="anchor" id="line-12"></span><pre>ns_param  map "GET  /mywiki /var/lib/moin/moin.cgi"
+<span class="anchor" id="line-13"></span>ns_param  map "POST /mywiki /var/lib/moin/moin.cgi"</pre><span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line874">where: <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line867"><tt class="backtick">/mywiki</tt> -- URL at which the Wiki-Instance will be accessible <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line867"><tt class="backtick">/var/lib/moin/moin.cgi</tt> -- Path of the moin CGI script <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><p class="line867">
+<h2 id="head-f6cfe7d1b94855ea875329aede45f38d821e1854">2. Mapping the /usr/share/moin/htdocs directory</h2>
+<span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><p class="line862">The easiest way to map the ..<tt class="backtick">htdocs</tt> directory to an url (say <tt class="backtick">/wiki</tt>) is by creating a symbolic link inside the documenttree.  <span class="anchor" id="line-24"></span>Another option (on Microsoft Operating Systems) is copying the whole directory tree to where it is needed. <span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line867"><span class="anchor" id="line-27"></span><pre>cd $DOCROOT
+<span class="anchor" id="line-28"></span>ln -s /usr/share/moin/htdocs wiki</pre><span class="anchor" id="line-29"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

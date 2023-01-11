@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnLinking</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnLinking</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867">
+<h1 id="head-3ca9de2354b279decf82641a45db0fddc5fd63f0">1. Quick Reference</h1>
+<span class="anchor" id="line-7"></span><div><table><tbody><tr>  <td><p class="line891"><strong>Hyperlink</strong>            </td>
+  <td><p class="line891"><strong>Syntax</strong>                       </td>
+  <td><p class="line891"><strong>Comment</strong>                   </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-8"></span><p class="line862">internal link              </td>
+  <td><p class="line891"><tt class="backtick">WikiName</tt>                         </td>
+  <td><p class="line862">Camel<tt class="backtick"></tt>Case page name           </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-9"></span><p class="line862">internal free link         </td>
+  <td><p class="line891"><tt class="backtick">["Page"]</tt> or <tt class="backtick">["free&nbsp;link"]</tt>      </td>
+  <td><p class="line862">configurable function           </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-10"></span><p class="line862">internal link to sub page  </td>
+  <td><p class="line891"><tt class="backtick">/SubPage</tt> or <tt class="backtick">["/Sub&nbsp;page"]</tt>      </td>
+  <td><p class="line862">relative to upper page          </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-11"></span><p class="line862">external link              </td>
+  <td><p class="line891"><tt class="backtick">http://example.net</tt>               </td>
+  <td><p class="line862">                                </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-12"></span><p class="line862">named internal link        </td>
+  <td><p class="line891"><tt class="backtick">[:HelpContents:Contents&nbsp;of&nbsp;the&nbsp;Help]</tt></td>
+  <td><p class="line862">                             </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-13"></span><p class="line862">named external link        </td>
+  <td><p class="line891"><tt class="backtick">[http://example.net&nbsp;example&nbsp;site]</tt></td>
+  <td><p class="line862">                                </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-14"></span><p class="line862">local graphics (attachment)</td>
+  <td><p class="line891"><tt class="backtick">attachment:graphics.png</tt>          </td>
+  <td><p class="line862">images will be displayed inline </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-15"></span><p class="line862">external graphics          </td>
+  <td><p class="line891"><tt class="backtick">http://example.net/image.png</tt>     </td>
+  <td><p class="line862">shows target image              </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-16"></span><p class="line862">external and internal graphics </td>
+  <td><p class="line862"> <tt class="backtick">[[ImageLink(image,target[,width=width[,height=height]][,alt=alttag])]]</tt> </td>
+  <td><p class="line862">makes a link that displays an image and links to either an URL or a wiki page. </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-17"></span><p class="line862">border of internal link    </td>
+  <td><p class="line891"><tt>WikiName``s</tt>                  </td>
+  <td><p class="line862">2 backticks                     </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-18"></span><p class="line862">avoid an internal link     </td>
+  <td><p class="line891"><tt class="backtick">!WikiName</tt>                        </td>
+  <td><p class="line862">configurable function           </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span><p class="line867">
+<h1 id="head-c883008e54b534069cfb2069e41c768ecad23065">2. Explanations and Examples</h1>
+<span class="anchor" id="line-21"></span><p class="line867">
+<h2 id="head-bf745b1bc71cce1f3c71f73f84370c7157cdce47">2.1. Arbitrary Page Names</h2>
+<span class="anchor" id="line-22"></span><p class="line862">If you enclose a sequence of characters in square brackets and double quotes <tt>["like&nbsp;this"]</tt>, that makes it a page name. That can be used for specific uses of <a href="./MoinMoin.html">MoinMoin</a> (like organizing a list of items, e.g. your CD collection, by their "natural" name) or for having a wiki with non-western character sets. <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><p class="line867">
+<h2 id="head-b42f4d9da5f8ec463d64645d25121146ee61bcb9">2.2. URLs and Inline Images</h2>
+<span class="anchor" id="line-25"></span><p class="line862">There are several way to insert external references<sup><a href="#fndef-3a7d0c829bad1bcb6ec2ce583f1d1c9591b28bcc-0" id="fnref-3a7d0c829bad1bcb6ec2ce583f1d1c9591b28bcc-0">1</a></sup> into the text: <span class="anchor" id="line-26"></span><ul><li><p class="line862">direct URL insertion; if the URL ends in an image extension ("<tt>.gif</tt>", "<tt>.jpg</tt>" or "<tt>.png</tt>"), the URL is converted to an image tag. <span class="anchor" id="line-27"></span></li><li>bracketed URLs. <span class="anchor" id="line-28"></span></li><li><p class="line891"><a href="./InterWiki.html">InterWiki</a> links. <span class="anchor" id="line-29"></span></li><li>email addresses. <span class="anchor" id="line-30"></span><span class="anchor" id="line-31"></span></li></ul><p class="line874">If you enter URLs into normal text, there is the problem of detecting what belongs to the URL and what not. There are four ways to force the ending of an URL: <span class="anchor" id="line-32"></span><ul><li>put a space after the URL. <span class="anchor" id="line-33"></span></li><li><p class="line862">use the <a class="interwiki" href="http://c2.com/cgi/wiki?SixSingleQuotes" title="Wiki">SixSingleQuotes</a> escaping. <span class="anchor" id="line-34"></span></li><li>put the URL into double quotes. <span class="anchor" id="line-35"></span></li><li>use the bracketed URL syntax. <span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span></li></ul><p class="line862">The supported URL schemes are: <tt class="backtick">http</tt>, <tt class="backtick">https</tt>, <tt class="backtick">ftp</tt>, <tt class="backtick">nntp</tt>, <tt class="backtick">news</tt>, <tt class="backtick">mailto</tt>, <tt class="backtick">telnet</tt>, <tt class="backtick">irc</tt> and <tt class="backtick">file</tt>. The administrator of your wiki can extend the supported schemes by using the <tt>url_schemas</tt> variable (see <a href="./HelpOnConfiguration.html">HelpOnConfiguration</a>). <span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><p class="line862">In addition to the standard schemes, there are <a href="./MoinMoin.html">MoinMoin</a>-specific ones: <tt class="backtick">wiki</tt>, <tt class="backtick">attachment</tt>, <tt class="backtick">inline</tt>, and <tt class="backtick">drawing</tt>. "<tt class="backtick">wiki</tt>" indicates an <a href="./InterWiki.html">InterWiki</a> link, so <tt class="backtick">MoinMoin:FrontPage</tt> and <tt class="backtick">wiki:MoinMoin:FrontPage</tt> are equivalent; you will normally prefer the shorter form, the "<tt class="backtick">wiki</tt>" scheme becomes important when you use bracketed links, since there you always need a scheme. The other three schemes are related to file attachments and are explained on <a href="./HelpOnActions(2f)AttachFile.html">HelpOnActions/AttachFile</a>. <span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span><p class="line862">For more information on the possible markup, see <a href="./HelpOnEditing.html">HelpOnEditing</a>. For details on how to link to subpages, see <a href="./HelpOnEditing(2f)SubPages.html">HelpOnEditing/SubPages</a>. <span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><p class="line862">To <em>insert</em> anchors into a page you need the <a href="./HelpOnMacros.html">macro</a> <em>Anchor</em>: <tt class="backtick">[[Anchor(anchorname)]]</tt>, where "anchorname" is the actual identifier of the anchor. To reference an anchor on the same wiki page use <tt class="backtick">[#anchorname]</tt> or <tt class="backtick">[#anchorname&nbsp;label&nbsp;text]</tt>. To link to an anchor on another wiki page write <tt class="backtick">[:PageName#anchorname]</tt> or <tt class="backtick">[:PageName#anchorname:label&nbsp;text]</tt>, where "Page<tt class="backtick"></tt>Name" is the name of the other page and "anchorname" is the identifier of the anchor on that page. <span class="anchor" id="line-44"></span><span class="anchor" id="line-45"></span><p class="line862">It is often desirable to create a link to a Wiki page in the current Wiki, but have the link appear with a different text label. While you can use an <a href="./InterWiki.html">InterWiki</a> link with a Wiki name of Self, this results in an <a href="./InterWiki.html">InterWiki</a> icon prefix which might be misleading since you're not leaving the current Wiki at all. Use the syntax of <tt class="backtick">[:WikiPage:Label&nbsp;text]</tt> to achieve a link to a current Wiki page without creating an <a href="./InterWiki.html">InterWiki</a> link. <span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span><p class="line867"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> On some Wikis, a link to the page <a href="./RecentChanges.html">RecentChanges</a> might refer to the same page as this link: <a class="nonexistent" href="./recentchanges.html">recentchanges</a>. This is especially true for Windows and Mac OS X systems because they are not case-sensitive normally. <span class="anchor" id="line-48"></span><span class="anchor" id="line-49"></span><p class="line867"><div class="footnotes"><ul><li><p><a href="#fnref-3a7d0c829bad1bcb6ec2ce583f1d1c9591b28bcc-0" id="fndef-3a7d0c829bad1bcb6ec2ce583f1d1c9591b28bcc-0">1</a> The opposite of external references are the internal, automatic <a href="./WikiName.html">WikiName</a> links. </li></ul></div><p class="line874"> <span class="anchor" id="line-50"></span><span class="anchor" id="line-51"></span><p class="line867">
+<h3 id="head-8e81f2e071973d3e8ef38c8211b26e955f4a0354">2.2.1. Avoiding some stuff gets automatically linked</h3>
+<span class="anchor" id="line-52"></span><span class="anchor" id="line-53"></span><p class="line862">For avoiding that a word like Page<tt class="backtick"></tt>Name automatically gets linked, use <tt>Page``Name</tt>. <span class="anchor" id="line-54"></span><span class="anchor" id="line-55"></span><p class="line862">You can also suppress <a href="./WikiName.html">WikiName</a> linking by putting an exclamation mark (<em>bang</em>) before the <a href="./WikiName.html">WikiName</a>, i.e. <tt class="backtick">!WikiName</tt>. This can be disabled with the configuration option <tt class="backtick">bang_meta&nbsp;=&nbsp;False</tt>. <span class="anchor" id="line-56"></span><span class="anchor" id="line-57"></span><p class="line862">For avoiding that a URL gets automatically linked, use either <tt>`http://...`</tt> or <tt class="backtick">{{{http://...}}}</tt>. <span class="anchor" id="line-58"></span><span class="anchor" id="line-59"></span><p class="line867">
+<h3 id="head-cf5071688a6fd17467b833fc193d086a7c44cc80">2.2.2. Example</h3>
+<span class="anchor" id="line-60"></span><p class="line867"><span class="anchor" id="line-61"></span><pre> * http://moinmoin.wikiwikiweb.de/
+<span class="anchor" id="line-62"></span> * [http://moinmoin.wikiwikiweb.de/]
+<span class="anchor" id="line-63"></span> * [http://moinmoin.wikiwikiweb.de/ MoinMoin Homepage]
+<span class="anchor" id="line-64"></span> * http://moinmoin.wikiwikiweb.de/wiki/common/moinmoin.png
+<span class="anchor" id="line-65"></span> * [http://moinmoin.wikiwikiweb.de/wiki/common/moinmoin.png]
+<span class="anchor" id="line-66"></span> * [http://moinmoin.wikiwikiweb.de/wiki/common/moinmoin.png  moinmoin.png]
+<span class="anchor" id="line-67"></span> * [http:/wiki/common/moinmoin.png] partial URL
+<span class="anchor" id="line-68"></span> * InterWiki
+<span class="anchor" id="line-69"></span>  * Self:InterWiki
+<span class="anchor" id="line-70"></span>  * MeatBall:InterWiki
+<span class="anchor" id="line-71"></span>  * wiki:MeatBall/InterWiki
+<span class="anchor" id="line-72"></span>  * [wiki:MeatBall/InterWiki]
+<span class="anchor" id="line-73"></span>  * [wiki:MeatBall/InterWiki InterWiki page on MeatBall]
+<span class="anchor" id="line-74"></span> * user@example.com
+<span class="anchor" id="line-75"></span> * mailto:user@example.com?subject=test
+<span class="anchor" id="line-76"></span> * [:InterWiki:InterWiki page in this wiki]
+<span class="anchor" id="line-77"></span> * [#anchorname Link to anchor on this page]
+<span class="anchor" id="line-78"></span> * [:OtherPage#anchorname:Link to anchor on other page in current wiki with label text]
+<span class="anchor" id="line-79"></span></pre><span class="anchor" id="line-80"></span><span class="anchor" id="line-81"></span><p class="line867">
+<h3 id="head-d41d6861df0aeb61291cedc9a8ed267414244076">2.2.3. Display</h3>
+<span class="anchor" id="line-82"></span><ul><li><p class="line891"><a class="http" href="http://moinmoin.wikiwikiweb.de/">http://moinmoin.wikiwikiweb.de/</a> <span class="anchor" id="line-83"></span></li><li><p class="line891"><a class="http" href="http://moinmoin.wikiwikiweb.de/">http://moinmoin.wikiwikiweb.de/</a> <span class="anchor" id="line-84"></span></li><li><p class="line891"><a class="http" href="http://moinmoin.wikiwikiweb.de/">MoinMoin Homepage</a> <span class="anchor" id="line-85"></span></li><li><p class="line891"><img alt="moinmoin" src="http://moinmoin.wikiwikiweb.de/wiki/common/moinmoin.png" title="moinmoin" /> <span class="anchor" id="line-86"></span></li><li><p class="line891"><a class="external" href="http://moinmoin.wikiwikiweb.de/wiki/common/moinmoin.png"><img alt="http://moinmoin.wikiwikiweb.de/wiki/common/moinmoin.png" src="http://moinmoin.wikiwikiweb.de/wiki/common/moinmoin.png" title="http://moinmoin.wikiwikiweb.de/wiki/common/moinmoin.png" /></a> <span class="anchor" id="line-87"></span></li><li><p class="line891"><a class="http" href="http://moinmoin.wikiwikiweb.de/wiki/common/moinmoin.png">moinmoin.png</a> <span class="anchor" id="line-88"></span></li><li><p class="line891"><a class="external" href="http:/wiki/common/moinmoin.png"><img alt="http:/wiki/common/moinmoin.png" src="http:/wiki/common/moinmoin.png" title="http:/wiki/common/moinmoin.png" /></a> partial URL <span class="anchor" id="line-89"></span></li><li><p class="line891"><a href="./InterWiki.html">InterWiki</a> <span class="anchor" id="line-90"></span><ul><li><p class="line891"><a href="./InterWiki.html">InterWiki</a> <span class="anchor" id="line-91"></span></li><li><p class="line891"><a class="interwiki" href="http://www.usemod.com/cgi-bin/mb.pl?InterWiki" title="MeatBall">InterWiki</a> <span class="anchor" id="line-92"></span></li><li><p class="line891"><a class="interwiki" href="http://www.usemod.com/cgi-bin/mb.pl?InterWiki" title="MeatBall">InterWiki</a> <span class="anchor" id="line-93"></span></li><li><p class="line891"><a class="interwiki" href="http://www.usemod.com/cgi-bin/mb.pl?InterWiki" title="MeatBall">wiki:MeatBall/InterWiki</a> <span class="anchor" id="line-94"></span></li><li><p class="line891"><a class="interwiki" href="http://www.usemod.com/cgi-bin/mb.pl?InterWiki" title="MeatBall">InterWiki page on MeatBall</a> <span class="anchor" id="line-95"></span></li></ul></li><li><p class="line891"><a class="mailto" href="mailto:user@example.com">user@example.com</a> <span class="anchor" id="line-96"></span></li><li><p class="line891"><a class="mailto" href="mailto:user@example.com?subject=test">mailto:user@example.com?subject=test</a> <span class="anchor" id="line-97"></span></li><li><p class="line891"><a href="./InterWiki.html">InterWiki page in this wiki</a> <span class="anchor" id="line-98"></span></li><li><p class="line891"><a href="#anchorname">Link to anchor on this page</a> <span class="anchor" id="line-99"></span></li><li><p class="line891"><a class="nonexistent" href="./OtherPage.html#anchorname">Link to anchor on other page in current wiki with label text</a> <span class="anchor" id="line-100"></span></li></ul><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

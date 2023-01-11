@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnPageDeletion</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnPageDeletion</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867"><a href="./HelpContents.html">HelpContents</a> &gt; <a href="./HelpOnAdministration.html">HelpOnAdministration</a> &gt; HelpOnPageDeletion <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867">
+<h2 id="head-475b34e2869828c102d846f2896ea0e90c6d4c81">1. How to delete pages</h2>
+<span class="anchor" id="line-9"></span><p class="line862">If enabled (see <a href="./HelpOnConfiguration.html">HelpOnConfiguration</a> and <a href="./HelpMiscellaneous(2f)FrequentlyAskedQuestions.html">HelpMiscellaneous/FrequentlyAskedQuestions</a>) and allow by ACLs, you can delete pages with the <tt>DeletePage</tt> action. Note that deleting means to make a backup copy of the page, and then deleting the page file. This is almost like saving an empty page (which is not allowed by the system). <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">What this means is that you can get back at deleted pages by using the standard mechanisms, see also the <a href="./HelpMiscellaneous(2f)FrequentlyAskedQuestions.html">HelpMiscellaneous/FrequentlyAskedQuestions</a> entry "Can I restore a page from an older version?" for this. Especially, if you enter the page name into the <tt class="backtick">GoTo</tt> dialog, you'll see the usual page creation stuff, but clicking on <tt class="backtick">PageInfo</tt> will reveal the old version history, unless the page was purged out of existence inbetween. <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line867"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> The only way to unrevertably and completely delete a page (including backups, history, attachments, etc.) is via the shell on the host system. The page files are found in the "<tt class="backtick">data/pages/&lt;PageName&gt;</tt>" directory, and you can simply delete the whole <tt class="backtick">&lt;PageName&gt;</tt> directory - no way back in that case. <span class="anchor" id="line-14"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

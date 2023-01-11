@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>ServerConfiguration</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">ServerConfiguration</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867">
+<h4 id="head-22128da378d9be50d1f93f34288a7e183b55b0f6">TMDA Server Configuration</h4>
+<span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><p class="line874">TMDA processes incoming messages on the SMTP server though a mail filter program called tmda-filter. <span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><p class="line862">Server configuration instructions differ based on which MTA you are running. First follow the <a href="#general">general</a> set of instructions, and then read the set of instructions corresponding to your MTA  <span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line862">[ <a href="#qmail">qmail</a> | <a href="#courier">Courier</a> | <a href="#exim-postfix">Exim/Postfix</a> | <a href="#sendmail">Sendmail</a> ]  <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-10"></span><span class="anchor" id="general"></span> <span class="anchor" id="line-11"></span>
+<h5 id="head-44de354d9d42e20c539f1727ca267078a4699ad3">TMDA Server Configuration (general)</h5>
+<span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><ol type="1"><li><p class="line862">A unique, private key is required for every TMDA user. This key is stored in its own file <strong>~/.tmda/crypt_key</strong>. A key-generation utility is included with the distribution. Simply run <strong>tmda-keygen</strong> and follow its instructions. <br />
+<br />
+ <span class="anchor" id="line-14"></span></li><li><p class="line862">Optionally create an incoming filter file by reading through the [config-filter.html TMDA Filter Specification] (especially the examples section at the end). If you don't have an incoming filter file, or the sender address doesn't match any lines in your filter file, the incoming message will require confirmation. The lines in your filter make exceptions to that rule. You can also change the default by setting <strong>ACTION_INCOMING</strong> in your ~/.tmda/config. <br />
+<br />
+ The most common use for the incoming filter is to create both a "whitelist" (see the FAQ) to allow your trusted contacts directly into your mailbox, as well as a "blacklist" for those senders you want to refuse mail from.  <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span></li></ol><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><p class="line867"><span class="anchor" id="qmail"></span> <span class="anchor" id="line-19"></span>
+<h5 id="head-a179508b40d0cc383c517afbc4d179de77b31e62">TMDA Server Configuration (qmail-only)</h5>
+<span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><ol type="1"><li><p class="line862">Finish setting up your <strong>~/.tmda/config</strong> and optionally a system-wide <strong>/etc/tmdarc</strong> by reading through the included <strong>contrib/dot-tmda/config</strong> file.<br />
+<br />
+ <span class="anchor" id="line-22"></span></li><li><p class="line862">Setup dot-qmail files appropriately in your home directory.<br />
+<br />
+ First setup <strong>.qmail</strong> as shown below, and then make a symbolic link from there to <strong>.qmail-default</strong>. This way you will only have to make changes to the one file. See <a class="http" href="http://www.qmail.org/man/man5/dot-qmail.html">dot-qmail(5)</a> if you are unfamiliar with how to use dot-qmail files to control the delivery of mail messages. <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span></li></ol><div><table><tbody><tr>  <td><p class="line862"> dot-qmail file: </td>
+  <td><p class="line862"> file contents: </td>
+  <td><p class="line862"> action: </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-25"></span><p class="line862"> .qmail </td>
+  <td><p class="line862"> <tt class="backtick">|preline&nbsp;/path/to/bin/tmda-filter</tt><br />
+<tt class="backtick">./Mailbox</tt> </td>
+  <td><p class="line862"> If the message is legitimate, it will pass-through to the second line and get saved to "~/Mailbox", otherwise it goes through the confirmation process. </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-26"></span><p class="line862"> .qmail-default </td>
+  <td><p class="line862"> <tt class="backtick">soft&nbsp;link</tt><br />
+<tt class="backtick">($&nbsp;ln&nbsp;-s&nbsp;~/.qmail&nbsp;~/.qmail-default)</tt> </td>
+  <td><p class="line862"> Catches jason-*@ as long as another dot-qmail file does not take priority. </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line862">You may decide that you don't want to use TMDA on your primary address, but would still like to set aside a secondary address which does. This would be useful not only for testing purposes, but also for using in public forums such as newgroups and mailing lists where the "harvesting" potential is high. This is a much better alternative than using a munged address such as <em><a class="mailto" href="mailto:jasonNOspam@mastaler.com">jasonNOspam@mastaler.com</a></em> or <em><a class="mailto" href="mailto:jason@REMOVE_THIS.mastaler.com">jason@REMOVE_THIS.mastaler.com</a></em> which is confusing, error prone, and inconvenient for those trying to reply to your messages. <br />
+<br />
+ This can easily be accomplished with the dot-qmail interface. For example, if I wanted only <em><a class="mailto" href="mailto:jason-tmda@mastaler.com">jason-tmda@mastaler.com</a></em> to be processed by TMDA, I'd edit <strong>.qmail-tmda</strong> and make a link from there to <strong>.qmail-tmda-default</strong>. <span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span><div><table><tbody><tr>  <td><p class="line862"> dot-qmail file: </td>
+  <td><p class="line862"> file contents: </td>
+  <td><p class="line862"> action: </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-31"></span><p class="line862"> .qmail-tmda </td>
+  <td><p class="line862"> <tt class="backtick">|preline&nbsp;/path/to/bin/tmda-filter</tt><br />
+<tt class="backtick">./Mailbox</tt> </td>
+  <td><p class="line862"> Catches jason-tmda@. If the message is legitimate, it will pass-through to the second line and get saved to "~/Mailbox", otherwise it goes through the confirmation process. </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-32"></span><p class="line862"> .qmail-tmda-default </td>
+  <td><p class="line891"><tt class="backtick">soft&nbsp;link</tt><br />
+<tt class="backtick">($&nbsp;ln&nbsp;-s&nbsp;~/.qmail-tmda&nbsp;~/.qmail-tmda-default)</tt> </td>
+  <td><p class="line862"> Catches jason-tmda-*@ </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-35"></span><span class="anchor" id="line-36"></span><p class="line867"><span class="anchor" id="courier"></span> <span class="anchor" id="line-37"></span>
+<h5 id="head-304514f39cb6a4af405ef40786080c5c0ac09cb0">TMDA Server Configuration (Courier only)</h5>
+<span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><p class="line862">Given the similarily of the <a class="http" href="http://www.courier-mta.org/dot-courier.html">dot-courier</a> interface to dot-qmail, you can simply follow the qmail configuration instructions above, substituting .courier-foo for .qmail-foo. <span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><p class="line867"><span class="anchor" id="exim-postfix"></span> <span class="anchor" id="line-44"></span>
+<h5 id="head-5a965a91e8dcbcd90acb4fea380cf7e7ba8ea844">TMDA Server Configuration (Exim and Postfix only)</h5>
+<span class="anchor" id="line-45"></span><span class="anchor" id="line-46"></span><ol type="1"><li><p class="line862">Finish setting up your <strong>~/.tmda/config</strong> and optionally a system-wide <strong>/etc/tmdarc</strong> by reading through the included <strong>contrib/dot-tmda/config</strong> file. <strong>MAIL_TRANSFER_AGENT</strong>, <strong>DELIVERY</strong>, and <strong>RECIPIENT_DELIMITER</strong> are required entries for non-qmail users. <br />
+<br />
+ <span class="anchor" id="line-47"></span></li><li><p class="line862">Modify <strong>~/.forward</strong> to send your mail through tmda-filter. <span class="anchor" id="line-48"></span><span class="anchor" id="line-49"></span><pre>  "| /path/to/bin/tmda-filter"</pre><span class="anchor" id="line-50"></span><p class="line862">If this produces a bounce with an <em>env: python: No such file or directory</em> error, you will need to add the full path to your Python interpreter, e.g,: <span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span><pre>  "|/path/to/bin/python /path/to/bin/tmda-filter"</pre><span class="anchor" id="line-53"></span></li><li><p class="line862">If you already filter your mail with procmail and wish to continue doing so, you can invoke tmda-filter from your <strong>.procmailrc</strong> instead. <br />
+<br />
+ <span class="anchor" id="line-54"></span>Make sure your <strong>~/.forward</strong> calls procmail with the <strong>-p</strong> option, as shown below. This is to ensure that the SENDER, EXTENSION, and RECIPIENT environment variables that are created by Exim/Postfix are passed through to filter applications (i.e. TMDA) that are called by procmail. <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><pre>  "|/path/to/bin/procmail -p"</pre><span class="anchor" id="line-57"></span><p class="line862">Finally, add the following snippet to the end of your existing <strong>.procmailrc</strong> to do final delivery: <span class="anchor" id="line-58"></span><span class="anchor" id="line-59"></span><pre>  # Run the message through tmda-filter.
+<span class="anchor" id="line-60"></span>  :0 w
+<span class="anchor" id="line-61"></span>  | /path/to/bin/tmda-filter
+<span class="anchor" id="line-62"></span>  # Take the exit code from TMDA.
+<span class="anchor" id="line-63"></span>  EXITCODE=$?
+<span class="anchor" id="line-64"></span>  # TMDA takes care of final delivery
+<span class="anchor" id="line-65"></span>  DEFAULT=/dev/null</pre><span class="anchor" id="line-66"></span></li><li><p class="line862">If you already filter your mail with maildrop and wish to continue doing so, you can invoke tmda-filter from your <strong>.mailfilter</strong> instead.<br />
+<br />
+ Add the following snippet to the end of your existing <strong>.mailfilter</strong> to do final delivery: <span class="anchor" id="line-67"></span><span class="anchor" id="line-68"></span><pre>  import SENDER
+<span class="anchor" id="line-69"></span>  import RECIPIENT
+<span class="anchor" id="line-70"></span>  import EXTENSION
+<span class="anchor" id="line-71"></span>  to "| /path/to/bin/tmda-filter"</pre><span class="anchor" id="line-72"></span><span class="anchor" id="line-73"></span></li></ol><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-74"></span><span class="anchor" id="line-75"></span><p class="line867"><span class="anchor" id="sendmail"></span> <span class="anchor" id="line-76"></span>
+<h5 id="head-e8cd3aa7d107a999d375d4a5670c427170e7d0f2">TMDA Server Configuration (Sendmail only)</h5>
+<span class="anchor" id="line-77"></span><span class="anchor" id="line-78"></span><p class="line862">These instructions assume you are running either procmail or maildrop as your local mailer as described in the <a href="./PreConfiguration.html">PreConfiguration</a> page. <span class="anchor" id="line-79"></span><span class="anchor" id="line-80"></span><ol type="1"><li><p class="line862">Finish setting up your <strong>~/.tmda/config</strong> and optionally a system-wide <strong>/etc/tmdarc</strong> by reading through the included <strong>contrib/dot-tmda/config</strong> file. <strong>MAIL_TRANSFER_AGENT</strong>, <strong>DELIVERY</strong>, and <strong>RECIPIENT_DELIMITER</strong> are required entries for non-qmail users. <br />
+<br />
+ <span class="anchor" id="line-81"></span></li><li><p class="line891"><span class="u">Procmail as the local mailer</span><br />
+<br />
+ Set the SENDER, RECIPIENT, and EXTENSION variables, and then invoke tmda-filter by adding the following snippet to the end of your <strong>~/.procmailrc</strong>. <span class="anchor" id="line-82"></span><span class="anchor" id="line-83"></span><pre>  # Uncomment this for users without valid shells.
+<span class="anchor" id="line-84"></span>  # SHELL=/bin/sh
+<span class="anchor" id="line-85"></span>  # Set the necessary environment variables.
+<span class="anchor" id="line-86"></span>  EXTENSION="$1"
+<span class="anchor" id="line-87"></span>  :0
+<span class="anchor" id="line-88"></span>  * EXTENSION ?? .
+<span class="anchor" id="line-89"></span>  {
+<span class="anchor" id="line-90"></span>    DELIMITER="+"
+<span class="anchor" id="line-91"></span>  }
+<span class="anchor" id="line-92"></span>  RECIPIENT="$LOGNAME$DELIMITER$EXTENSION@$HOST"
+<span class="anchor" id="line-93"></span>  SENDER=`formail -x Return-Path | sed 's/[&lt;&gt;]//g;s/^[ ]*//'`
+<span class="anchor" id="line-94"></span>  # Run the message through tmda-filter.
+<span class="anchor" id="line-95"></span>  :0 w
+<span class="anchor" id="line-96"></span>  | /path/to/bin/tmda-filter
+<span class="anchor" id="line-97"></span>  # Take the exit code from TMDA.
+<span class="anchor" id="line-98"></span>  EXITCODE=$?
+<span class="anchor" id="line-99"></span>  # TMDA takes care of final delivery
+<span class="anchor" id="line-100"></span>  DEFAULT=/dev/null</pre><span class="anchor" id="line-101"></span><span class="anchor" id="line-102"></span><p class="line891"><span class="u">Maildrop as the local mailer</span><br />
+<br />
+ Set the SENDER, RECIPIENT, and EXTENSION variables, and then invoke tmda-filter by adding the following snippet to the end of your <strong>~/.mailfilter</strong>. <span class="anchor" id="line-103"></span><span class="anchor" id="line-104"></span><pre>  # Uncomment this for users without valid shells.
+<span class="anchor" id="line-105"></span>  # SHELL=/bin/sh
+<span class="anchor" id="line-106"></span>  # Set the necessary environment variables.
+<span class="anchor" id="line-107"></span>  EXTENSION="$1"
+<span class="anchor" id="line-108"></span>  HOST="$2"
+<span class="anchor" id="line-109"></span>  SENDER="$3"
+<span class="anchor" id="line-110"></span>  if ( "$EXTENSION" ne "" )
+<span class="anchor" id="line-111"></span>  {
+<span class="anchor" id="line-112"></span>      DELIMITER="+"
+<span class="anchor" id="line-113"></span>  }
+<span class="anchor" id="line-114"></span>  RECIPIENT="$LOGNAME$DELIMITER$EXTENSION@$HOST"
+<span class="anchor" id="line-115"></span>  # "to" will deliver to message to tmda-filter.  It will exit with the
+<span class="anchor" id="line-116"></span>  # exit code of the program.
+<span class="anchor" id="line-117"></span>  to "| /path/to/bin/tmda-filter"</pre><span class="anchor" id="line-118"></span><span class="anchor" id="line-119"></span></li></ol><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-120"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

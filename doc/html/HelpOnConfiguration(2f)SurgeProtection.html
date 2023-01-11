@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnConfiguration/SurgeProtection</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnConfiguration/SurgeProtection</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-7"></span><p class="line867">
+<h1 id="head-76f1299af5c11b89a9d22e4ad28c4fa9b2e10411">Surge Protection</h1>
+<span class="anchor" id="line-8"></span><p class="line874">Especially on an internet wiki sometimes the cpu and disk load gets quite high because the wiki has to process many requests. A high load makes the wiki slow or unusable for its legitimate users. <span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line874">This is caused by: <span class="anchor" id="line-11"></span><ul><li>some bad guys (spammers, vandals, ...) trying to put spam or trash on your pages <span class="anchor" id="line-12"></span></li><li><p class="line862">some less-bad guys (people just <em>mirroring</em> the wiki, without thinking about the load and the lots of useless requests and high traffic they make) <span class="anchor" id="line-13"></span></li><li>some bots, indexing the wiki content for some search engine <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span></li></ul><p class="line867">
+<h2 id="head-b616a415dad6b556db3d8cb1590a3386c0e9facf">1. What can we do?</h2>
+<span class="anchor" id="line-16"></span><p class="line867"><a href="./MoinMoin.html">MoinMoin</a> tracks requests by user name (if logged in) or IP address (if not logged in). <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> Proxy or NAT users: please log in if surge protection tells you to slow down. This is because all people using the same proxy get tracked by that same, single IP. If you just log in, you won't have any problems even if you use the proxy / your NAT gateway. <span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span></li></ul><p class="line874">If the request count goes beyond some configured limit in some configured time interval, it will start to warn you (you will see a surge protection warning message instead of the expected wiki output). If you see this warning, just read it and do what it tells. <span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line874">You should stop doing those requests for a minute in that case (just read the stuff you already got, drink some water, ...). You will have no problems if you continue a while later (just slow down a bit, so you won't go beyond the limit again). <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><p class="line874">If you don't pause and ignore the warnings and the requests don't stop hammering the wiki server, the wiki will think you are doing something nasty and will lock you out for some configurable amount of time. <span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line867">
+<h2 id="head-92ec077e7f55f57bab5bcf8608c25a167191eb43">2. Configuration</h2>
+<span class="anchor" id="line-27"></span><p class="line874">Configuration is done as usual: in your wikiconfig. These are the built-in default values: <span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line867"><span class="anchor" id="line-30"></span><pre>    surge_action_limits = { # allow max. &lt;count&gt; &lt;action&gt; requests per &lt;dt&gt; secs
+<span class="anchor" id="line-31"></span>        # action: (count, dt)
+<span class="anchor" id="line-32"></span>        'show': (20, 60),
+<span class="anchor" id="line-33"></span>        'raw': (20, 40),  # some people use this for css
+<span class="anchor" id="line-34"></span>        'AttachFile': (60, 60),
+<span class="anchor" id="line-35"></span>        'diff': (30, 60),
+<span class="anchor" id="line-36"></span>        'fullsearch': (5, 60),
+<span class="anchor" id="line-37"></span>        'edit': (10, 120),
+<span class="anchor" id="line-38"></span>        'rss_rc': (1, 60),
+<span class="anchor" id="line-39"></span>        'default': (30, 60),
+<span class="anchor" id="line-40"></span>    }
+<span class="anchor" id="line-41"></span>    surge_lockout_time = 3600 # secs you get locked out when you ignore warnings
+<span class="anchor" id="line-42"></span></pre><p class="line874"> <span class="anchor" id="line-43"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

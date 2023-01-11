@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnInstalling/ApacheOnWin32</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnInstalling/ApacheOnWin32</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867"><strong>Index</strong> <span class="anchor" id="line-7"></span><div class="table-of-contents"><p class="table-of-contents-heading">Contents<ol><li><a href="#head-3c727e631e2668b26b0f23f76dfaca64e810648e">Requirements</a></li><li><a href="#head-18c7f9f6c7f20cad8a2598f80aba6a6b36bae585">Preparation</a><ol><li><a href="#head-ce3f1899eb42247cc89c79893ca80eb5da56d2d4">MSI Installer</a></li><li><a href="#head-b1287e95efcad1b36cc2c15f825e1de198ebfcf6">Installing Apache</a></li><li><a href="#head-55b68c00864e2a0be48f87115a45f6a17a76bcc0">Installing Python</a></li></ol><li><a href="#head-c76f9a659995f587c02878baf3877ab5bd08a5bd">Installing MoinMoin</a></li><li><a href="#head-ba9ed0d8dd27b7bc62472aa0d24e8102dd103deb">Creating a Wiki Instance</a></li><li><a href="#head-42c812a9d38d3af1de6c09ed952ac1858c5221b8">Integrating MoinMoin into Apache</a></li><li><a href="#head-82ba5417401e5b5cb78836b4f23ef160fbc80630">Troubleshooting</a><ol><li><a href="#head-01d84d7e6494dcee0bd2abfbb04f43f812c9bdd7">Internal Server Error</a></li><li><a href="#head-7a4c0881ccb7242b9857811b27dc07ad836889d0">Not Found</a></li><li><a href="#head-d9b4f0491158f7280b4bf1693d990336527ebf4d">The Page Cannot be found</a></li><li><a href="#head-d47936fa3c21c07d857b27fdb811e5836635a100">FrontPage Loads Without Icons</a></li></ol></li></ol></div><p class="line874"> <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line867">
+<h2 id="head-3c727e631e2668b26b0f23f76dfaca64e810648e">1. Requirements</h2>
+<span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">Before you install Moin<tt class="backtick"></tt>Moin, you must have the necessary infrastructure in place. This procedure explains the steps necessary to install the infrastructure and provides detailed instructions for the installation of Moin<tt class="backtick"></tt>Moin.  <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line874">Downloading and installing all of the required components will require almost 100 MB of disk space - shouldn't be a problem nowadays, right? <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line862">Many users prefer to install software products in a folder other than the installation default. Python typically changes the default installation folder name with each point release, and Apache has changed the default installation folder name with the release of version 2.  Instead of enumerating all the possibilities at each step, this procedure will use the <strong>Reference</strong> name in the table below as the installed location for each product. Substitute your real installation location when editing configuration files and entering commands. <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><div><table><tbody><tr style="background-color: #EEDDAA">  <td><p class="line862">Reference</td>
+  <td><p class="line862">Product</td>
+  <td><p class="line862">Installation Default or Typical Name</td>
+</tr>
+<tr>  <td><span class="anchor" id="line-18"></span><p class="line891"><strong>C:\Apache</strong></td>
+  <td><p class="line862"> Apache</td>
+  <td><p class="line862">C:\Program Files\Apache Group\Apache2</td>
+</tr>
+<tr>  <td><span class="anchor" id="line-19"></span><p class="line891"><strong>C:\Python</strong></td>
+  <td><p class="line862">Python</td>
+  <td><p class="line862">C:\Python22</td>
+</tr>
+<tr>  <td><span class="anchor" id="line-20"></span><p class="line891"><strong>C:\Moin</strong></td>
+  <td><p class="line862">wiki instances</td>
+  <td><p class="line862">C:\My Documents\Moin</td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line874">This installation procedure was tested with Apache 1.3.26 and Apache 2.0.44 for Windows running on Windows ME, and using Python 2.3. <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><p class="line867">
+<h2 id="head-18c7f9f6c7f20cad8a2598f80aba6a6b36bae585">2. Preparation</h2>
+<span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line867">
+<h3 id="head-ce3f1899eb42247cc89c79893ca80eb5da56d2d4">2.1. MSI Installer</h3>
+<span class="anchor" id="line-27"></span><p class="line862">Installation of Apache and one alternative distribution of Python require the Microsoft <strong>MSI Installer</strong>.  The latest version, 2.0, was released in September of 2001. You will know you don't have the correct version if you receive errors after double-clicking on a file name ending in <strong>.msi</strong>. To get the latest version, go to <a class="http" href="http://www.microsoft.com/">http://www.microsoft.com/</a>, search for <strong>msi installer</strong>, and follow the instructions.  There are two versions, one for Windows ME, 98, and 95; and another for Windows 2000 and NT. Windows XP has the 2.0 version and requires no update. <span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line867">
+<h3 id="head-b1287e95efcad1b36cc2c15f825e1de198ebfcf6">2.2. Installing Apache</h3>
+<span class="anchor" id="line-30"></span><span class="anchor" id="line-31"></span><p class="line862">To obtain the latest version of Apache, go to <a class="http" href="http://www.apache.org/">http://www.apache.org/</a>, and click on the link to <strong>HTTP Server</strong>. Find the link to download the <strong>Win32 Binary (MSI Installer)</strong> version. Read the Apache documentation to determine the correct installation procedure for your situation.  Questions and problems with the Apache installation process should be resolved through use of the resources provided by the Apache organization. Be sure your webserver runs correctly before proceeding.  <span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span><p class="line867"><strong>Warning:</strong> the procedure described above tends to trivialize the installation of the Apache web server. Apache can be installed and running on your PC in a very few minutes with only a cursory examination of the Apache documentation.  Before you undertake the installation of any web server that can be accessed through the internet, you should exercise a controlled level of paranoia and assess the potential damage that may be caused by hackers accessing or destroying sensitive data. This should include not only the all data which resides on the PC which will host the Apache web server, but all other PCs on the local LAN which participate in any form of file sharing.   <span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span><p class="line874">Windows ME, 98SE, 98, 95, and probably NT should be considered inappropriate hosts for any Apache web server that can be accessed via the internet.  Use either Windows 2000 or XP and install all security patches available for your operating system. <span class="anchor" id="line-36"></span><span class="anchor" id="line-37"></span><p class="line862">Do not let the above discourage you from installing Moin<tt class="backtick"></tt>Moin.  Most of the internet activity probing your system for weaknesses will be from virus infected Windows NT systems running IIS whose owners have neglected to apply available security patches. The starting Apache configuration is secure and you will not have a problem provided you: <span class="anchor" id="line-38"></span><ul><li>Regularly review and apply security patches for your installed software. <span class="anchor" id="line-39"></span></li><li>Understand the ramifications of any changes you make to the Apache config files. <span class="anchor" id="line-40"></span></li><li>Regularly review the Apache logs for suspicious activity. <span class="anchor" id="line-41"></span></li><li>Regularly take backups of your data. <span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span></li></ul><p class="line867">
+<h3 id="head-55b68c00864e2a0be48f87115a45f6a17a76bcc0">2.3. Installing Python</h3>
+<span class="anchor" id="line-44"></span><span class="anchor" id="line-45"></span><p class="line862">There are currently two different distributions of Python available for Windows. The normal Python distribution is available from <a class="http" href="http://www.python.org">http://www.python.org</a>. This is distributed as a windows executable (.exe) file. <span class="anchor" id="line-46"></span><span class="anchor" id="line-47"></span><p class="line862">An alternative distribution called <strong>Active<tt class="backtick"></tt>Python</strong> is available from <a class="http" href="http://www.activestate.com/">http://www.activestate.com/</a>. This distribution uses the MSI Installer and contains some tools specific to the Windows operating system and a popular Windows IDE called Pythonwin.  Active<tt class="backtick"></tt>Python is available for free; an email address is requested (but not required) before downloading. <span class="anchor" id="line-48"></span><span class="anchor" id="line-49"></span><p class="line862">Moin<tt class="backtick"></tt>Moin will work with either distribution, but requires Python release 2.3 or later.  Download and install the distribution of your choice.  Questions and problems dealing with the Python installation process should be resolved through the use of resources provided by Python.org or Active<tt class="backtick"></tt>State.  Be sure your Python installation is correct before proceeding. <span class="anchor" id="line-50"></span><span class="anchor" id="line-51"></span><p class="line867">
+<h2 id="head-c76f9a659995f587c02878baf3877ab5bd08a5bd">3. Installing MoinMoin</h2>
+<span class="anchor" id="line-52"></span><p class="line862">Download the current version of Moin<tt class="backtick"></tt>Moin from <a class="http" href="http://moinmoin.wikiwikiweb.de/">http://moinmoin.wikiwikiweb.de/</a> into <tt class="backtick">C:\TEMP</tt> or an alternative location. To extract the <em>.tar.gz</em>-format archive, you may use Win<tt class="backtick"></tt>Zip. <span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span><p class="line862">You should then have a folder such as <tt class="backtick">C:\TEMP\moin-x.x</tt> where "x.x" is the current release number. This folder will contain a <tt class="backtick">setup.py</tt> file in addition to several other files and subfolders. <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line874">Open an MS-DOS or console window and enter the commands: <span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><pre>C:
+<span class="anchor" id="line-59"></span>cd \TEMP\moin-x.x
+<span class="anchor" id="line-60"></span>C:\Python\python setup.py install --record=install.log
+<span class="anchor" id="line-61"></span></pre><span class="anchor" id="line-62"></span><span class="anchor" id="line-63"></span><p class="line862">The above commands will add Moin<tt class="backtick"></tt>Moin to your <tt class="backtick">C:\Python</tt> installation and create an <tt class="backtick">install.log</tt> file in <tt>C:\temp\moin-x.x</tt> listing all the copied files. You may use Windows Explorer to examine the newly created folders within <tt class="backtick">C:\Python</tt>. You should find a <tt class="backtick">C:\Python\share\moin</tt> folder. With Python 2.3 and later you will also find a <tt class="backtick">C:\Python\Lib\site-packages\MoinMoin</tt> folder. The <tt class="backtick">MoinMoin</tt> folder contains many Python scripts and several subfolders. <span class="anchor" id="line-64"></span><span class="anchor" id="line-65"></span><p class="line874">You are now ready to create a wiki instance. <span class="anchor" id="line-66"></span><span class="anchor" id="line-67"></span><p class="line867">
+<h2 id="head-ba9ed0d8dd27b7bc62472aa0d24e8102dd103deb">4. Creating a Wiki Instance</h2>
+<span class="anchor" id="line-68"></span><p class="line862">It is a good practice to try to keep all of your personal or site specific data under a few root folders. This way you can easily backup your important data on a regular basis without having to waste time either backing up static files or picking out dozens of important folders scattered throughout your folder structure.  You should avoid placing your wiki data under the <tt class="backtick">C:\Python</tt> folder so that you can later upgrade Python or Moin<tt class="backtick"></tt>Moin without accidentally overwriting or deleting your wiki data.  For the same reason, you probably don't want to place your wiki data within the <tt class="backtick">C:\Apache</tt> folder. The default personal folder under many Windows versions is called <tt class="backtick">C:\My&nbsp;Documents</tt>.   <span class="anchor" id="line-69"></span><span class="anchor" id="line-70"></span><p class="line862">Choose a location appropriate for you; the following instructions assume you will be creating one or more wiki instances in <tt class="backtick">C:\Moin\</tt> and the first wiki instance will be named <tt class="backtick">mywiki</tt>. <span class="anchor" id="line-71"></span><span class="anchor" id="line-72"></span><p class="line862">You may replace the name <tt class="backtick">mywiki</tt> with almost any name you wish, but do not use <tt class="backtick">wiki</tt> because that is used by Moin<tt class="backtick"></tt>Moin for loading standard images and style sheets. Although this can be changed later, the plan is that the name you choose for <tt class="backtick">mywiki</tt> will become part of the url used to access your site, e.g. <tt class="backtick">http://myorganization.org/mywiki/FrontPage</tt>. <span class="anchor" id="line-73"></span><span class="anchor" id="line-74"></span><p class="line862">Start an MS-DOS or console window and enter the commands below. This will create a clone of the Moin<tt class="backtick"></tt>Moin wiki in the mywiki folder.  <span class="anchor" id="line-75"></span><span class="anchor" id="line-76"></span><p class="line867"><span class="anchor" id="line-77"></span><pre>cd C:\ 
+<span class="anchor" id="line-78"></span>md Moin
+<span class="anchor" id="line-79"></span>md Moin\mywiki
+<span class="anchor" id="line-80"></span>md Moin\mywiki\data
+<span class="anchor" id="line-81"></span>md Moin\mywiki\underlay
+<span class="anchor" id="line-82"></span>cd \Python\share\moin
+<span class="anchor" id="line-83"></span>xcopy data        C:\Moin\mywiki\data /E
+<span class="anchor" id="line-84"></span>xcopy underlay    C:\Moin\mywiki\underlay /E
+<span class="anchor" id="line-85"></span>copy  config\*.* C:\Moin\mywiki\*.*
+<span class="anchor" id="line-86"></span>copy  server\*.* C:\Moin\mywiki\*.*
+<span class="anchor" id="line-87"></span></pre><span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span><p class="line874">If your server is going to run multiple wikis, you need to create additional clones. Do the same commands again, but use mywiki2 instead of mywiki. <span class="anchor" id="line-90"></span><span class="anchor" id="line-91"></span><p class="line862">Edit <tt class="backtick">C:\Moin\mywiki\wikiconfig.py</tt> and at least change <tt class="backtick">sitename</tt> to the name of your wiki: <span class="anchor" id="line-92"></span><span class="anchor" id="line-93"></span><pre>    sitename = 'My Wiki'
+<span class="anchor" id="line-94"></span></pre><span class="anchor" id="line-95"></span><span class="anchor" id="line-96"></span><p class="line862">Additionally, set <tt class="backtick">data_dir</tt> and <tt class="backtick">data_underlay_dir</tt> to the absolute paths of the particular directories. Like here: <span class="anchor" id="line-97"></span><span class="anchor" id="line-98"></span><pre>    data_dir = r'C:\Moin\mywiki\data'
+<span class="anchor" id="line-99"></span>    data_underlay_dir = r'C:\Moin\mywiki\underlay'
+<span class="anchor" id="line-100"></span></pre><span class="anchor" id="line-101"></span><span class="anchor" id="line-102"></span><p class="line862">For a personal or intranet installation, you'll normally also add this line to <tt class="backtick">wikiconfig.py</tt>: <span class="anchor" id="line-103"></span><span class="anchor" id="line-104"></span><pre>    allowed_actions = ['DeletePage', 'AttachFile', 'RenamePage', ]
+<span class="anchor" id="line-105"></span></pre><span class="anchor" id="line-106"></span><span class="anchor" id="line-107"></span><p class="line862">If you will <em><strong>not</strong></em> be running a Wiki farm (if you're not sure what this means, then you probably won't be), make sure to delete the <tt class="backtick">farmconfig.py</tt> file from the <tt class="backtick">C:\Moin\mywiki</tt> directory, or else <tt class="backtick">moin.cgi</tt> will most likely give off various errors (including one about not being able to find a configuration file) and will ultimately fail to start up properly. <span class="anchor" id="line-108"></span><span class="anchor" id="line-109"></span><p class="line862">Additional configuration details can be found in <a href="./HelpOnConfiguration.html">HelpOnConfiguration</a>. <span class="anchor" id="line-110"></span><span class="anchor" id="line-111"></span><p class="line867">
+<h2 id="head-42c812a9d38d3af1de6c09ed952ac1858c5221b8">5. Integrating MoinMoin into Apache</h2>
+<span class="anchor" id="line-112"></span><p class="line862">Use your editor to edit the file <tt class="backtick">C:\Moin\mywiki\moin.cgi</tt>.  Change the first line (the shebang statement) to point to your local Python executable program. Note the forward slashes -- Apache uses the Unix convention for folder separators. This tells Apache the <tt class="backtick">moin.cgi</tt> file is an executable script that will be interpreted by a program to be loaded from <tt class="backtick">C:/Python/python</tt>. <span class="anchor" id="line-113"></span><pre>
+<span class="anchor" id="line-114"></span>#! C:/Python/python
+<span class="anchor" id="line-115"></span></pre><span class="anchor" id="line-116"></span><span class="anchor" id="line-117"></span><p class="line862">After that, you may need to activate the lines which add a folder to the sys.path and enter your path to <a href="./MoinMoin.html">MoinMoin</a> there if you have <strong>not</strong> installed <a href="./MoinMoin.html">MoinMoin</a> to the site-packages dir: <span class="anchor" id="line-118"></span><span class="anchor" id="line-119"></span><span class="anchor" id="line-120"></span><span class="anchor" id="line-121"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+function isnumbered(obj) {
+  return obj.childNodes.length && obj.firstChild.childNodes.length && obj.firstChild.firstChild.className == 'LineNumber';
+}
+function nformat(num,chrs,add) {
+  var nlen = Math.max(0,chrs-(''+num).length), res = '';
+  while (nlen>0) { res += ' '; nlen-- }
+  return res+num+add;
+}
+function addnumber(did, nstart, nstep) {
+  var c = document.getElementById(did), l = c.firstChild, n = 1;
+  if (!isnumbered(c))
+    if (typeof nstart == 'undefined') nstart = 1;
+    if (typeof nstep  == 'undefined') nstep = 1;
+    n = nstart;
+    while (l != null) {
+      if (l.tagName == 'SPAN') {
+        var s = document.createElement('SPAN');
+        s.className = 'LineNumber'
+        s.appendChild(document.createTextNode(nformat(n,4,' ')));
+        n += nstep;
+        if (l.childNodes.length)
+          l.insertBefore(s, l.firstChild)
+        else
+          l.appendChild(s)
+      }
+      l = l.nextSibling;
+    }
+  return false;
+}
+function remnumber(did) {
+  var c = document.getElementById(did), l = c.firstChild;
+  if (isnumbered(c))
+    while (l != null) {
+      if (l.tagName == 'SPAN' && l.firstChild.className == 'LineNumber') l.removeChild(l.firstChild);
+      l = l.nextSibling;
+    }
+  return false;
+}
+function togglenumber(did, nstart, nstep) {
+  var c = document.getElementById(did);
+  if (isnumbered(c)) {
+    remnumber(did);
+  } else {
+    addnumber(did,nstart,nstep);
+  }
+  return false;
+}
+</script>
+
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-ae7207ce08c12f42f82f00c644b7aa0c244223a5_000\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-ae7207ce08c12f42f82f00c644b7aa0c244223a5_000" lang="en"><span class="line"><span class="LineNumber">   1 </span><span class="ResWord">import</span> <span class="ID">sys</span></span>
+<span class="line"><span class="LineNumber">   2 </span><span class="ID">sys</span><span class="Operator">.</span><span class="ID">path</span><span class="Operator">.</span><span class="ID">insert</span><span class="Operator">(</span><span class="Number">0</span><span class="Operator">,</span> <span class="String">r'C:\Moin\...'</span><span class="Operator">)</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-122"></span><span class="anchor" id="line-123"></span><p class="line874">The next step is to tell Apache that is has more work to do. <span class="anchor" id="line-124"></span>Use your editor to append the following lines to <tt class="backtick">C:\Apache\conf\httpd.conf</tt>. Note the presence and absence of trailing slashes, it is important to enter the lines exactly as shown below. <span class="anchor" id="line-125"></span><span class="anchor" id="line-126"></span><pre>Alias       /wiki/     "C:/Python/share/moin/htdocs/"
+<span class="anchor" id="line-127"></span>ScriptAlias /mywiki    "C:/Moin/mywiki/moin.cgi"
+<span class="anchor" id="line-128"></span></pre><span class="anchor" id="line-129"></span><span class="anchor" id="line-130"></span><p class="line862">The <strong>Alias</strong> lines for <tt class="backtick">wiki</tt> above instructs Apache to serve images, style sheets, etc. from the specified folders and subfolders. The <strong>Script<tt class="backtick"></tt>Alias</strong> line is needed once for each wiki instance, so if you have multiple wikis, repeat the statement using mywiki2, mywiki3, etc. The Script<tt class="backtick"></tt>Alias statement instructs Apache to execute scripts from the specified folder. See the Apache docs for a complete explanation. <span class="anchor" id="line-131"></span><span class="anchor" id="line-132"></span><p class="line862">Test your changes by restarting your Apache server and try to access your newborn wiki with the URL <tt class="backtick">http://127.0.0.1/mywiki</tt>. You should see the Front<tt class="backtick"></tt>Page, try to edit and save it, and if that works, verify your edit is reflected on the Recent<tt class="backtick"></tt>Changes page. <span class="anchor" id="line-133"></span><span class="anchor" id="line-134"></span><p class="line862">And now, it is up to you and your user community to transform your wiki into an informative and useful tool. You will probably want to retain most of the Help<tt class="backtick"></tt>On~ pages dealing with editing, delete those pages with irrelevant information (like this page, don't let your users or boss know how easy it was to install Moin<tt class="backtick"></tt>Moin <img alt=";)" height="15" src="./mentalwealth/img/smile4.png" title=";)" width="15" /> ), and rewrite the Front<tt class="backtick"></tt>Page to introduce your wiki topic.  <span class="anchor" id="line-135"></span><span class="anchor" id="line-136"></span><p class="line867">
+<h2 id="head-82ba5417401e5b5cb78836b4f23ef160fbc80630">6. Troubleshooting</h2>
+<span class="anchor" id="line-137"></span><p class="line862">The first place to look for clues when the unexpected happens is to try changing your url to: <tt class="backtick">http://127.0.0.1/mywiki?action=test</tt>. If Apache can find and execute the module <tt class="backtick">C:/Moin/mywiki/moin.cgi</tt>, a page of diagnostics titled <strong>Moin<tt class="backtick"></tt>Moin CGI Diagnosis</strong> will be displayed. Check the output for error messages. <span class="anchor" id="line-138"></span><span class="anchor" id="line-139"></span><p class="line862">The second place to look for is <tt class="backtick">C:\Apache\logs\error.log</tt>. The following are common errors grouped by the message displayed by your browser. <span class="anchor" id="line-140"></span><span class="anchor" id="line-141"></span><p class="line867">
+<h3 id="head-01d84d7e6494dcee0bd2abfbb04f43f812c9bdd7">6.1. Internal Server Error</h3>
+<span class="anchor" id="line-142"></span><span class="anchor" id="line-143"></span><p class="line862">If the Apache log shows a message "The system cannot find the file specified." then a possibility is the shebang statement in <tt class="backtick">moin.cgi</tt> is incorrect. <span class="anchor" id="line-144"></span><span class="anchor" id="line-145"></span><p class="line862">If the Apache log shows a different error message, then the Moin<tt class="backtick"></tt>Moin Python scripts may be abending. To determine the cause, you could try temporarily renaming <tt class="backtick">moin.cgi</tt> to <tt class="backtick">moin.py</tt>, loading <tt class="backtick">moin.py</tt> with the Python <strong>idle</strong> IDE and executing it to determine if there are any error messages. <span class="anchor" id="line-146"></span><span class="anchor" id="line-147"></span><p class="line867">
+<h3 id="head-7a4c0881ccb7242b9857811b27dc07ad836889d0">6.2. Not Found</h3>
+<span class="anchor" id="line-148"></span><p class="line862">If the Apache error log shows the message "File does not exist: C:/Apache/htdocs/mywiki",  the <strong>Script<tt class="backtick"></tt>Alias</strong> statement in <tt class="backtick">httpd.conf</tt> may be incorrect. <span class="anchor" id="line-149"></span><span class="anchor" id="line-150"></span><p class="line867">
+<h3 id="head-d9b4f0491158f7280b4bf1693d990336527ebf4d">6.3. The Page Cannot be found</h3>
+<span class="anchor" id="line-151"></span><p class="line862">If the Apache error log shows the message "File does not exist: C:/Apache/htdocs/????", you may have mistyped the url "<a class="http" href="http://127.0.0.1/mywiki">http://127.0.0.1/mywiki</a>" into your browser. <span class="anchor" id="line-152"></span><span class="anchor" id="line-153"></span><p class="line867">
+<h3 id="head-d47936fa3c21c07d857b27fdb811e5836635a100">6.4. FrontPage Loads Without Icons</h3>
+<span class="anchor" id="line-154"></span><p class="line862">If the Apache Error log shows many error messages "File does not exist: C:/Apache/htdocs/wiki", then the <strong>Alias</strong> statement in <tt class="backtick">httpd.conf</tt> may be incorrect. <span class="anchor" id="line-155"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

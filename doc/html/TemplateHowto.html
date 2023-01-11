@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TemplateHowto</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TemplateHowto</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867">
+<h2 id="head-7aeb646f00e87094cc515019a0135ab5aa7a842b">TMDA Template HOWTO</h2>
+<span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><p class="line867">
+<h3 id="head-92430492a9746236597ca3a6d7d2eed331af5ff4">Introduction</h3>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line874">TMDA comes with a set of template files which hold the content used in its various auto-responses. You can customize this content by editing and maintaining your own set of templates, which will be explained below.  <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line862">If you downloaded a TMDA source tarball, these files will be located in the <strong>templates/</strong> subdirectory of the distribution. If you are using a TMDA package, the template files will be in a global directory such as <strong>/etc/tmda/</strong>, <strong>/usr/share/tmda/</strong> or <strong>/usr/local/share/tmda/</strong>.  <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line874">There are currently three sets of templates for TMDA's three different types of auto-responses -- "bounce" (failure notices), "confirm request" (delivery confirmation requests), and "confirm accept" (delivery confirmation notices). The table below details what each template file is used for. You'll also get a good sense of what each template does by just looking at their contents.  <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><div><table><tbody><tr>  <td><p class="line862"> template file </td>
+  <td><p class="line862"> context used </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-14"></span><p class="line862"> confirm_request.txt </td>
+  <td><p class="line862"> When the the <a href="./ChallengeResponse.html">challenge/response system</a> needs to request delivery confirmation for messages </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-15"></span><p class="line862"> confirm_accept.txt </td>
+  <td><p class="line862"> When <a href="./ConfigurationVariables.html#CONFIRM_ACCEPT_NOTIFY">CONFIRM_ACCEPT_NOTIFY</a> is set to True </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-16"></span><p class="line862"> bounce_incoming.txt </td>
+  <td><p class="line862"> When <a href="./ConfigurationVariables.html#ACTION_INCOMING">ACTION_INCOMING</a> is set to "bounce", or a "bounce" is triggered by your <a href="./ConfigurationVariables.html#FILTER_INCOMING">FILTER_INCOMING</a> file </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-17"></span><p class="line862"> bounce_fail_sender.txt </td>
+  <td><p class="line862"> When <a href="./ConfigurationVariables.html#ACTION_FAIL_SENDER">ACTION_FAIL_SENDER</a> is set to "bounce" </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-18"></span><p class="line862"> bounce_fail_keyword.txt </td>
+  <td><p class="line862"> When <a href="./ConfigurationVariables.html#ACTION_FAIL_KEYWORD">ACTION_FAIL_KEYWORD</a> is set to "bounce" </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-19"></span><p class="line862"> bounce_fail_dated.txt </td>
+  <td><p class="line862"> When <a href="./ConfigurationVariables.html#ACTION_FAIL_DATED">ACTION_FAIL_DATED</a> is set to "bounce" </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-20"></span><p class="line862"> bounce_expired_dated.txt </td>
+  <td><p class="line862"> When <a href="./ConfigurationVariables.html#ACTION_EXPIRED_DATED">ACTION_EXPIRED_DATED</a> is set to "bounce" </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-21"></span><p class="line862"> bounce_missing_pending.txt </td>
+  <td><p class="line862"> When <a href="./ConfigurationVariables.html#ACTION_MISSING_PENDING">ACTION_MISSING_PENDING</a> is set to "bounce" </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-22"></span><p class="line862"> bounce_invalid_confirmation.txt </td>
+  <td><p class="line862"> When <a href="./ConfigurationVariables.html#ACTION_INVALID_CONFIRMATION">ACTION_INVALID_CONFIRMATION</a> is set to "bounce" </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><span class="anchor" id="line-25"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span><p class="line867">
+<h3 id="head-dddc7a63be6fc6a15964592da0922bb65033f4fd">Template structure</h3>
+<span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line862">TMDA templates look much like a standard <a class="http" href="http://www.faqs.org/rfcs/rfc2822.html">RFC 2822</a> e-mail message, consisting of header fields followed by a message body. The body is separated from the header by an empty line. <span class="anchor" id="line-30"></span><span class="anchor" id="line-31"></span><p class="line867">
+<h4 id="head-a2b8507ddcce887253aad704bf6490628f07f4b2">header</h4>
+<span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span><p class="line874">Header fields are lines composed of a field name, followed by a dot ("."), followed by the name of the header's character set, followed by a colon (":"), followed by a field value, and terminated by CRLF. e.g, <span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span><p class="line867"><span class="anchor" id="line-36"></span><pre>Subject.US-ASCII: Please confirm your message</pre><span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><p class="line874">Header fields and values MUST be composed of printable US-ASCII characters. See the International section below if you wish to use non-ASCII characters in your template header values. <span class="anchor" id="line-39"></span><span class="anchor" id="line-40"></span><p class="line867">
+<h4 id="head-bb82a6dc6fcba9bd97e4c32e8fe30bb95a33c48c">body</h4>
+<span class="anchor" id="line-41"></span><span class="anchor" id="line-42"></span><p class="line874">The body of a message is simply lines of US-ASCII characters. See the International section below if you wish to use non-ASCII characters in your template body. <span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span><p class="line867">
+<h4 id="head-bd313b84b1362face7404e64e50cfe88d58866ef">composition</h4>
+<span class="anchor" id="line-45"></span><span class="anchor" id="line-46"></span><p class="line862">Templates are composed of plain text mixed with variables in the form <tt class="backtick">%(variable)s</tt>. The values of these variables are strings which are filled in when the message is created from the template. Variables can come from a variety of places: <span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span><ol type="1"><li>Any variables in the Defaults.py namespace (usually shown in all caps in the templates). <span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span><span class="anchor" id="line-51"></span></li><li class="gap">Any variable set in the bouncegen() function of tmda-rfilter (usually in all lowercase in the templates). You'll have to look at the source for bouncegen() if you want a full list of these. <span class="anchor" id="line-52"></span><span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span></li><li class="gap"><p class="line862">Any variable set in your ~/.tmda/config or in /etc/tmdarc. For example, my config stores a local weather report in the variable <tt class="backtick">la_weather',&nbsp;which&nbsp;I&nbsp;then&nbsp;reference&nbsp;in&nbsp;my&nbsp;custom&nbsp;template&nbsp;as&nbsp;</tt>%(la_weather)s`. <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span></li></ol><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><p class="line867">
+<h3 id="head-afaadf724200c8714c685dc83ab523beae6a9f04">Customizing your templates</h3>
+<span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span><p class="line874">The contents of the default templates will suit the needs of some users, but many will want to customize them. TMDA makes this easy to do.  <span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span><p class="line862">If you want to use customized templates, you define <a href="./ConfigurationVariables.html#TEMPLATE_DIR">TEMPLATE_DIR</a> in your ~/.tmda/config, and copy the default templates that you want to customize to that directory. Another option is to invoke tmda-filter with the <tt class="backtick">-t</tt> option. Then edit the template(s) to suit your needs.  <span class="anchor" id="line-63"></span><span class="anchor" id="line-64"></span><p class="line874">If a template is not found in your custom directory, the default template will be used. This allows you for example to only customize confirm_request.txt, taking the defaults for the other templates.  <span class="anchor" id="line-65"></span><span class="anchor" id="line-66"></span><p class="line862">If you want to use particular custom templates for a specific sender address, or sender addresses in a specific sub-domain or top-level domain, see the <a href="./ConfigurationVariables.html#TEMPLATE_DIR_MATCH_SENDER">TEMPLATE_DIR_MATCH_SENDER</a> feature. <a href="./ConfigurationVariables.html#TEMPLATE_DIR_MATCH_RECIPIENT">TEMPLATE_DIR_MATCH_RECIPIENT</a> offers a similar feature based on the recipient address.  <span class="anchor" id="line-67"></span><span class="anchor" id="line-68"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-69"></span><span class="anchor" id="line-70"></span><p class="line867">
+<h3 id="head-04155fa5f1574ad613f60c66ac3efa14622da5c4">International templates</h3>
+<span class="anchor" id="line-71"></span><span class="anchor" id="line-72"></span><p class="line874">The default templates are written entirely in English, and in US-ASCII. If your native language is not English, and you frequently correspond with other users of that language, you may wish to use multilingual templates. TMDA also allows you to do this fairly easily.  <span class="anchor" id="line-73"></span><span class="anchor" id="line-74"></span><p class="line867"><strong>NOTE:</strong> It's recommended that you not remove the English content from your templates, but rather supplement it with a native language translation. For better or worse, the common language of the Internet is English, and to insure maximum readability, you should adhere to this.  <span class="anchor" id="line-75"></span><span class="anchor" id="line-76"></span><p class="line874">If your language does not use non-ASCII characters, you can safely ignore the rest of this section. However, if you do wish to use non-ASCII characters in your templates such as the cedilla in French or umlauts in German, keep reading. <span class="anchor" id="line-77"></span><span class="anchor" id="line-78"></span><p class="line867">
+<h4 id="head-766c3573880c3bd7d743c9f38da1c6704b09020d">International e-mail primer</h4>
+<span class="anchor" id="line-79"></span><span class="anchor" id="line-80"></span><p class="line874">Internet e-mail was born at a time when most e-mail was composed of 7-bit ASCII characters only. Of course, as e-mail has been deployed worldwide, it has become internationalized, such that language specific character sets can now be used in email messages. The base standard still requires e-mail messages to be transfered using only 7-bit ASCII characters, so a slew of RFCs have been written describing how to encode email containing non-ASCII characters into an RFC 2822-compliant format.  <span class="anchor" id="line-81"></span><span class="anchor" id="line-82"></span><p class="line874">Luckily, TMDA handles all these gory details for you. This means you can write your templates in the character set of your choice, and TMDA will make sure the resulting auto-response is RFC-compliant. <span class="anchor" id="line-83"></span><span class="anchor" id="line-84"></span><p class="line867">
+<h4 id="head-73e7ccdac8e145e97e5d953c1ee08d5f72a46ed5">Internationalized bodies</h4>
+<span class="anchor" id="line-85"></span><span class="anchor" id="line-86"></span><p class="line862">If you wish to use non-ASCII characters in the body of your template, first change the value of the <tt class="backtick">BodyCharset</tt> pseudo-header field to the character set covering your language. Refer to the table at the bottom of this page for help figuring out which character set to use.  <span class="anchor" id="line-87"></span><span class="anchor" id="line-88"></span><p class="line862">For example, if you are mixing German+English in your template, <tt class="backtick">BodyCharset</tt> should be set to the following: <span class="anchor" id="line-89"></span><span class="anchor" id="line-90"></span><p class="line867"><span class="anchor" id="line-91"></span><pre>BodyCharset: LATIN-1</pre><span class="anchor" id="line-92"></span><span class="anchor" id="line-93"></span><p class="line874">Then just enter the non-ASCII characters directly into your template along with the ASCII characters. TMDA will properly encode the message based on the charset you specified.  <span class="anchor" id="line-94"></span><span class="anchor" id="line-95"></span><p class="line867"><tt class="backtick">BodyCharset</tt> only accepts one charset as its value, so you should choose a character set that encompasses all the languages you plan to use in your template. For example, you can write German+Polish+English with LATIN-2 or German+Turkish+English with LATIN-5 but there is no 8-bit charset to properly mix German+Russian+English, for instance.  <span class="anchor" id="line-96"></span><span class="anchor" id="line-97"></span><p class="line862">The entire <tt class="backtick">BodyCharset</tt> field is case-insensitive. If <tt class="backtick">BodyCharset</tt> is not provided, it defaults to US-ASCII. <span class="anchor" id="line-98"></span><span class="anchor" id="line-99"></span><p class="line867">
+<h4 id="head-8f916d6ab5f25253c5dd40c4d451018b6351de54">Internationalized headers</h4>
+<span class="anchor" id="line-100"></span><span class="anchor" id="line-101"></span><p class="line874">If you wish to use non-ASCII characters in your template header values, first change the charset suffix for that header to the character set covering your language. Refer to the table at the bottom of this page for help figuring out which character set to use.  <span class="anchor" id="line-102"></span><span class="anchor" id="line-103"></span><p class="line874">For example, if you want to use a German Subject in your template, the Subject field might be changed to the following: <span class="anchor" id="line-104"></span><span class="anchor" id="line-105"></span><p class="line867"><span class="anchor" id="line-106"></span><pre>Subject.LATIN-1: Please confirm your message / Bitte Bestätigen</pre><span class="anchor" id="line-107"></span><span class="anchor" id="line-108"></span><p class="line862">Unlike template bodies, template headers are not restricted to one character set. Different headers can use different character sets. For example, a Japanese From field with German Subject field:<span class="anchor" id="line-109"></span><pre>
+<span class="anchor" id="line-110"></span>From.EUC-JP: "藤原誠 / Makoto Fujiwara" &lt;%(recipient_address)s&gt;
+<span class="anchor" id="line-111"></span>Subject.LATIN-1: Please confirm your message / Bitte Bestätigen</pre><span class="anchor" id="line-112"></span><span class="anchor" id="line-113"></span><p class="line874">If a charset suffix is not provided, it defaults to US-ASCII for that header. <span class="anchor" id="line-114"></span><span class="anchor" id="line-115"></span><p class="line867">
+<h4 id="head-83871f9dc7dc767fcb85277af927ffc4d66ae765">CJK (Chinese, Japanese, Korean)</h4>
+<span class="anchor" id="line-116"></span><span class="anchor" id="line-117"></span><p class="line874">Multi-byte character sets such as those used in CJK can be used in a TMDA template, but requires that the proper Unicode codec be installed into your Python (single-byte 8-bit charsets don't need a Unicode codec).  <span class="anchor" id="line-118"></span><span class="anchor" id="line-119"></span><p class="line862">You must first install the <a class="http" href="http://cjkpython.i18n.org/">CJKCodecs</a> Python package if you are running Python 2.3.x. The latest version of the package at this writing is 1.1.1.  CJKCodecs has been integrated into Python 2.4 so if you are running that version, you do not need to install the separate package. <span class="anchor" id="line-120"></span><span class="anchor" id="line-121"></span><ul><li><p class="line862">Simplified Chinese (China): Your templates must be saved in the <strong>GB2312</strong> charset. <span class="anchor" id="line-122"></span><span class="anchor" id="line-123"></span><span class="anchor" id="line-124"></span></li><li class="gap"><p class="line862">Traditional Chinese (Taiwan): Your templates must be saved in the <strong>BIG5</strong> charset. <span class="anchor" id="line-125"></span><span class="anchor" id="line-126"></span><span class="anchor" id="line-127"></span></li><li class="gap"><p class="line862">Japanese: Your templates must be saved in the <strong>EUC-JP</strong> charset, not ISO-2022-JP or Shift_JIS. When the e-mail message is sent, the text will be automatically be convered into ISO-2022-JP for reliable 7-bit transmission. <span class="anchor" id="line-128"></span><span class="anchor" id="line-129"></span><span class="anchor" id="line-130"></span></li><li class="gap"><p class="line862">Korean: Your templates must be saved in the <strong>EUC-KR</strong> charset. <span class="anchor" id="line-131"></span><span class="anchor" id="line-132"></span></li></ul><p class="line867">
+<h4 id="head-720f9d41ee4b18c5029e34d68941465477ec24b8">Choosing the right character set</h4>
+<span class="anchor" id="line-133"></span><span class="anchor" id="line-134"></span><p class="line862">The charset value for <tt class="backtick">BodyCharset</tt>, and the charset suffix in Header.CHARSET: can be any standard character set name (such as ISO-8859-1), or an alias for that charset (such as LATIN-1). Charset names and aliases are case-insensitive.  <span class="anchor" id="line-135"></span><span class="anchor" id="line-136"></span><p class="line874">All charsets are supported, but here is a table listing some of the more popular ones, along with their alias (if any), and some languages covered by that charset.  <span class="anchor" id="line-137"></span><span class="anchor" id="line-138"></span><span class="anchor" id="line-139"></span><div><table><tbody><tr>  <td><p class="line862"> charset </td>
+  <td><p class="line862"> charset alias(es) </td>
+  <td><p class="line862"> example languages </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-140"></span><p class="line862"> ISO-8859-1 </td>
+  <td><p class="line862"> LATIN-1 </td>
+  <td><p class="line862"> French, German, Finnish, Spanish, Dutch, Portuguese, Italian, Swedish </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-141"></span><p class="line862"> ISO-8859-2 </td>
+  <td><p class="line862"> LATIN-2 </td>
+  <td><p class="line862"> Czech, Hungarian, Croatian, Romanian, Polish, Slovenian </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-142"></span><p class="line862"> ISO-8859-7 </td>
+  <td><p class="line862"> GREEK </td>
+  <td><p class="line862"> Greek </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-143"></span><p class="line862"> ISO-8859-8 </td>
+  <td><p class="line862"> HEBREW </td>
+  <td><p class="line862"> Hebrew, Yiddish </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-144"></span><p class="line862"> ISO-8859-9 </td>
+  <td><p class="line862"> LATIN-5, TURKISH </td>
+  <td><p class="line862"> Turkish </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-145"></span><p class="line862"> ISO-8859-13 </td>
+  <td><p class="line862"> LATIN-7 </td>
+  <td><p class="line862"> Latvian, Lithuanian </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-146"></span><p class="line862"> ISO-8859-15 </td>
+  <td><p class="line862"> LATIN-9 </td>
+  <td><p class="line862"> Estonian, Euskara, the Euro sign </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-147"></span><p class="line862"> KOI8-R </td>
+  <td><p class="line862"> RUSSIAN </td>
+  <td><p class="line862"> Russian </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-148"></span><p class="line862"> EUC-JP </td>
+  <td><p class="line862"> JAPANESE </td>
+  <td><p class="line862"> Japanese </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-149"></span><p class="line862"> EUC-KR </td>
+  <td><p class="line862"> KOREAN </td>
+  <td><p class="line862"> Korean </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-150"></span><p class="line862"> TIS-620 </td>
+  <td><p class="line862"> THAI </td>
+  <td><p class="line862"> Thai </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-151"></span><p class="line862"> VISCII </td>
+  <td><p class="line862"> VIETNAMESE </td>
+  <td><p class="line862"> Vietnamese </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-152"></span><p class="line862"> UTF-8 </td>
+  <td><p class="line862"> UTF-8 </td>
+  <td><p class="line862"> Serbian, Ukrainian, Arabic, Farsi </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-153"></span><span class="anchor" id="line-154"></span><p class="line862">Also see Roman Czyborra's excellent <a class="http" href="http://czyborra.com/charsets/iso8859.html">ISO 8859 Alphabet Soup</a> for more on the ISO 8859 series (which will cover most user's I18N needs).  <span class="anchor" id="line-155"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

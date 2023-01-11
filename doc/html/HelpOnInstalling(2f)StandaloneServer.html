@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnInstalling/StandaloneServer</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnInstalling/StandaloneServer</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-7"></span><p class="line867"><strong>Installing and configuring standalone server</strong> <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line862">See also: <a href="./HelpOnConfiguration(2f)IntegratingWithApache.html">HelpOnConfiguration/IntegratingWithApache</a> <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line874">The standalone server is especially made for local wikis because it does not need a web server installed. Only Python and Moin are necessary! <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line874">To install and run the standalone server: <span class="anchor" id="line-14"></span><ol type="1"><li><p class="line862">If <a href="./MoinMoin.html">MoinMoin</a> is not installed yet, perform <a href="./HelpOnInstalling(2f)BasicInstallation.html">../BasicInstallation</a> <span class="anchor" id="line-15"></span></li><li><p class="line862">Create a wiki instance as described in <a href="./HelpOnInstalling(2f)WikiInstanceCreation.html">../WikiInstanceCreation</a> <span class="anchor" id="line-16"></span></li><li><p class="line862">Copy <tt>moin.py</tt> to your wiki directory, where your <tt>wikiconfig.py</tt> is <span class="anchor" id="line-17"></span></li><li><p class="line862">If you installed with <tt class="backtick">--prefix</tt> option, you must edit moin.py and set <tt class="backtick">docs</tt> to the correct path. <span class="anchor" id="line-18"></span></li><li><p class="line862">Run <tt>moin.py</tt> <span class="anchor" id="line-19"></span></li><li><p class="line862">Access your wiki at <a class="http" href="http://localhost:8000/">http://localhost:8000/</a> <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span></li></ol><p class="line862">On most cases, the default settings will be just fine. You many want to edit <tt>moin.py</tt> and change some of the options, as described in the next section. <span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><p class="line867">
+<h1 id="head-b104ff56fc1c89199447f1f2756b65995534e032">1. Configuring moin.py</h1>
+<span class="anchor" id="line-24"></span><span class="anchor" id="line-25"></span><p class="line867">
+<h2 id="head-5d2a2fc430a567acd72fcaa712af23333abca0df">1.1. System path configuration</h2>
+<span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span><p class="line874">If you did a standard install, and you are not a developer, you probably want to skip this section. If not, you might want to add the path to moin and config file, like that: <span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line867"><span class="anchor" id="line-30"></span><pre>import sys
+<span class="anchor" id="line-31"></span>sys.path.insert(0, '/path/to/moin')
+<span class="anchor" id="line-32"></span>sys.path.insert(0, '/path/to/wikiconfig')
+<span class="anchor" id="line-33"></span></pre><span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span><p class="line867"><span class="anchor" id="options"></span> <span class="anchor" id="line-36"></span>
+<h2 id="head-3cb7180f429490b9735cfc083869eaaa128ed64c">1.2. Config class options</h2>
+<span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><div><table><tbody><tr>  <td><p class="line862"> <strong>Option</strong> </td>
+  <td><p class="line862"> <strong>Default</strong> </td>
+  <td><p class="line862"> <strong>Comment</strong> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-39"></span><p class="line862"> name </td>
+  <td><p class="line862"> <tt>'moin'</tt> </td>
+  <td><p class="line862"> Server name, used by default for log and pid files. <img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> New in 1.5 </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-40"></span><p class="line862"> docs </td>
+  <td><p class="line862"> <tt>'/usr/share/moin/wiki/htdocs'</tt> </td>
+  <td><p class="line862"> Path to moin shared files. If you used <tt class="backtick">--prefix</tt> install, the default path will not work, and you must set the path to <tt>'PREFIX/share/moin/wiki/htdocs'</tt>. </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-41"></span><p class="line862"> user </td>
+  <td><p class="line862"> <tt>'www-data'</tt> </td>
+  <td><p class="line862"> If you run as root, the server will run with as this user </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-42"></span><p class="line862"> group </td>
+  <td><p class="line862"> <tt>'www-data'</tt> </td>
+  <td><p class="line862"> If you run as root, the server will run with as this group </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-43"></span><p class="line862"> port </td>
+  <td><p class="line862"> <tt>8000</tt> </td>
+  <td><p class="line862"> Port to serve. To serve privileged port under 1024 you will have to run as root </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-44"></span><p class="line862"> interface </td>
+  <td><p class="line862"> <tt>'localhost'</tt> </td>
+  <td><p class="line862"> The interface the server will listen to. The default will listen only to localhost. Set to <tt>''</tt> to listen to all.</td>
+</tr>
+<tr>  <td><span class="anchor" id="line-45"></span><p class="line862"> logPath </td>
+  <td><p class="line862"> <tt>name&nbsp;+&nbsp;'.log'</tt> </td>
+  <td><p class="line862"> Log file. Default is commented. </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-46"></span><p class="line862"> serverClass </td>
+  <td><p class="line862"> <tt>'ThreadPoolServer'</tt>, <tt>'ThreadingServer'</tt>, <tt>'ForkingServer'</tt>, <tt>'SimpleServer'</tt> </td>
+  <td><p class="line862"> The server type to use, see the comments in the <tt>moin.py</tt>. The default is <tt>'ThreadPoolServer'</tt>, which create a pool of threads and reuse them for new connections. <img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> New in 1.3.5 </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-47"></span><p class="line862"> threadLimit </td>
+  <td><p class="line862"> <tt>10</tt> </td>
+  <td><p class="line862"> How many threads to create. <img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> New in 1.3.5 </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-48"></span><p class="line862"> requestQueueSize </td>
+  <td><p class="line862"> <tt>50</tt> </td>
+  <td><p class="line862"> The count of socket connection requests that are buffered by the operating system. <img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> New in 1.3.5 </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-49"></span><p class="line862"> properties </td>
+  <td><p class="line862"> <tt>&nbsp;{}&nbsp;</tt> </td>
+  <td><p class="line862"> allow overriding any request property by setting the value in this dict e.g <tt>properties&nbsp;=&nbsp;{'script_name':&nbsp;'/mywiki'</tt>}. <img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> New in 1.5 </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-50"></span><span class="anchor" id="line-51"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> There may be more options useful to moin developers, see the comments in <tt>moin.py</tt> <span class="anchor" id="line-52"></span><span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span></li></ul><p class="line867">
+<h1 id="head-09dea245aaa1a9c2da2585949e627adb3e22284d">2. Configuring wikiconfig.py</h1>
+<span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line874">The sample config file should be just fine. <span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><div><table><tbody><tr>  <td><p class="line862"> <strong>Option</strong> </td>
+  <td><p class="line862"> <strong>Default</strong> </td>
+  <td><p class="line862"> <strong>Comment</strong> </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-59"></span><p class="line862"> url_prefix </td>
+  <td><p class="line862"> '/wiki' </td>
+  <td><p class="line862"> You should not change this, or images and css file will not be available to the wiki! </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-60"></span><span class="anchor" id="line-61"></span><p class="line867">
+<h1 id="head-97336ff12bb113d4f2b55edf2d4c433001e6e54e">3. Starting the server</h1>
+<span class="anchor" id="line-62"></span><span class="anchor" id="line-63"></span><p class="line862">Run <tt>moin.py</tt> from the command line: <span class="anchor" id="line-64"></span><span class="anchor" id="line-65"></span><pre>$ ./moin.py
+<span class="anchor" id="line-66"></span>Serving on localhost:8000
+<span class="anchor" id="line-67"></span></pre><span class="anchor" id="line-68"></span><span class="anchor" id="line-69"></span><p class="line862">Test your wiki at <a class="http" href="http://localhost:8000/">http://localhost:8000/</a> <span class="anchor" id="line-70"></span><span class="anchor" id="line-71"></span><p class="line862">On Windows, you can double click <tt>moin.py</tt> to start the server. A new terminal window will be opened. Close the window or press <tt>Control&nbsp;+&nbsp;Pause</tt> to stop the server. <span class="anchor" id="line-72"></span><span class="anchor" id="line-73"></span><p class="line862">On Unix, interrupt the server with <tt>Control&nbsp;+&nbsp;C</tt> in order to shut it down. <span class="anchor" id="line-74"></span><span class="anchor" id="line-75"></span><p class="line867">
+<h1 id="head-3da0e8e1ef007d5e29a21fda332f1982c4e7140b">4. Serving port 80 on Unix</h1>
+<span class="anchor" id="line-76"></span><span class="anchor" id="line-77"></span><p class="line862">On GNU/Linux, Mac OS X or other Posix like OS, you can serve the standard port 80 used for web serving, but you must run as <tt>root</tt> for this. <span class="anchor" id="line-78"></span><span class="anchor" id="line-79"></span><p class="line862">Set <tt>port</tt> to 80, and verify that <tt>user</tt> and <tt>group</tt> exists on your system. If not, set them to an existing user, meant for web serving. If needed, <tt>chown</tt> your wiki dir to this user and group. <span class="anchor" id="line-80"></span><span class="anchor" id="line-81"></span><p class="line862">Run <tt>moin.py</tt> as root: <span class="anchor" id="line-82"></span><span class="anchor" id="line-83"></span><pre>$ sudo moin.py
+<span class="anchor" id="line-84"></span>Password:
+<span class="anchor" id="line-85"></span>Serving on localhost:8000
+<span class="anchor" id="line-86"></span>Running as uid/gid 70/70
+<span class="anchor" id="line-87"></span></pre><span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span><p class="line862">Test your wiki at <a class="http" href="http://localhost/">http://localhost/</a> <span class="anchor" id="line-90"></span><span class="anchor" id="line-91"></span><p class="line867">
+<h1 id="head-79336bdc41d8a5136baf30cad5a31b8c49b7c57b">5. Running as daemon</h1>
+<span class="anchor" id="line-92"></span><span class="anchor" id="line-93"></span><p class="line874">If run on Unix, you can run moin.py as a background process: <span class="anchor" id="line-94"></span><ol type="1"><li><p class="line862">Have a working <tt>moin.py</tt> as explained above <span class="anchor" id="line-95"></span></li><li><p class="line862">Copy the file <tt>prefix/share/moin/server/moin</tt> to your wiki directory. <span class="anchor" id="line-96"></span></li><li>Start moin server: <span class="anchor" id="line-97"></span></li></ol><p class="line867"><span class="anchor" id="line-98"></span><pre>./moin start
+<span class="anchor" id="line-99"></span></pre><span class="anchor" id="line-100"></span><span class="anchor" id="line-101"></span><p class="line874">To stop the server: <span class="anchor" id="line-102"></span><span class="anchor" id="line-103"></span><pre>./moin stop
+<span class="anchor" id="line-104"></span></pre><span class="anchor" id="line-105"></span><span class="anchor" id="line-106"></span><p class="line862">For more info run <tt>moin</tt> with no arguments. <span class="anchor" id="line-107"></span><span class="anchor" id="line-108"></span><p class="line862">If you want to start moin from a system startup script, you may need to add the path to <tt>moin.py</tt> in the top of the script: <span class="anchor" id="line-109"></span><span class="anchor" id="line-110"></span><pre># Add the path to moin.py directory 
+<span class="anchor" id="line-111"></span>import sys
+<span class="anchor" id="line-112"></span>sys.path.insert(0, '/path/to/moin')
+<span class="anchor" id="line-113"></span></pre><span class="anchor" id="line-114"></span><span class="anchor" id="line-115"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> New in release 1.5 <span class="anchor" id="line-116"></span></li></ul><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

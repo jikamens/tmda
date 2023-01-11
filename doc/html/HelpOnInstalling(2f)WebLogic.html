@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnInstalling/WebLogic</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnInstalling/WebLogic</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867">
+<h2 id="head-b9276a71fb049293bb632cfaf2d0624941c7ec02">1. Set up MoinMoin on Weblogic</h2>
+<span class="anchor" id="line-8"></span><p class="line862">Although this setup is tested and verified on Weblogic server 8.1 on Windows, it should be easily duplicated for other Weblogic versions on other platforms such as Unix. You will to do the following to enable <a href="./MoinMoin.html">MoinMoin</a> on Weblogic server: <span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><ol type="1"><li>Download and install win32con module if you don't have that yet <span class="anchor" id="line-11"></span></li><li><p class="line862">Follow the steps outlined in <a href="./HelpOnInstalling(2f)BasicInstallation.html">HelpOnInstalling/BasicInstallation</a> <span class="anchor" id="line-12"></span></li><li>Enable CGI servlet in Weblogic <span class="anchor" id="line-13"></span></li><li>Add wiki webapp for shared wiki resources <span class="anchor" id="line-14"></span></li><li>Add mywiki webapp <span class="anchor" id="line-15"></span></li><li>Fix application context issue <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span></li></ol><p class="line867">
+<h3 id="head-d7296e0f4c24906697f5f257f6fb7c4ecdf77671">1.1. config.xml for step 4 and step 5</h3>
+<span class="anchor" id="line-18"></span><p class="line867"><span class="anchor" id="line-19"></span><pre>    &lt;Application Deployed="true" Name="wiki"
+<span class="anchor" id="line-20"></span>        Path="d:\Python23\share\moin" StagedTargets="YourServer" TwoPhase="false"&gt;
+<span class="anchor" id="line-21"></span>        &lt;WebAppComponent Name="wiki" Targets="YourServer" URI="htdocs"/&gt;
+<span class="anchor" id="line-22"></span>    &lt;/Application&gt;
+<span class="anchor" id="line-23"></span>    &lt;Application Deployed="true" Name="mywiki" Path=".\applications"
+<span class="anchor" id="line-24"></span>        StagingMode="nostage" TwoPhase="true"&gt;
+<span class="anchor" id="line-25"></span>        &lt;WebAppComponent Name="mywiki" Targets="YourServer" URI="mywiki"/&gt;
+<span class="anchor" id="line-26"></span>    &lt;/Application&gt;
+<span class="anchor" id="line-27"></span>
+<span class="anchor" id="line-28"></span></pre><p class="line874"> <span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span><p class="line867">
+<h3 id="head-d7fe47442890bfab9b2d1b84efdf9f2ecb2523d1">1.2. web.xml for step 5</h3>
+<span class="anchor" id="line-31"></span><p class="line867"><span class="anchor" id="line-32"></span><pre>&lt;servlet&gt; 
+<span class="anchor" id="line-33"></span> &lt;servlet-name&gt;CGIServlet&lt;/servlet-name&gt; 
+<span class="anchor" id="line-34"></span> &lt;servlet-class&gt;weblogic.servlet.CGIServlet&lt;/servlet-class&gt; 
+<span class="anchor" id="line-35"></span> &lt;init-param&gt;  
+<span class="anchor" id="line-36"></span>  &lt;param-name&gt;cgiDir&lt;/param-name&gt;  
+<span class="anchor" id="line-37"></span>  &lt;param-value&gt;d:\moin\mywiki&lt;/param-value&gt; 
+<span class="anchor" id="line-38"></span> &lt;/init-param&gt;
+<span class="anchor" id="line-39"></span> &lt;init-param&gt;   
+<span class="anchor" id="line-40"></span>  &lt;param-name&gt;*.cgi&lt;/param-name&gt;   
+<span class="anchor" id="line-41"></span>  &lt;param-value&gt;d:\Python23\python.exe&lt;/param-value&gt;  
+<span class="anchor" id="line-42"></span> &lt;/init-param&gt;
+<span class="anchor" id="line-43"></span>&lt;/servlet&gt;
+<span class="anchor" id="line-44"></span>
+<span class="anchor" id="line-45"></span>&lt;servlet-mapping&gt;   
+<span class="anchor" id="line-46"></span> &lt;servlet-name&gt;CGIServlet&lt;/servlet-name&gt;   
+<span class="anchor" id="line-47"></span> &lt;url-pattern&gt;cgi/*&lt;/url-pattern&gt;
+<span class="anchor" id="line-48"></span>&lt;/servlet-mapping&gt;
+<span class="anchor" id="line-49"></span></pre><p class="line874"> <span class="anchor" id="line-50"></span><span class="anchor" id="line-51"></span><p class="line867">
+<h3 id="head-9830d557f31b7ed0497effe25b3da96823c1af3d">1.3. fix for application context issue</h3>
+<span class="anchor" id="line-52"></span><p class="line862">In the file <tt>moin.cgi</tt> there is a line reading <tt>request&nbsp;=&nbsp;RequestCGI()</tt>. You have to add <tt>properties&nbsp;=&nbsp;{'script_name':&nbsp;"/mywiki"&nbsp;+&nbsp;os.environ['SCRIPT_NAME']}&nbsp;</tt> in the parenthesis. This will let <a href="./MoinMoin.html">MoinMoin</a> generate correct URLs. <span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span><p class="line862">You shall be able to access your <a href="./MoinMoin.html">MoinMoin</a> front page at <a class="http" href="http://localhost/mywiki/cgi/moin.cgi">http://localhost/mywiki/cgi/moin.cgi</a> after you have completed the setup steps above <span class="anchor" id="line-55"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

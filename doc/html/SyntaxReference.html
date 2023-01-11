@@ -1,0 +1,453 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>SyntaxReference</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">SyntaxReference</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line862">This page aims to introduce the most important elements of <a href="./MoinMoin.html">MoinMoin</a><tt class="backtick"></tt>'s syntax at a glance, showing first the markup verbatim and then how it is rendered by the wiki engine. Additionally, you'll find links to the relative help pages. Please note that some of the features depend on your configuration. <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line867">
+<h1 id="head-c9e59e8fb9e818880d586d01cee1afd3a8923e1b">Table of Contents</h1>
+<span class="anchor" id="line-10"></span><p class="line867"><span class="anchor" id="line-11"></span><pre>'''Contents''' (up to the 2nd level)
+<span class="anchor" id="line-12"></span>[[TableOfContents(2)]]
+<span class="anchor" id="line-13"></span></pre><span class="anchor" id="line-14"></span><p class="line867"><strong>Contents</strong> (up to the 2nd level) <span class="anchor" id="line-15"></span><div class="table-of-contents"><p class="table-of-contents-heading">Contents<ol><li><a href="#head-c9e59e8fb9e818880d586d01cee1afd3a8923e1b">Table of Contents</a></li><li><a href="#head-e410bedc966faa6e7fbebd971644fb9839907f4e">Headings</a></li><li><a href="#head-efda21f837c8c3e85271a8a72cc2b1b20866b9be">heading 1st level</a><ol><li><a href="#head-5e55c8f6c5b6ad6abe30e04d27475d5d09da2a6d">heading 2nd level</a></li></ol><li><a href="#head-d6b87dd16466481ccd906f5ded978007aae7094f">Text Formatting</a></li><li><a href="#head-cf96918b0be59e721675f99a400ce8923175c569">Hyperlinks</a><ol><li><a href="#head-32b5fd8b3d3770b417ba5bb0c3879d39df70858b">Internal Links</a></li><li><a href="#head-a02ca9b6900e82e86b0199ee1cdb7b6b48abdfa2">External Links</a></li><li><a href="#head-a6b10278fb3271baef6ebaef041befff85b5a0bb">Avoid or Limit Automatical Linking</a></li></ol><li><a href="#head-1b3b3c9ca18a93a32c9c55c856208f839623da71">Blockquotes and Indentions</a></li><li><a href="#head-62925d7d434dfa3d068323bc17a3817f2cf87a06">Lists</a><ol><li><a href="#head-b95151291c32823955408fbc08b5cbdf67a80291">Unordered Lists</a></li><li><a href="#head-258ea5406fcb39de843b7a0d81affcdd2d1e644d">Ordered Lists</a></li><li><a href="#head-c58f7bbdb55a2cde1a911bb871434140a3e5e9e7">Definition Lists</a></li></ol><li><a href="#head-b3fed2f0c096afee76530fca962de6d67aba2c23">Horizontal Rules</a></li><li><a href="#head-c09e34179a61f5c814ec7a6fb6a58d8bb5b445dc">Tables</a><ol><li><a href="#head-c09e34179a61f5c814ec7a6fb6a58d8bb5b445dc-2">Tables</a></li><li><a href="#head-c23582f8e2475091c90310e5cca3cf56883f712d">Cell Width</a></li><li><a href="#head-044b84327c06c9f859aee18efc3648dc698ffbee">Spanning Rows and Columns</a></li><li><a href="#head-b7d5587a0b2ced04f7f5b9d520cbe727cd3c2061">Alignment of Cell Contents</a></li><li><a href="#head-ff6f1cae7e7f5b7ab1d9b941f27ce66cce065b77">Coulored Table Cells</a></li><li><a href="#head-1f68d78080bba4f33a5c1aac1a3a0f548c7635f6">HTML-like Options for Tables</a></li></ol><li><a href="#head-04d5e7663d901eb5d79b06b991cf9b257a703835">Macros and Variables</a><ol><li><a href="#head-d0750ffebce07716796b3c004a138d901bd568cf">Macros</a></li><li><a href="#head-dc2b18db325c1cfccb85a2f4692a7e7a45981798">Variables</a></li></ol><li><a href="#head-234747ba338dbeefb12f2119d1ea088825a0aac8">Smileys and Icons</a></li><li><a href="#head-65a6a33ee7e8db205bcc204354cc56df08c4aaeb">Source code</a><ol><li><a href="#head-6ee9354d05145b4a3c53cd134a6586c759b2571b">Verbatim Display</a></li><li><a href="#head-5abf71bc98de2e56f5db6194869493c9154d1386">Syntax Highlighting</a></li></ol></li></ol></div><p class="line874"> <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line867">
+<h1 id="head-e410bedc966faa6e7fbebd971644fb9839907f4e">Headings</h1>
+<span class="anchor" id="line-18"></span><p class="line867"><em><strong>see:</strong> <a href="./HelpOnHeadlines.html">HelpOnHeadlines</a></em> <span class="anchor" id="line-19"></span><span class="anchor" id="line-20"></span><pre>= heading 1st level =
+<span class="anchor" id="line-21"></span>== heading 2nd level ==
+<span class="anchor" id="line-22"></span>=== heading 3rd level ===
+<span class="anchor" id="line-23"></span>==== heading 4th level ====
+<span class="anchor" id="line-24"></span>===== heading 5th level =====
+<span class="anchor" id="line-25"></span></pre><span class="anchor" id="line-26"></span><p class="line867">
+<h1 id="head-efda21f837c8c3e85271a8a72cc2b1b20866b9be">heading 1st level</h1>
+<span class="anchor" id="line-27"></span><p class="line867">
+<h2 id="head-5e55c8f6c5b6ad6abe30e04d27475d5d09da2a6d">heading 2nd level</h2>
+<span class="anchor" id="line-28"></span><p class="line867">
+<h3 id="head-e8738d5624a040dd4977f63204a59ca34adb3cfe">heading 3rd level</h3>
+<span class="anchor" id="line-29"></span><p class="line867">
+<h4 id="head-94eed7cd1b084be994b61046e2a8e7b9cf017f5b">heading 4th level</h4>
+<span class="anchor" id="line-30"></span><p class="line867">
+<h5 id="head-07d632b6bb7da8d87d4764627733f04b84997aab">heading 5th level</h5>
+<span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span><p class="line867">
+<h1 id="head-d6b87dd16466481ccd906f5ded978007aae7094f">Text Formatting</h1>
+<span class="anchor" id="line-33"></span><p class="line867"><em><strong>see:</strong> <a href="./HelpOnFormatting.html">HelpOnFormatting</a></em> <span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span><pre> * ''emphasized (italics)''
+<span class="anchor" id="line-36"></span> * '''boldface'''
+<span class="anchor" id="line-37"></span> * '''''bold italics'''''
+<span class="anchor" id="line-38"></span> * `monospace`
+<span class="anchor" id="line-39"></span> * {{{source code}}}
+<span class="anchor" id="line-40"></span> * __underline__
+<span class="anchor" id="line-41"></span> * ,,sub,,script
+<span class="anchor" id="line-42"></span> * ^super^script
+<span class="anchor" id="line-43"></span> * ~-smaller-~
+<span class="anchor" id="line-44"></span> * ~+larger+~
+<span class="anchor" id="line-45"></span> * --(strike through)--
+<span class="anchor" id="line-46"></span></pre><span class="anchor" id="line-47"></span><ul><li><p class="line891"><em>emphasized (italics)</em> <span class="anchor" id="line-48"></span></li><li><p class="line891"><strong>boldface</strong> <span class="anchor" id="line-49"></span></li><li><p class="line891"><em><strong>bold italics</strong></em> <span class="anchor" id="line-50"></span></li><li><p class="line891"><tt class="backtick">monospace</tt> <span class="anchor" id="line-51"></span></li><li><p class="line891"><tt>source&nbsp;code</tt> <span class="anchor" id="line-52"></span></li><li><p class="line891"><span class="u">underline</span> <span class="anchor" id="line-53"></span></li><li><p class="line891"><sub>sub</sub>script <span class="anchor" id="line-54"></span></li><li><p class="line891"><sup>super</sup>script <span class="anchor" id="line-55"></span></li><li><p class="line891"><small>smaller</small> <span class="anchor" id="line-56"></span></li><li><p class="line891"><big>larger</big> <span class="anchor" id="line-57"></span></li><li><p class="line891"><span class="strike">strike through</span> <span class="anchor" id="line-58"></span><span class="anchor" id="line-59"></span></li></ul><p class="line867">
+<h1 id="head-cf96918b0be59e721675f99a400ce8923175c569">Hyperlinks</h1>
+<span class="anchor" id="line-60"></span><p class="line867"><em><strong>see:</strong> <a href="./HelpOnLinking.html">HelpOnLinking</a></em> <span class="anchor" id="line-61"></span>
+<h2 id="head-32b5fd8b3d3770b417ba5bb0c3879d39df70858b">Internal Links</h2>
+<span class="anchor" id="line-62"></span><p class="line867"><span class="anchor" id="line-63"></span><pre> * FrontPage
+<span class="anchor" id="line-64"></span> * ["FrontPage"]
+<span class="anchor" id="line-65"></span> * HelpOnEditing/SubPages
+<span class="anchor" id="line-66"></span> * /SubPage
+<span class="anchor" id="line-67"></span> * ../SiblingPage
+<span class="anchor" id="line-68"></span> * [:FrontPage:named link]
+<span class="anchor" id="line-69"></span> * [#anchorname]
+<span class="anchor" id="line-70"></span> * [#anchorname description]
+<span class="anchor" id="line-71"></span> * [wiki:Self:PageName#anchorname]
+<span class="anchor" id="line-72"></span> * [wiki:Self:PageName#anchorname description]
+<span class="anchor" id="line-73"></span> * attachment:filename.txt
+<span class="anchor" id="line-74"></span></pre><span class="anchor" id="line-75"></span><ul><li><p class="line891"><a href="./FrontPage.html">FrontPage</a> <span class="anchor" id="line-76"></span></li><li><p class="line891"><a href="./FrontPage.html">FrontPage</a> <span class="anchor" id="line-77"></span></li><li><p class="line891"><a href="./HelpOnEditing(2f)SubPages.html">HelpOnEditing/SubPages</a> <span class="anchor" id="line-78"></span></li><li><p class="line891"><a class="nonexistent" href="./SyntaxReference(2f)SubPage.html">/SubPage</a> <span class="anchor" id="line-79"></span></li><li><p class="line891"><a class="nonexistent" href="./SiblingPage.html">../SiblingPage</a> <span class="anchor" id="line-80"></span></li><li><p class="line891"><a href="./FrontPage.html">named link</a> <span class="anchor" id="line-81"></span></li><li><p class="line891"><a href="#anchorname">#anchorname</a> <span class="anchor" id="line-82"></span></li><li><p class="line891"><a href="#anchorname">description</a> <span class="anchor" id="line-83"></span></li><li><p class="line891"><a class="nonexistent" href="./PageName.html#anchorname">wiki:Self:PageName#anchorname</a> <span class="anchor" id="line-84"></span></li><li><p class="line891"><a class="nonexistent" href="./PageName.html#anchorname">description</a> <span class="anchor" id="line-85"></span></li><li><p class="line891"><a href="./SyntaxReference.html?action=AttachFile&rename=filename.txt">Upload new attachment "filename.txt"</a> <span class="anchor" id="line-86"></span><span class="anchor" id="line-87"></span></li></ul><p class="line867">
+<h2 id="head-a02ca9b6900e82e86b0199ee1cdb7b6b48abdfa2">External Links</h2>
+<span class="anchor" id="line-88"></span><p class="line867"><span class="anchor" id="line-89"></span><pre> * http://moinmoin.wikiwikiweb.de/
+<span class="anchor" id="line-90"></span> * [http://moinmoin.wikiwikiweb.de/]
+<span class="anchor" id="line-91"></span> * [http://moinmoin.wikiwikiweb.de/ MoinMoin Wiki]
+<span class="anchor" id="line-92"></span> * [http://moinmoin.wikiwikiweb.de/wiki/moinmoin.png]
+<span class="anchor" id="line-93"></span> * http://moinmoin.wikiwikiweb.de/wiki/moinmoin.png
+<span class="anchor" id="line-94"></span> * [http://moinmoin.wikiwikiweb.de/wiki/moinmoin.png moinmoin.png]
+<span class="anchor" id="line-95"></span> * MeatBall:InterWiki
+<span class="anchor" id="line-96"></span> * wiki:MeatBall/InterWiki
+<span class="anchor" id="line-97"></span> * [wiki:MeatBall/InterWiki]
+<span class="anchor" id="line-98"></span> * [wiki:MeatBall/InterWiki InterWiki page on MeatBall]
+<span class="anchor" id="line-99"></span> * [file://///servername/share/full/path/to/file/filename%20with%20spaces.txt link to file filename with spaces.txt]
+<span class="anchor" id="line-100"></span> * user@example.com
+<span class="anchor" id="line-101"></span></pre><span class="anchor" id="line-102"></span><ul><li><p class="line891"><a class="http" href="http://moinmoin.wikiwikiweb.de/">http://moinmoin.wikiwikiweb.de/</a> <span class="anchor" id="line-103"></span></li><li><p class="line891"><a class="http" href="http://moinmoin.wikiwikiweb.de/">http://moinmoin.wikiwikiweb.de/</a> <span class="anchor" id="line-104"></span></li><li><p class="line891"><a class="http" href="http://moinmoin.wikiwikiweb.de/">MoinMoin Wiki</a> <span class="anchor" id="line-105"></span></li><li><p class="line891"><a class="external" href="http://moinmoin.wikiwikiweb.de/wiki/moinmoin.png"><img alt="http://moinmoin.wikiwikiweb.de/wiki/moinmoin.png" src="http://moinmoin.wikiwikiweb.de/wiki/moinmoin.png" title="http://moinmoin.wikiwikiweb.de/wiki/moinmoin.png" /></a> <span class="anchor" id="line-106"></span></li><li><p class="line891"><img alt="moinmoin" src="http://moinmoin.wikiwikiweb.de/wiki/moinmoin.png" title="moinmoin" /> <span class="anchor" id="line-107"></span></li><li><p class="line891"><a class="http" href="http://moinmoin.wikiwikiweb.de/wiki/moinmoin.png">moinmoin.png</a> <span class="anchor" id="line-108"></span></li><li><p class="line891"><a class="interwiki" href="http://www.usemod.com/cgi-bin/mb.pl?InterWiki" title="MeatBall">InterWiki</a> <span class="anchor" id="line-109"></span></li><li><p class="line891"><a class="interwiki" href="http://www.usemod.com/cgi-bin/mb.pl?InterWiki" title="MeatBall">InterWiki</a> <span class="anchor" id="line-110"></span></li><li><p class="line891"><a class="interwiki" href="http://www.usemod.com/cgi-bin/mb.pl?InterWiki" title="MeatBall">wiki:MeatBall/InterWiki</a> <span class="anchor" id="line-111"></span></li><li><p class="line891"><a class="interwiki" href="http://www.usemod.com/cgi-bin/mb.pl?InterWiki" title="MeatBall">InterWiki page on MeatBall</a> <span class="anchor" id="line-112"></span></li><li><p class="line891"><a class="file" href="file://///servername/share/full/path/to/file/filename%20with%20spaces.txt">link to file filename with spaces.txt</a> <span class="anchor" id="line-113"></span></li><li><p class="line891"><a class="mailto" href="mailto:user@example.com">user@example.com</a> <span class="anchor" id="line-114"></span><span class="anchor" id="line-115"></span></li></ul><p class="line867">
+<h2 id="head-a6b10278fb3271baef6ebaef041befff85b5a0bb">Avoid or Limit Automatical Linking</h2>
+<span class="anchor" id="line-116"></span><p class="line867"><span class="anchor" id="line-117"></span><pre> * Wiki''''''Name
+<span class="anchor" id="line-118"></span> * Wiki``Name
+<span class="anchor" id="line-119"></span> * !WikiName
+<span class="anchor" id="line-120"></span> * WikiName''''''s
+<span class="anchor" id="line-121"></span> * WikiName``s
+<span class="anchor" id="line-122"></span> * `http://www.example.com`
+<span class="anchor" id="line-123"></span></pre><span class="anchor" id="line-124"></span><ul><li><p class="line862">Wiki<strong></strong>Name <span class="anchor" id="line-125"></span></li><li><p class="line862">Wiki<tt class="backtick"></tt>Name <span class="anchor" id="line-126"></span></li><li><p class="line891">WikiName <span class="anchor" id="line-127"></span></li><li><p class="line891"><a href="./WikiName.html">WikiName</a><strong></strong>s <span class="anchor" id="line-128"></span></li><li><p class="line891"><a href="./WikiName.html">WikiName</a><tt class="backtick"></tt>s <span class="anchor" id="line-129"></span></li><li><p class="line891"><tt class="backtick">http://www.example.com</tt> <span class="anchor" id="line-130"></span><span class="anchor" id="line-131"></span></li></ul><p class="line867">
+<h1 id="head-1b3b3c9ca18a93a32c9c55c856208f839623da71">Blockquotes and Indentions</h1>
+<span class="anchor" id="line-132"></span><p class="line867"><span class="anchor" id="line-133"></span><pre> indented text
+<span class="anchor" id="line-134"></span>  text indented to the 2nd level
+<span class="anchor" id="line-135"></span></pre><span class="anchor" id="line-136"></span><ul><li style="list-style-type:none">indented text <span class="anchor" id="line-137"></span><ul><li style="list-style-type:none">text indented to the 2nd level <span class="anchor" id="line-138"></span><span class="anchor" id="line-139"></span></li></ul></li></ul><p class="line867">
+<h1 id="head-62925d7d434dfa3d068323bc17a3817f2cf87a06">Lists</h1>
+<span class="anchor" id="line-140"></span><p class="line867"><em><strong>see:</strong> <a href="./HelpOnLists.html">HelpOnLists</a></em> <span class="anchor" id="line-141"></span>
+<h2 id="head-b95151291c32823955408fbc08b5cbdf67a80291">Unordered Lists</h2>
+<span class="anchor" id="line-142"></span><p class="line867"><span class="anchor" id="line-143"></span><pre> * item 1
+<span class="anchor" id="line-144"></span>
+<span class="anchor" id="line-145"></span> * item 2 (preceding white space)
+<span class="anchor" id="line-146"></span>  * item 2.1
+<span class="anchor" id="line-147"></span>   * item 2.1.1
+<span class="anchor" id="line-148"></span> * item 3
+<span class="anchor" id="line-149"></span>  . item 3.1 (bulletless)
+<span class="anchor" id="line-150"></span> . item 4 (bulletless)
+<span class="anchor" id="line-151"></span>  * item 4.1
+<span class="anchor" id="line-152"></span>   . item 4.1.1 (bulletless)
+<span class="anchor" id="line-153"></span></pre><span class="anchor" id="line-154"></span><ul><li>item 1 <span class="anchor" id="line-155"></span><span class="anchor" id="line-156"></span></li><li class="gap">item 2 (preceding white space) <span class="anchor" id="line-157"></span><ul><li>item 2.1 <span class="anchor" id="line-158"></span><ul><li>item 2.1.1 <span class="anchor" id="line-159"></span></li></ul></li></ul></li><li>item 3 <span class="anchor" id="line-160"></span><ul><li style="list-style-type:none">item 3.1 (bulletless) <span class="anchor" id="line-161"></span></li></ul></li><li style="list-style-type:none">item 4 (bulletless) <span class="anchor" id="line-162"></span><ul><li>item 4.1 <span class="anchor" id="line-163"></span><ul><li style="list-style-type:none">item 4.1.1 (bulletless) <span class="anchor" id="line-164"></span><span class="anchor" id="line-165"></span></li></ul></li></ul></li></ul><p class="line867">
+<h2 id="head-258ea5406fcb39de843b7a0d81affcdd2d1e644d">Ordered Lists</h2>
+<span class="anchor" id="line-166"></span><p class="line867">
+<h3 id="head-7a60b042d69b69143669af5ffe5733d722dddfd5">with Numbers</h3>
+<span class="anchor" id="line-167"></span><p class="line867"><span class="anchor" id="line-168"></span><pre> 1. item 1
+<span class="anchor" id="line-169"></span>   1. item 1.1
+<span class="anchor" id="line-170"></span>   1. item 1.2
+<span class="anchor" id="line-171"></span> 1. item 2
+<span class="anchor" id="line-172"></span></pre><span class="anchor" id="line-173"></span><ol type="1"><li>item 1 <span class="anchor" id="line-174"></span><ol type="1"><li>item 1.1 <span class="anchor" id="line-175"></span></li><li>item 1.2 <span class="anchor" id="line-176"></span></li></ol></li><li>item 2 <span class="anchor" id="line-177"></span><span class="anchor" id="line-178"></span></li></ol><p class="line867">
+<h3 id="head-5291b3b8b6a9c5a60c36eb2ade30819dc9ae455f">with Roman Numbers</h3>
+<span class="anchor" id="line-179"></span><p class="line867"><span class="anchor" id="line-180"></span><pre> I. item 1
+<span class="anchor" id="line-181"></span>   i. item 1.1
+<span class="anchor" id="line-182"></span>   i. item 1.2
+<span class="anchor" id="line-183"></span> I. item 2
+<span class="anchor" id="line-184"></span></pre><span class="anchor" id="line-185"></span><ol type="I"><li>item 1 <span class="anchor" id="line-186"></span><ol type="i"><li>item 1.1 <span class="anchor" id="line-187"></span></li><li>item 1.2 <span class="anchor" id="line-188"></span></li></ol></li><li>item 2 <span class="anchor" id="line-189"></span><span class="anchor" id="line-190"></span></li></ol><p class="line867">
+<h3 id="head-f0e573732c7bfefa8beaea08aff5a602eb2480d1">with Letters</h3>
+<span class="anchor" id="line-191"></span><p class="line867"><span class="anchor" id="line-192"></span><pre> A. item A
+<span class="anchor" id="line-193"></span>   a. item A. a)
+<span class="anchor" id="line-194"></span>   a. item A. b)
+<span class="anchor" id="line-195"></span> A. item B
+<span class="anchor" id="line-196"></span></pre><span class="anchor" id="line-197"></span><ol type="A"><li>item A <span class="anchor" id="line-198"></span><ol type="a"><li>item A. a) <span class="anchor" id="line-199"></span></li><li>item A. b) <span class="anchor" id="line-200"></span></li></ol></li><li>item B <span class="anchor" id="line-201"></span><span class="anchor" id="line-202"></span></li></ol><p class="line867">
+<h2 id="head-c58f7bbdb55a2cde1a911bb871434140a3e5e9e7">Definition Lists</h2>
+<span class="anchor" id="line-203"></span><p class="line867"><span class="anchor" id="line-204"></span><pre> term:: definition
+<span class="anchor" id="line-205"></span> object:: description 1
+<span class="anchor" id="line-206"></span> :: description 2
+<span class="anchor" id="line-207"></span> Action Items::
+<span class="anchor" id="line-208"></span> :: First Item
+<span class="anchor" id="line-209"></span> :: Second Item
+<span class="anchor" id="line-210"></span></pre><span class="anchor" id="line-211"></span><dl><dt>term</dt><dd>definition <span class="anchor" id="line-212"></span></dd><dt>object</dt><dd>description 1 <span class="anchor" id="line-213"></span></dd><dt></dt><dd>description 2 <span class="anchor" id="line-214"></span></dd><dt>Action Items</dt><dd><span class="anchor" id="line-215"></span></dd><dt></dt><dd>First Item <span class="anchor" id="line-216"></span></dd><dt></dt><dd>Second Item <span class="anchor" id="line-217"></span><span class="anchor" id="line-218"></span></dd></dl><p class="line867">
+<h1 id="head-b3fed2f0c096afee76530fca962de6d67aba2c23">Horizontal Rules</h1>
+<span class="anchor" id="line-219"></span><p class="line867"><em><strong>see:</strong> <a href="./HelpOnRules.html">HelpOnRules</a></em> <span class="anchor" id="line-220"></span><span class="anchor" id="line-221"></span><pre>----
+<span class="anchor" id="line-222"></span>-----
+<span class="anchor" id="line-223"></span>------
+<span class="anchor" id="line-224"></span>-------
+<span class="anchor" id="line-225"></span>--------
+<span class="anchor" id="line-226"></span>---------
+<span class="anchor" id="line-227"></span>----------
+<span class="anchor" id="line-228"></span></pre><span class="anchor" id="line-229"></span><p class="line867"><hr /><p class="line874"> <span class="anchor" id="line-230"></span><hr class="hr1" /><p class="line874"> <span class="anchor" id="line-231"></span><hr class="hr2" /><p class="line874"> <span class="anchor" id="line-232"></span><hr class="hr3" /><p class="line874"> <span class="anchor" id="line-233"></span><hr class="hr4" /><p class="line874"> <span class="anchor" id="line-234"></span><hr class="hr5" /><p class="line874"> <span class="anchor" id="line-235"></span><hr class="hr6" /><p class="line874"> <span class="anchor" id="line-236"></span><span class="anchor" id="line-237"></span><p class="line867">
+<h1 id="head-c09e34179a61f5c814ec7a6fb6a58d8bb5b445dc">Tables</h1>
+<span class="anchor" id="line-238"></span><p class="line867"><em><strong>see:</strong> <a href="./HelpOnTables.html">HelpOnTables</a></em> <span class="anchor" id="line-239"></span>
+<h2 id="head-c09e34179a61f5c814ec7a6fb6a58d8bb5b445dc-2">Tables</h2>
+<span class="anchor" id="line-240"></span><p class="line867"><span class="anchor" id="line-241"></span><pre>||'''A'''||'''B'''||'''C'''||
+<span class="anchor" id="line-242"></span>||1      ||2      ||3      ||
+<span class="anchor" id="line-243"></span></pre><span class="anchor" id="line-244"></span><div><table><tbody><tr>  <td><p class="line891"><strong>A</strong></td>
+  <td><p class="line891"><strong>B</strong></td>
+  <td><p class="line891"><strong>C</strong></td>
+</tr>
+<tr>  <td><span class="anchor" id="line-245"></span><p class="line862">1      </td>
+  <td><p class="line862">2      </td>
+  <td><p class="line862">3      </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-246"></span><span class="anchor" id="line-247"></span><p class="line867">
+<h2 id="head-c23582f8e2475091c90310e5cca3cf56883f712d">Cell Width</h2>
+<span class="anchor" id="line-248"></span><p class="line867"><span class="anchor" id="line-249"></span><pre>||minimal width ||&lt;99%&gt;maximal width ||
+<span class="anchor" id="line-250"></span></pre><span class="anchor" id="line-251"></span><div><table><tbody><tr>  <td><p class="line862">minimal width </td>
+  <td style="width: 99%"><p class="line862">maximal width </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-252"></span><span class="anchor" id="line-253"></span><p class="line867">
+<h2 id="head-044b84327c06c9f859aee18efc3648dc698ffbee">Spanning Rows and Columns</h2>
+<span class="anchor" id="line-254"></span><p class="line867"><span class="anchor" id="line-255"></span><pre>||&lt;|2&gt; cell spanning 2 rows ||cell in the 2nd column ||
+<span class="anchor" id="line-256"></span>||cell in the 2nd column of the 2nd row ||
+<span class="anchor" id="line-257"></span>||&lt;-2&gt; cell spanning 2 columns ||
+<span class="anchor" id="line-258"></span>||||use empty cells as a shorthand ||
+<span class="anchor" id="line-259"></span></pre><span class="anchor" id="line-260"></span><div><table><tbody><tr>  <td colspan="1" rowspan="2" style="text-align: center"><p class="line862"> cell spanning 2 rows </td>
+  <td><p class="line862">cell in the 2nd column </td>
+</tr>
+<tr>  <td><span class="anchor" id="line-261"></span><p class="line862">cell in the 2nd column of the 2nd row </td>
+</tr>
+<tr>  <td colspan="2"><span class="anchor" id="line-262"></span><p class="line862"> cell spanning 2 columns </td>
+</tr>
+<tr>  <td colspan="2" style="text-align: center"><span class="anchor" id="line-263"></span><p class="line862">use empty cells as a shorthand </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-264"></span><span class="anchor" id="line-265"></span><p class="line867">
+<h2 id="head-b7d5587a0b2ced04f7f5b9d520cbe727cd3c2061">Alignment of Cell Contents</h2>
+<span class="anchor" id="line-266"></span><p class="line867"><span class="anchor" id="line-267"></span><pre>||&lt;^|3&gt; top (combined) ||&lt;:99%&gt; center (combined) ||&lt;v|3&gt; bottom (combined) ||
+<span class="anchor" id="line-268"></span>||&lt;)&gt; right ||
+<span class="anchor" id="line-269"></span>||&lt;(&gt; left ||
+<span class="anchor" id="line-270"></span></pre><span class="anchor" id="line-271"></span><div><table><tbody><tr>  <td colspan="1" rowspan="3" style="text-align: center; vertical-align: top"><p class="line862"> top (combined) </td>
+  <td style="width: 99%; text-align: center"><p class="line862"> center (combined) </td>
+  <td colspan="1" rowspan="3" style="text-align: center; vertical-align: bottom"><p class="line862"> bottom (combined) </td>
+</tr>
+<tr>  <td style="text-align: right"><span class="anchor" id="line-272"></span><p class="line862"> right </td>
+</tr>
+<tr>  <td style="text-align: left"><span class="anchor" id="line-273"></span><p class="line862"> left </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-274"></span><span class="anchor" id="line-275"></span><p class="line867">
+<h2 id="head-ff6f1cae7e7f5b7ab1d9b941f27ce66cce065b77">Coulored Table Cells</h2>
+<span class="anchor" id="line-276"></span><p class="line867"><span class="anchor" id="line-277"></span><pre>||&lt;#0000FF&gt; blue ||&lt;#00FF00&gt; green    ||&lt;#FF0000&gt; red    ||
+<span class="anchor" id="line-278"></span>||&lt;#00FFFF&gt; cyan ||&lt;#FF00FF&gt; magenta  ||&lt;#FFFF00&gt; yellow ||
+<span class="anchor" id="line-279"></span></pre><span class="anchor" id="line-280"></span><div><table><tbody><tr>  <td style="background-color: #0000FF"><p class="line862"> blue </td>
+  <td style="background-color: #00FF00"><p class="line862"> green    </td>
+  <td style="background-color: #FF0000"><p class="line862"> red    </td>
+</tr>
+<tr>  <td style="background-color: #00FFFF"><span class="anchor" id="line-281"></span><p class="line862"> cyan </td>
+  <td style="background-color: #FF00FF"><p class="line862"> magenta  </td>
+  <td style="background-color: #FFFF00"><p class="line862"> yellow </td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-282"></span><span class="anchor" id="line-283"></span><p class="line867">
+<h2 id="head-1f68d78080bba4f33a5c1aac1a3a0f548c7635f6">HTML-like Options for Tables</h2>
+<span class="anchor" id="line-284"></span><p class="line867"><span class="anchor" id="line-285"></span><pre>||A ||&lt;rowspan="2"&gt; like &lt;|2&gt; ||
+<span class="anchor" id="line-286"></span>||&lt;bgcolor="#00FF00"&gt; like &lt;#00FF00&gt; ||
+<span class="anchor" id="line-287"></span>||&lt;colspan="2"&gt; like &lt;-2&gt;||
+<span class="anchor" id="line-288"></span></pre><span class="anchor" id="line-289"></span><div><table><tbody><tr>  <td><p class="line862">A </td>
+  <td rowspan="2"><p class="line862"> like &lt;|2&gt; </td>
+</tr>
+<tr>  <td style="background-color: #00FF00"><span class="anchor" id="line-290"></span><p class="line862"> like &lt;#00FF00&gt; </td>
+</tr>
+<tr>  <td colspan="2"><span class="anchor" id="line-291"></span><p class="line862"> like &lt;-2&gt;</td>
+</tr>
+</tbody></table></div><span class="anchor" id="line-292"></span><span class="anchor" id="line-293"></span><p class="line867">
+<h1 id="head-04d5e7663d901eb5d79b06b991cf9b257a703835">Macros and Variables</h1>
+<span class="anchor" id="line-294"></span><p class="line867">
+<h2 id="head-d0750ffebce07716796b3c004a138d901bd568cf">Macros</h2>
+<span class="anchor" id="line-295"></span><p class="line867"><em><strong>see:</strong> <a href="./HelpOnMacros.html">HelpOnMacros</a></em> <span class="anchor" id="line-296"></span><ul><li><p class="line891"><tt class="backtick">[[Anchor(anchorname)]]</tt> inserts a link anchor <tt class="backtick">anchorname</tt> <span class="anchor" id="line-297"></span></li><li><p class="line891"><tt class="backtick">[[BR]]</tt> inserts a hard line break <span class="anchor" id="line-298"></span></li><li><p class="line891"><tt class="backtick">[[FootNote(Note)]]</tt> inserts a footnote saying <tt class="backtick">Note</tt> <span class="anchor" id="line-299"></span></li><li><p class="line891"><tt class="backtick">[[Include(HelpOnMacros/Include)]]</tt> inserts the contents of the page <tt class="backtick">HelpOnMacros/Include</tt> inline <span class="anchor" id="line-300"></span></li><li><p class="line891"><tt class="backtick">[[MailTo(user&nbsp;AT&nbsp;example&nbsp;DOT&nbsp;com)]]</tt> obfuscates the email address <tt class="backtick">user@example.com</tt> to users not logged in <span class="anchor" id="line-301"></span><span class="anchor" id="line-302"></span></li></ul><p class="line867">
+<h2 id="head-dc2b18db325c1cfccb85a2f4692a7e7a45981798">Variables</h2>
+<span class="anchor" id="line-303"></span><p class="line867"><em><strong>see:</strong> <a href="./HelpOnVariables.html">HelpOnVariables</a></em> <span class="anchor" id="line-304"></span><ul><li><p class="line891"><tt class="backtick">@</tt><tt class="backtick">SIG</tt><tt class="backtick">@</tt> inserts your login name and timestamp of modification <span class="anchor" id="line-305"></span></li><li><p class="line891"><tt class="backtick">@</tt><tt class="backtick">TIME</tt><tt class="backtick">@</tt> inserts date and time of modification <span class="anchor" id="line-306"></span><span class="anchor" id="line-307"></span></li></ul><p class="line867">
+<h1 id="head-234747ba338dbeefb12f2119d1ea088825a0aac8">Smileys and Icons</h1>
+<span class="anchor" id="line-308"></span><p class="line867"><em><strong>see:</strong> <a href="./HelpOnSmileys.html">HelpOnSmileys</a></em> <span class="anchor" id="line-309"></span><div><table><tbody><tr>  <td><strong>Markup</strong></td>
+  <td><strong>Display</strong></td>
+  <td><strong>Filename</strong></td>
+  <td><strong></strong></td>
+  <td><strong>Markup</strong></td>
+  <td><strong>Display</strong></td>
+  <td><strong>Filename</strong></td>
+  <td><strong></strong></td>
+  <td><strong>Markup</strong></td>
+  <td><strong>Display</strong></td>
+  <td><strong>Filename</strong></td>
+</tr>
+<tr>  <td><tt>(!)</tt></td>
+  <td><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /></td>
+  <td><tt>idea.png</tt></td>
+  <td></td>
+  <td><tt>(./)</tt></td>
+  <td><img alt="(./)" height="15" src="./mentalwealth/img/checkmark.png" title="(./)" width="20" /></td>
+  <td><tt>checkmark.png</tt></td>
+  <td></td>
+  <td><tt>/!\</tt></td>
+  <td><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /></td>
+  <td><tt>alert.png</tt></td>
+</tr>
+<tr>  <td><tt>:(</tt></td>
+  <td><img alt=":(" height="15" src="./mentalwealth/img/sad.png" title=":(" width="15" /></td>
+  <td><tt>sad.png</tt></td>
+  <td></td>
+  <td><tt>:)</tt></td>
+  <td><img alt=":)" height="15" src="./mentalwealth/img/smile.png" title=":)" width="15" /></td>
+  <td><tt>smile.png</tt></td>
+  <td></td>
+  <td><tt>:))</tt></td>
+  <td><img alt=":))" height="15" src="./mentalwealth/img/smile3.png" title=":))" width="15" /></td>
+  <td><tt>smile3.png</tt></td>
+</tr>
+<tr>  <td><tt>:-(</tt></td>
+  <td><img alt=":-(" height="15" src="./mentalwealth/img/sad.png" title=":-(" width="15" /></td>
+  <td><tt>sad.png</tt></td>
+  <td></td>
+  <td><tt>:-)</tt></td>
+  <td><img alt=":-)" height="15" src="./mentalwealth/img/smile.png" title=":-)" width="15" /></td>
+  <td><tt>smile.png</tt></td>
+  <td></td>
+  <td><tt>:-))</tt></td>
+  <td><img alt=":-))" height="15" src="./mentalwealth/img/smile3.png" title=":-))" width="15" /></td>
+  <td><tt>smile3.png</tt></td>
+</tr>
+<tr>  <td><tt>:-?</tt></td>
+  <td><img alt=":-?" height="15" src="./mentalwealth/img/tongue.png" title=":-?" width="15" /></td>
+  <td><tt>tongue.png</tt></td>
+  <td></td>
+  <td><tt>:D</tt></td>
+  <td><img alt=":D" height="15" src="./mentalwealth/img/biggrin.png" title=":D" width="15" /></td>
+  <td><tt>biggrin.png</tt></td>
+  <td></td>
+  <td><tt>:\</tt></td>
+  <td><img alt=":\" height="15" src="./mentalwealth/img/ohwell.png" title=":\" width="15" /></td>
+  <td><tt>ohwell.png</tt></td>
+</tr>
+<tr>  <td><tt>:o</tt></td>
+  <td><img alt=":o" height="15" src="./mentalwealth/img/redface.png" title=":o" width="15" /></td>
+  <td><tt>redface.png</tt></td>
+  <td></td>
+  <td><tt>;)</tt></td>
+  <td><img alt=";)" height="15" src="./mentalwealth/img/smile4.png" title=";)" width="15" /></td>
+  <td><tt>smile4.png</tt></td>
+  <td></td>
+  <td><tt>;-)</tt></td>
+  <td><img alt=";-)" height="15" src="./mentalwealth/img/smile4.png" title=";-)" width="15" /></td>
+  <td><tt>smile4.png</tt></td>
+</tr>
+<tr>  <td><tt>&lt;!&gt;</tt></td>
+  <td><img alt="&lt;!&gt;" height="15" src="./mentalwealth/img/attention.png" title="&lt;!&gt;" width="15" /></td>
+  <td><tt>attention.png</tt></td>
+  <td></td>
+  <td><tt>&lt;:(</tt></td>
+  <td><img alt="&lt;:(" height="15" src="./mentalwealth/img/frown.png" title="&lt;:(" width="15" /></td>
+  <td><tt>frown.png</tt></td>
+  <td></td>
+  <td><tt>&gt;:&gt;</tt></td>
+  <td><img alt="&gt;:&gt;" height="15" src="./mentalwealth/img/devil.png" title="&gt;:&gt;" width="15" /></td>
+  <td><tt>devil.png</tt></td>
+</tr>
+<tr>  <td><tt>B)</tt></td>
+  <td><img alt="B)" height="15" src="./mentalwealth/img/smile2.png" title="B)" width="15" /></td>
+  <td><tt>smile2.png</tt></td>
+  <td></td>
+  <td><tt>B-)</tt></td>
+  <td><img alt="B-)" height="15" src="./mentalwealth/img/smile2.png" title="B-)" width="15" /></td>
+  <td><tt>smile2.png</tt></td>
+  <td></td>
+  <td><tt>X-(</tt></td>
+  <td><img alt="X-(" height="15" src="./mentalwealth/img/angry.png" title="X-(" width="15" /></td>
+  <td><tt>angry.png</tt></td>
+</tr>
+<tr>  <td><tt>{*}</tt></td>
+  <td><img alt="{*}" height="15" src="./mentalwealth/img/star_on.png" title="{*}" width="15" /></td>
+  <td><tt>star_on.png</tt></td>
+  <td></td>
+  <td><tt>{1}</tt></td>
+  <td><img alt="{1}" height="13" src="./mentalwealth/img/prio1.png" title="{1}" width="15" /></td>
+  <td><tt>prio1.png</tt></td>
+  <td></td>
+  <td><tt>{2}</tt></td>
+  <td><img alt="{2}" height="13" src="./mentalwealth/img/prio2.png" title="{2}" width="15" /></td>
+  <td><tt>prio2.png</tt></td>
+</tr>
+<tr>  <td><tt>{3}</tt></td>
+  <td><img alt="{3}" height="13" src="./mentalwealth/img/prio3.png" title="{3}" width="15" /></td>
+  <td><tt>prio3.png</tt></td>
+  <td></td>
+  <td><tt>{OK}</tt></td>
+  <td><img alt="{OK}" height="12" src="./mentalwealth/img/thumbs-up.png" title="{OK}" width="14" /></td>
+  <td><tt>thumbs-up.png</tt></td>
+  <td></td>
+  <td><tt>{X}</tt></td>
+  <td><img alt="{X}" height="16" src="./mentalwealth/img/icon-error.png" title="{X}" width="16" /></td>
+  <td><tt>icon-error.png</tt></td>
+</tr>
+<tr>  <td><tt>{i}</tt></td>
+  <td><img alt="{i}" height="16" src="./mentalwealth/img/icon-info.png" title="{i}" width="16" /></td>
+  <td><tt>icon-info.png</tt></td>
+  <td></td>
+  <td><tt>{o}</tt></td>
+  <td><img alt="{o}" height="15" src="./mentalwealth/img/star_off.png" title="{o}" width="15" /></td>
+  <td><tt>star_off.png</tt></td>
+  <td></td>
+  <td><tt>|)</tt></td>
+  <td><img alt="|)" height="15" src="./mentalwealth/img/tired.png" title="|)" width="15" /></td>
+  <td><tt>tired.png</tt></td>
+</tr>
+<tr>  <td><tt>|-)</tt></td>
+  <td><img alt="|-)" height="15" src="./mentalwealth/img/tired.png" title="|-)" width="15" /></td>
+  <td><tt>tired.png</tt></td>
+  <td></td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+</tbody></table></div> <span class="anchor" id="line-310"></span><span class="anchor" id="line-311"></span><p class="line867">
+<h1 id="head-65a6a33ee7e8db205bcc204354cc56df08c4aaeb">Source code</h1>
+<span class="anchor" id="line-312"></span><p class="line867"><em><strong>see:</strong> <a href="./HelpOnParsers.html">HelpOnParsers</a></em> <span class="anchor" id="line-313"></span>
+<h2 id="head-6ee9354d05145b4a3c53cd134a6586c759b2571b">Verbatim Display</h2>
+<span class="anchor" id="line-314"></span><p class="line867"><span class="anchor" id="line-315"></span><pre>{ { {
+<span class="anchor" id="line-316"></span>def hello():
+<span class="anchor" id="line-317"></span>    print "Hello World!"
+<span class="anchor" id="line-318"></span>} } }
+<span class="anchor" id="line-319"></span></pre><span class="anchor" id="line-320"></span><p class="line867"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> Remove spaces between "<tt class="backtick">{&nbsp;{&nbsp;{</tt>" and "<tt class="backtick">}&nbsp;}&nbsp;}</tt>". <span class="anchor" id="line-321"></span><span class="anchor" id="line-322"></span><pre>def hello():
+<span class="anchor" id="line-323"></span>    print "Hello World!"
+<span class="anchor" id="line-324"></span></pre><span class="anchor" id="line-325"></span><span class="anchor" id="line-326"></span><p class="line867">
+<h2 id="head-5abf71bc98de2e56f5db6194869493c9154d1386">Syntax Highlighting</h2>
+<span class="anchor" id="line-327"></span><p class="line867"><span class="anchor" id="line-328"></span><pre>{ { {#!python
+<span class="anchor" id="line-329"></span>def hello():
+<span class="anchor" id="line-330"></span>    print "Hello World!"
+<span class="anchor" id="line-331"></span>} } }
+<span class="anchor" id="line-332"></span></pre><span class="anchor" id="line-333"></span><p class="line867"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> Remove spaces between "<tt class="backtick">{&nbsp;{&nbsp;{</tt>" and "<tt class="backtick">}&nbsp;}&nbsp;}</tt>". <span class="anchor" id="line-334"></span><span class="anchor" id="line-335"></span><span class="anchor" id="line-336"></span><span class="anchor" id="line-337"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+function isnumbered(obj) {
+  return obj.childNodes.length && obj.firstChild.childNodes.length && obj.firstChild.firstChild.className == 'LineNumber';
+}
+function nformat(num,chrs,add) {
+  var nlen = Math.max(0,chrs-(''+num).length), res = '';
+  while (nlen>0) { res += ' '; nlen-- }
+  return res+num+add;
+}
+function addnumber(did, nstart, nstep) {
+  var c = document.getElementById(did), l = c.firstChild, n = 1;
+  if (!isnumbered(c))
+    if (typeof nstart == 'undefined') nstart = 1;
+    if (typeof nstep  == 'undefined') nstep = 1;
+    n = nstart;
+    while (l != null) {
+      if (l.tagName == 'SPAN') {
+        var s = document.createElement('SPAN');
+        s.className = 'LineNumber'
+        s.appendChild(document.createTextNode(nformat(n,4,' ')));
+        n += nstep;
+        if (l.childNodes.length)
+          l.insertBefore(s, l.firstChild)
+        else
+          l.appendChild(s)
+      }
+      l = l.nextSibling;
+    }
+  return false;
+}
+function remnumber(did) {
+  var c = document.getElementById(did), l = c.firstChild;
+  if (isnumbered(c))
+    while (l != null) {
+      if (l.tagName == 'SPAN' && l.firstChild.className == 'LineNumber') l.removeChild(l.firstChild);
+      l = l.nextSibling;
+    }
+  return false;
+}
+function togglenumber(did, nstart, nstep) {
+  var c = document.getElementById(did);
+  if (isnumbered(c)) {
+    remnumber(did);
+  } else {
+    addnumber(did,nstart,nstep);
+  }
+  return false;
+}
+</script>
+
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-78c687fbb04d58d5ee5c7f64fd6654a3595f0c88_000\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-78c687fbb04d58d5ee5c7f64fd6654a3595f0c88_000" lang="en"><span class="line"><span class="LineNumber">   1 </span><span class="ResWord">def</span> <span class="ID">hello</span><span class="Operator">(</span><span class="Operator">)</span><span class="Operator">:</span></span>
+<span class="line"><span class="LineNumber">   2 </span>    <span class="ResWord">print</span> <span class="String">"Hello World!"</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-338"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

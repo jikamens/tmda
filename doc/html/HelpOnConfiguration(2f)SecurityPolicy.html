@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnConfiguration/SecurityPolicy</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnConfiguration/SecurityPolicy</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867"><tt class="backtick">SecurityPolicy</tt> is a config option that allows wiki admins to dynamically enable or disable certain key actions in a <a href="./MoinMoin.html">MoinMoin</a> wiki, most notably editing and deleting content. See also <a href="./HelpOnAccessControlLists.html">HelpOnAccessControlLists</a> for an easier way. <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867">
+<h2 id="head-4ac2ff05755ab9015f5b9b337d9a6524439b6213">Mechanics</h2>
+<span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line862">Security restrictions in a <a href="./MoinMoin.html">MoinMoin</a> wiki work by the interface defined in the <tt class="backtick">MoinMoin.security</tt> module. <span class="anchor" id="line-11"></span>The <tt class="backtick">Permissions</tt> class implements the basic interface for user permissions and system policy. If you want to define your own policy, inherit <span class="anchor" id="line-12"></span>from that base class, so that when new permissions are defined, you get the defaults. <span class="anchor" id="line-13"></span><span class="anchor" id="line-14"></span><p class="line862">Then either assign your new class to <tt class="backtick">Config.SecurityPolicy</tt> in <tt class="backtick">wikiconfig.py</tt> (and I mean the class, not an instance of it), or define your class as a member of <tt class="backtick">class&nbsp;Config</tt> in <tt class="backtick">wikiconfig.py</tt> and name it <tt class="backtick">SecurityPolicy</tt>. <span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line867">
+<h2 id="head-7970273e7a6bc7ca6e0f9f61e7781d73a1494124">Samples</h2>
+<span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line862">For samples on using this mechanism, see <a class="interwiki" href="http://purl.net/wiki/moin/SecurityPolicy" title="MoinMoin">SecurityPolicy</a>. <span class="anchor" id="line-20"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

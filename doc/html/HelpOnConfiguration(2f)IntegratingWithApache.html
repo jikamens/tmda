@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnConfiguration/IntegratingWithApache</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnConfiguration/IntegratingWithApache</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><p class="line867"><strong> How to integrate your wiki with existing Apache setup </strong> <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><p class="line862">There are currently 5 possibilities running a <a href="./MoinMoin.html">MoinMoin</a> wiki: Using CGI, FastCGI, Mod Python, Standalone server or Twisted server. The best options are FastCGI or Mod Python, but they are not available on all platforms and known to have configuration issues. The next solution is running twisted or standalone servers, which are much faster then CGI and easier to configure.  <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">However, many people already run web servers and serve static pages or other applications, and want to add a wiki to the current setup. The best option is to run <a href="./MoinMoin.html">MoinMoin</a> as a Standalone or Twisted server proxied behind your existing web server. In release 1.5 this works out of the box with simple setup. <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line862">In the example setup bellow, We will integrate a <a href="./MoinMoin.html">MoinMoin</a> wiki in our site <a class="http" href="http://www.example.com/exwiki/">http://www.example.com/exwiki/</a>. <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> New in release 1.5 <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span></li></ul><p class="line867">
+<h1 id="head-741b71c2b60345d960c1c53956c86b10cc2a8f7c">Requirements</h1>
+<span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><ol type="1"><li><p class="line862">Install Standalone or Twisted server as explained in <a href="./HelpOnInstalling.html">HelpOnInstalling</a>. <span class="anchor" id="line-20"></span></li><li><p class="line862">Make sure mod_proxy is installed and loaded. Consult <a class="http" href="http://localhost/manual">Apache Documentation</a>. <span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span></li></ol><p class="line867">
+<h1 id="head-2289a328a7f328d67de73b808ad5871202cc822c">Integrating with Apache 2</h1>
+<span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><p class="line867">
+<h2 id="head-94a46ce0b42c1d58d471b86a93bb376ca635f647">1. Standalone or Twisted setup</h2>
+<span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line862">If you want to use Twisted, edit <tt>mointwisted.py</tt> and set these options: <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><pre>    port = 8000
+<span class="anchor" id="line-29"></span>    interfaces = ['localhost']
+<span class="anchor" id="line-30"></span></pre><span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span><p class="line862">If you want to use Standalone, edit <tt>standalone.py</tt> and set these options: <span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span><pre>    port = 8000
+<span class="anchor" id="line-35"></span>    interface = 'localhost'
+<span class="anchor" id="line-36"></span></pre><span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><p class="line862">Now run your moin server and check that it works at <a class="http" href="http://localhost:8000">http://localhost:8000</a>. <span class="anchor" id="line-39"></span><span class="anchor" id="line-40"></span><p class="line867">
+<h2 id="head-998e7a6c92e22edbbe5f5b0e9e65fc98daf677ea">2. Apache 2 setup</h2>
+<span class="anchor" id="line-41"></span><span class="anchor" id="line-42"></span><p class="line862">Edit your Apache configuration file, either <tt class="backtick">httpd.conf</tt> or included configuration file: <span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span><pre># Must be off to run a reverse proxy
+<span class="anchor" id="line-45"></span>ProxyRequests Off
+<span class="anchor" id="line-46"></span>
+<span class="anchor" id="line-47"></span>Alias /wiki/ "/usr/share/moin/htdocs/"
+<span class="anchor" id="line-48"></span>
+<span class="anchor" id="line-49"></span>&lt;Location /exwiki/&gt;
+<span class="anchor" id="line-50"></span>    ProxyPass http://localhost:8000/
+<span class="anchor" id="line-51"></span>    ProxyPassReverse http://localhost:8000/
+<span class="anchor" id="line-52"></span>    RequestHeader set X-Moin-Location /exwiki/
+<span class="anchor" id="line-53"></span>&lt;/Location&gt;
+<span class="anchor" id="line-54"></span></pre><span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line862">Now restart Apache and test your wiki at <a class="http" href="http://localhost/exwiki/">http://localhost/exwiki/</a> or <a class="http" href="http://www.example.com/exwiki/">http://www.example.com/exwiki/</a> <span class="anchor" id="line-57"></span><span class="anchor" id="line-58"></span><p class="line874">This setup was tested on Mac OS X. <span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span><span class="anchor" id="line-61"></span><p class="line867">
+<h1 id="head-85be0ac8a80aff199d52de3ac0e1d7d1b0796063">Integrating with Apache 1</h1>
+<span class="anchor" id="line-62"></span><span class="anchor" id="line-63"></span><p class="line867">
+<h2 id="head-94a46ce0b42c1d58d471b86a93bb376ca635f647-2">1. Standalone or Twisted setup</h2>
+<span class="anchor" id="line-64"></span><span class="anchor" id="line-65"></span><p class="line862">If you want to use Twisted, edit <tt>mointwisted.py</tt> and set these options: <span class="anchor" id="line-66"></span><span class="anchor" id="line-67"></span><pre>    properties = {'script_name': '/mywiki', 'http_host': 'yourdomain'}
+<span class="anchor" id="line-68"></span>    port = 8000
+<span class="anchor" id="line-69"></span>    interfaces = ['localhost']
+<span class="anchor" id="line-70"></span></pre><span class="anchor" id="line-71"></span><span class="anchor" id="line-72"></span><p class="line862">If you want to use Standalone, edit <tt>standalone.py</tt> and set these options: <span class="anchor" id="line-73"></span><span class="anchor" id="line-74"></span><pre>    properties = {'script_name': '/mywiki', 'http_host': 'yourdomain'}
+<span class="anchor" id="line-75"></span>    port = 8000
+<span class="anchor" id="line-76"></span>    interface = 'localhost'
+<span class="anchor" id="line-77"></span></pre><span class="anchor" id="line-78"></span><span class="anchor" id="line-79"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> Another solution may be to use url_mapping config option. <span class="anchor" id="line-80"></span><span class="anchor" id="line-81"></span></li></ul><p class="line867">
+<h2 id="head-c4c7db47e24766c588f261c1dbf86746344335d4">2. Apache 1 setup</h2>
+<span class="anchor" id="line-82"></span><span class="anchor" id="line-83"></span><p class="line874">This setup require mod_proxy. Make sure its installed and loaded before you continue. <span class="anchor" id="line-84"></span><span class="anchor" id="line-85"></span><p class="line862">Edit your Apache configuration file, either <tt class="backtick">httpd.conf</tt> or included configuration file: <span class="anchor" id="line-86"></span><span class="anchor" id="line-87"></span><pre># Must be off to run a reverse proxy
+<span class="anchor" id="line-88"></span>ProxyRequests Off
+<span class="anchor" id="line-89"></span>
+<span class="anchor" id="line-90"></span>Alias /wiki/ "/usr/share/moin/htdocs/"
+<span class="anchor" id="line-91"></span>
+<span class="anchor" id="line-92"></span>&lt;Location /exwiki/&gt;
+<span class="anchor" id="line-93"></span>    ProxyPass http://localhost:8000/
+<span class="anchor" id="line-94"></span>    ProxyPassReverse http://localhost:8000/
+<span class="anchor" id="line-95"></span>&lt;/Location&gt;
+<span class="anchor" id="line-96"></span></pre><span class="anchor" id="line-97"></span><span class="anchor" id="line-98"></span><p class="line862">Now restart Apache and test your wiki at <a class="http" href="http://www.example.com/exwiki/">http://www.example.com/exwiki/</a> <span class="anchor" id="line-99"></span><span class="anchor" id="line-100"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="(!)" height="15" src="./mentalwealth/img/idea.png" title="(!)" width="15" /> Note that your wiki will not work correctly from <a class="http" href="http://localhost:8000">http://localhost:8000</a> with this setup. <span class="anchor" id="line-101"></span><span class="anchor" id="line-102"></span><p class="line891"><img alt="&lt;!&gt;" height="15" src="./mentalwealth/img/attention.png" title="&lt;!&gt;" width="15" /> Tested with Apache 2, should work also on Apache 1. <span class="anchor" id="line-103"></span><span class="anchor" id="line-104"></span></li></ul><p class="line867">
+<h1 id="head-1b9ede6c3e15abc489bd20a5fd2ba228e5f4fbe6">Farm configuration</h1>
+<span class="anchor" id="line-105"></span><span class="anchor" id="line-106"></span><p class="line862">When running Twisted or Standalone without a proxy, the wiki url contain the server name (and sometimes also the port) and the page name. For example: <tt class="backtick">localhost:8000/pagename</tt>.  <span class="anchor" id="line-107"></span><span class="anchor" id="line-108"></span><p class="line862">However, when running behind a proxy, the wiki url contain the proxy host, not the server name, and may include a "script_name". In this case, the wiki that run on <tt class="backtick">localhost:8000</tt> might have a url of <tt class="backtick">www.example.com/exwiki/pagename</tt> when you access it through the proxy, and <tt class="backtick">localhost:8000/pagename</tt> when you access it locally. <span class="anchor" id="line-109"></span><span class="anchor" id="line-110"></span><p class="line862">If you want to use same configuration file for both local and word access, use settings like this in your <tt class="backtick">farmconfig.py</tt>: <span class="anchor" id="line-111"></span><span class="anchor" id="line-112"></span><pre>wikis = [('exwiki', r'^(localhost:8000|www.example.com/exwiki).*')]
+<span class="anchor" id="line-113"></span></pre><span class="anchor" id="line-114"></span><span class="anchor" id="line-115"></span><p class="line874">If you want to have different configuration for local and world access: <span class="anchor" id="line-116"></span><span class="anchor" id="line-117"></span><pre>wikis = [('exwiki_local', r'^localhost:8000.*'),
+<span class="anchor" id="line-118"></span>         ('exwiki_world', r'^www.example.com/exwiki.*'),]
+<span class="anchor" id="line-119"></span></pre><span class="anchor" id="line-120"></span><span class="anchor" id="line-121"></span><p class="line867">
+<h1 id="head-4f66e22ca8c80bc372db280f4182277dd975089f">Disabling host rewriting</h1>
+<span class="anchor" id="line-122"></span><span class="anchor" id="line-123"></span><p class="line862">If you want to disable the new transparent host rewriting, override <tt class="backtick">http_host</tt> in your server script: <span class="anchor" id="line-124"></span><span class="anchor" id="line-125"></span><pre>    properties = {'http_host': 'hostname'}
+<span class="anchor" id="line-126"></span></pre><span class="anchor" id="line-127"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

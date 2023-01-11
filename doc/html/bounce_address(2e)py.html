@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>bounce address.py</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">bounce address.py</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867"><span class="anchor" id="line-2"></span><pre>#!/usr/bin/env python
+<span class="anchor" id="line-3"></span>
+<span class="anchor" id="line-4"></span>import email.Parser
+<span class="anchor" id="line-5"></span>import email.Header
+<span class="anchor" id="line-6"></span>
+<span class="anchor" id="line-7"></span>import os
+<span class="anchor" id="line-8"></span>import sys
+<span class="anchor" id="line-9"></span>import re
+<span class="anchor" id="line-10"></span>import string
+<span class="anchor" id="line-11"></span>
+<span class="anchor" id="line-12"></span>def main():
+<span class="anchor" id="line-13"></span>  if len(sys.argv)==1:
+<span class="anchor" id="line-14"></span>    mailFile = sys.stdin
+<span class="anchor" id="line-15"></span>  else:
+<span class="anchor" id="line-16"></span>    mailFile=open(sys.argv[1],"rb")
+<span class="anchor" id="line-17"></span>
+<span class="anchor" id="line-18"></span>  p=email.Parser.Parser()
+<span class="anchor" id="line-19"></span>
+<span class="anchor" id="line-20"></span>  msg=p.parse(mailFile)
+<span class="anchor" id="line-21"></span>  mailFile.close()
+<span class="anchor" id="line-22"></span>
+<span class="anchor" id="line-23"></span>  rec_bounce1 = re.compile("55[0-9] &lt;(.*?@.*?)&gt;")
+<span class="anchor" id="line-24"></span>  rec_bounce2 = re.compile("&lt;(.*?@.*?)&gt;:")
+<span class="anchor" id="line-25"></span>
+<span class="anchor" id="line-26"></span>  bounce_matches = []
+<span class="anchor" id="line-27"></span>  bounce_matches.append(rec_bounce1)
+<span class="anchor" id="line-28"></span>  bounce_matches.append(rec_bounce2)
+<span class="anchor" id="line-29"></span>
+<span class="anchor" id="line-30"></span>  if msg.is_multipart():
+<span class="anchor" id="line-31"></span>    body = msg.get_payload(0).as_string()
+<span class="anchor" id="line-32"></span>  else:
+<span class="anchor" id="line-33"></span>    body = msg.get_payload()
+<span class="anchor" id="line-34"></span>
+<span class="anchor" id="line-35"></span>  for rec in bounce_matches:
+<span class="anchor" id="line-36"></span>
+<span class="anchor" id="line-37"></span>    result  = rec.search(body)
+<span class="anchor" id="line-38"></span>
+<span class="anchor" id="line-39"></span>    if result != None:
+<span class="anchor" id="line-40"></span>      print result.group(1)
+<span class="anchor" id="line-41"></span>      sys.exit(0)
+<span class="anchor" id="line-42"></span>
+<span class="anchor" id="line-43"></span># If we got here no address was found.
+<span class="anchor" id="line-44"></span>  print "ERROR"
+<span class="anchor" id="line-45"></span>  sys.exit(1)
+<span class="anchor" id="line-46"></span></pre><span class="anchor" id="line-47"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>DesktopEdition/HowToConfigure</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">DesktopEdition/HowToConfigure</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line862">The <a href="./DesktopEdition.html">DesktopEdition</a> can be configured similarly to a normal <a href="./MoinMoin.html">MoinMoin</a> installation. You must restart <tt class="backtick">moin.exe</tt>/<tt class="backtick">moin.py</tt> for changes to take effect. <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867">
+<h1 id="head-f5e542b091f41e62ccfc1afbe203cd0cf53c38ae">Basic configuration</h1>
+<span class="anchor" id="line-9"></span><p class="line862">Just edit the file <tt class="backtick">wikiconfig.py</tt> file. You can use the options listed on the page <a href="./HelpOnConfiguration.html">HelpOnConfiguration</a>. <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">Here is a sample: <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+function isnumbered(obj) {
+  return obj.childNodes.length && obj.firstChild.childNodes.length && obj.firstChild.firstChild.className == 'LineNumber';
+}
+function nformat(num,chrs,add) {
+  var nlen = Math.max(0,chrs-(''+num).length), res = '';
+  while (nlen>0) { res += ' '; nlen-- }
+  return res+num+add;
+}
+function addnumber(did, nstart, nstep) {
+  var c = document.getElementById(did), l = c.firstChild, n = 1;
+  if (!isnumbered(c))
+    if (typeof nstart == 'undefined') nstart = 1;
+    if (typeof nstep  == 'undefined') nstep = 1;
+    n = nstart;
+    while (l != null) {
+      if (l.tagName == 'SPAN') {
+        var s = document.createElement('SPAN');
+        s.className = 'LineNumber'
+        s.appendChild(document.createTextNode(nformat(n,4,' ')));
+        n += nstep;
+        if (l.childNodes.length)
+          l.insertBefore(s, l.firstChild)
+        else
+          l.appendChild(s)
+      }
+      l = l.nextSibling;
+    }
+  return false;
+}
+function remnumber(did) {
+  var c = document.getElementById(did), l = c.firstChild;
+  if (isnumbered(c))
+    while (l != null) {
+      if (l.tagName == 'SPAN' && l.firstChild.className == 'LineNumber') l.removeChild(l.firstChild);
+      l = l.nextSibling;
+    }
+  return false;
+}
+function togglenumber(did, nstart, nstep) {
+  var c = document.getElementById(did);
+  if (isnumbered(c)) {
+    remnumber(did);
+  } else {
+    addnumber(did,nstart,nstep);
+  }
+  return false;
+}
+</script>
+
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-8662bccd43c898032221708bcbbf5635ffe1b45c_000\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-8662bccd43c898032221708bcbbf5635ffe1b45c_000" lang="en"><span class="line"><span class="LineNumber">   1 </span><span class="ResWord">from</span> <span class="ID">MoinMoin</span><span class="Operator">.</span><span class="ID">multiconfig</span> <span class="ResWord">import</span> <span class="ID">DefaultConfig</span></span>
+<span class="line"><span class="LineNumber">   2 </span></span>
+<span class="line"><span class="LineNumber">   3 </span><span class="ResWord">class</span> <span class="ID">Config</span><span class="Operator">(</span><span class="ID">DefaultConfig</span><span class="Operator">)</span><span class="Operator">:</span></span>
+<span class="line"><span class="LineNumber">   4 </span>    <span class="ID">sitename</span> <span class="Operator">=</span> <span class="String">"My local notebook"</span></span>
+<span class="line"><span class="LineNumber">   5 </span>    <span class="ID">logo_string</span> <span class="Operator">=</span> <span class="String">u'&lt;img src= "/wiki/mylogo.png"&gt; My local notebook-Wiki'</span></span>
+<span class="line"><span class="LineNumber">   6 </span>    <span class="ID">acl_rights_default</span> <span class="Operator">=</span> <span class="String">u"All:read,write,delete"</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-19"></span><p class="line874">Note that the last line is needed if you want to disable administrator access for all users. This is very important if you are using your wiki on the Internet. <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><p class="line862">Note that you need admin rights to install help pages in your language. So, install them before you use the <tt class="backtick">acl_rights_default</tt> above. <span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><p class="line867">
+<h1 id="head-5d30cf55e804ae7082d83e60f1c74432665f4076">Server configuration</h1>
+<span class="anchor" id="line-24"></span><p class="line862">Additionally, you can set some server options like the port etc. in the file <tt class="backtick">wikiserverconfig.py</tt>. You need to create it and fill it like shown below. See <a href="./HelpOnInstalling(2f)StandaloneServer.html#options">HelpOnInstalling/StandaloneServer</a> for the available options. <span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line862">Here is a sample: <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span><span class="anchor" id="line-31"></span><div class="codearea" dir="ltr" lang="en">
+<script type="text/javascript">
+document.write('<a href="#" onclick="return togglenumber(\'CA-22ca75acbfd5081eb1b69587867427e08057a05a_001\', 1, 1);" \
+                class="codenumbers">Toggle line numbers<\/a>');
+</script>
+<pre dir="ltr" id="CA-22ca75acbfd5081eb1b69587867427e08057a05a_001" lang="en"><span class="line"><span class="LineNumber">   1 </span><span class="ResWord">from</span> <span class="ID">__main__</span> <span class="ResWord">import</span> <span class="ID">DefaultConfig</span></span>
+<span class="line"><span class="LineNumber">   2 </span><span class="ResWord">class</span> <span class="ID">Config</span><span class="Operator">(</span><span class="ID">DefaultConfig</span><span class="Operator">)</span><span class="Operator">:</span></span>
+<span class="line"><span class="LineNumber">   3 </span>    <span class="ID">port</span> <span class="Operator">=</span> <span class="Number">80</span></span>
+<span class="line"><span class="LineNumber">   4 </span>    <span class="ID">interface</span> <span class="Operator">=</span> <span class="String">"10.0.0.0"</span> <span class="Comment"># changes the interface where the webserver is bound. use "" for every interface</span><span class="Text"></span></span>
+</pre></div><span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span><p class="line867">
+<h1 id="head-255b09514ebf2868945a3073415b1b6c42dbe3d9">Dictionary</h1>
+<span class="anchor" id="line-34"></span><p class="line862">You can create a <tt class="backtick">dict</tt> directory in the MMDE directory and copy dictionary files into it. Then they will be found by the integrated spellchecker. <span class="anchor" id="line-35"></span><span class="anchor" id="line-36"></span><p class="line867">
+<h1 id="head-bed61d2f1638a0bbd2914c1cc1ac5b93ca0c5ab0">Plugins/Themes</h1>
+<span class="anchor" id="line-37"></span><p class="line862">Of course you can install plugins and themes like you do it normally. If it is a prepared <a href="./MoinMoin.html">MoinMoin</a> package file, then you just need to upload it and click <tt class="backtick">install</tt> on the page which lists all attachments. Otherwise you have to copy the plugin file into the directory <tt class="backtick">wiki/data/plugin/</tt> followed by the type of the plugin. E.g. for a theme you would copy the <tt class="backtick">.py</tt> file into <tt class="backtick">wiki/data/plugin/theme</tt> directory. <span class="anchor" id="line-38"></span><span class="anchor" id="line-39"></span><p class="line862">You will need to copy <tt class="backtick">the&nbsp;css</tt> and <tt class="backtick">img</tt> folders (if you are installing a theme) into a subfolder, which has got the name of your theme, of <tt class="backtick">wiki/htdocs</tt>. <span class="anchor" id="line-40"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

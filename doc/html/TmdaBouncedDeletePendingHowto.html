@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TmdaBouncedDeletePendingHowto</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TmdaBouncedDeletePendingHowto</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867">
+<h1 id="head-2610dddb09c4e842b1f8af6d32b97d3326621a82">Introduction</h1>
+<span class="anchor" id="line-2"></span><p class="line874">I just started using tmda on spam reconized by Spamassassin. My main concern with SA is to miss an important message when browsing and deleting the list of spam. Using Tmda would at least make the sender aware of the mistake and the deletion would be automatic. But I think that I still will browse the pending list for mistakes, at least for a while. <span class="anchor" id="line-3"></span><span class="anchor" id="line-4"></span><p class="line874">But since most of the spam does not have a valid sender address and they bounce, automatically deleting the message that wont get confirmed anyway seem like good solution. Using Sender address verification on SMTP level would be another solution, but I didn't like the problems described in Postfix on this issue. <span class="anchor" id="line-5"></span><span class="anchor" id="line-6"></span><p class="line874">So this is what I hacked together <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867">
+<h1 id="head-689727423d1585ca437a30e452dcfbb43c3ee015">Deletion of pending messages from bounced confirmations</h1>
+<span class="anchor" id="line-9"></span><p class="line874">This describes to set-up automated deletion of pending messages from bounced confirmation <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line874">I have created two script that does this: <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line867"><a href="./bounce_address(2e)py.html">bounce address.py</a> extract the bounced address from bounce message. Some heuristics is involved, since the format of the message is different from MTA. <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><p class="line867"><a href="./deletepending_from_bouncemsg(2e)sh.html">deletepending from bouncemsg.sh</a> uses the bounce address to find the message id in the pending queue and then does a deletion. <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line874">If you have the system set up as described in the FAQ (4.7. How do I prevent my postmaster from getting all my bounced confirmation requests), then you can change drop rule to: <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line867"><span class="anchor" id="line-20"></span><pre>to thl-spambounce@catseye.net deliver=|~/delete_pending_from_bouncemsg.sh &gt;&gt; ~/.tmda/logs/delete_pending
+<span class="anchor" id="line-21"></span></pre><span class="anchor" id="line-22"></span><p class="line862">Mark Horn tackled this same problem in a different manner.  <a href="./delpenbounce.html">delpenbounce</a> parses the bounced message looking for the confirm address that was used.  From that, it extracts the ID of the message in the pending queue and deletes it.  This works perfectly when the email system that sends the bounce includes the original email in the bounce.  This can be used by: <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><ol type="1"><li>Setting BOUNCE_ENV_SENDER, e.g. <span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><pre>BOUNCE_ENV_SENDER = "mark-devnull@hornclan.com"</pre><span class="anchor" id="line-27"></span></li><li>Setting the following incoming filter rule: <span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><pre>to mark-devnull@hornclan.com deliver=|~/bin/delpenbounce</pre><span class="anchor" id="line-30"></span></li></ol><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

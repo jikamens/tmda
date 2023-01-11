@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>TmdaFingerprint</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">TmdaFingerprint</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-3"></span><p class="line862">TMDA has an optional feature for applying a fingerprint to outgoing email. (See <a class="http" href="http://wiki.tmda.net/ConfigurationVariables#FINGERPRINT">FINGERPRINT</a>.)  This only works if you use TMDA to manage all of your outbound email, either through tmda-sendmail or with tmda-ofmipd.  This allows me to send email to myself without having to add myself in any of my whitelists. A common spam technique is to send the spam to and from the same address. <span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span><p class="line874">To get this to work, do the following: <span class="anchor" id="line-6"></span><span class="anchor" id="line-7"></span><ol type="1"><li>Set the FINGERPRINT variable in ~/.tmda/config.  I use: <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span><pre>FINGERPRINT = ["message-id", "from", "date"]</pre><span class="anchor" id="line-10"></span></li><li>Add a line to your incoming filter to check the fingerprint against incoming email.  I use: <span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><pre>pipe /usr/local/src/tmda/bin/tmda-fingerprint ok</pre><span class="anchor" id="line-13"></span></li></ol><p class="line874">There are a couple of odd things that don't work with this system: <span class="anchor" id="line-14"></span><span class="anchor" id="line-15"></span><ol type="1"><li>It always fails if you add "body" to FINGERPRINT.  I don't know why <span class="anchor" id="line-16"></span></li><li>WIth the above settings, and a completely empty body, it also always fails.  Again, I don't know why. <span class="anchor" id="line-17"></span></li></ol><p class="line862">Of course, a simpler way to handle this is described in the<a class="http" href="http://wiki.tmda.net/TmdaFaq#head-e81137818ea55d7e15d5822687715793af7062ea">FAQ.</a> <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line862">Here's the code for <a href="./tmda(2d)fingerprint.html">tmda-fingerprint</a> <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><p class="line867"><ul><li>[<a href="attachments/TmdaFingerprint/tmda-fingerprint">get</a>&nbsp;| <a href="./TmdaFingerprint.html?action=AttachFile&amp;do=view&amp;target=tmda-fingerprint">view</a>] (4.0 KB) attachment:<strong>tmda-fingerprint</strong></li></ul> <span class="anchor" id="line-22"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

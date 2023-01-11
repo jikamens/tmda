@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnAutoAdmin</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnAutoAdmin</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-7"></span><ul><li style="list-style-type:none"><p class="line891"><img alt="/!\" height="15" src="./mentalwealth/img/alert.png" title="/!\" width="15" /> Early draft, do not translate! <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span></li></ul><p class="line862">The security policy <tt class="backtick">autoadmin</tt> included in <a href="./MoinMoin.html">MoinMoin</a> distribution (but NOT active by default, see below) is useful when you want to automatically and implicitely give some users or user groups  <tt class="backtick">admin</tt> rights on some pages. <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line862">Having <tt class="backtick">admin</tt> rights means to be able to create or change ACLs, see <a href="./HelpOnAccessControlLists.html">HelpOnAccessControlLists</a>. <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><p class="line867">
+<h1 id="head-467aead9ff91c131fed2b69653b42f92d7e62da2">AutoAdmin usage</h1>
+<span class="anchor" id="line-14"></span><p class="line867">
+<h2 id="head-82e0d0c5e87d1884083ae3aaaee28abb7216c1cf">1. for a personal homepage</h2>
+<span class="anchor" id="line-15"></span><p class="line862">See if there is a <a href="./HomepageTemplate.html">HomepageTemplate</a> with a prepared ACL line and some other magic already on it. <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line874">It is a good idea to have your homepage read- and writeable for everybody as a means of open communication. <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span><p class="line862">For creating personal (or private) subpages of your homepage, it is the easiest way to use the My<tt class="backtick"></tt>Pages action. It will show some form to you, enabling easy creation of those pages. <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span><p class="line862">Alternatively you can also do it manually, using the <a class="nonexistent" href="./ReadWritePageTemplate.html">ReadWritePageTemplate</a>, <a class="nonexistent" href="./ReadPageTemplate.html">ReadPageTemplate</a> or <a class="nonexistent" href="./PrivatePageTemplate.html">PrivatePageTemplate</a>. They usually have some prepared ACL line on them, e.g.: <span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><pre>#acl @ ME@/ReadWriteGroup:read,write @ ME@/ReadGroup:read
+<span class="anchor" id="line-24"></span></pre><span class="anchor" id="line-25"></span><p class="line862">That @<tt class="backtick"></tt>ME@ in the template will be expanded to your name when saving, so those 2 subpages (<tt class="backtick">YourName/ReadWriteGroup</tt> and <tt class="backtick">YourName/ReadGroup</tt>) of your homepage will be used for allowing read/write or read-only access. <span class="anchor" id="line-26"></span><span class="anchor" id="line-27"></span><p class="line874">Now you only have to maintain those 2 subpages of your homepage (maybe they even have been auto- created for you) and put the people on them for allowing them access. <span class="anchor" id="line-28"></span><span class="anchor" id="line-29"></span><p class="line867">
+<h2 id="head-78214ab34dc47c19963a9d4a9958247430dafa60">2. for a project page</h2>
+<span class="anchor" id="line-30"></span><p class="line862">See if there is some <tt class="backtick">&lt;ProjectName&gt;Template</tt> with a prepared ACL line for your project pages and use it for creating new subpages. <span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span><p class="line862">Use <tt class="backtick">&lt;ProjectName&gt;/ReadWriteGroup</tt> and <tt class="backtick">&lt;ProjectName&gt;/ReadGroup</tt> etc. as you would do for a homepage (see above). <span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span><p class="line867">
+<h1 id="head-ff27689a49a312e02062fe94ce1776cf2a0f9181">AutoAdmin configuration and administration</h1>
+<span class="anchor" id="line-35"></span><p class="line867">
+<h2 id="head-1f70996cb2055a51a0f795f37efa833833793c25">1. Configuration</h2>
+<span class="anchor" id="line-36"></span><p class="line874">Add this to your wiki's configuration file: <span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><p class="line867"><span class="anchor" id="line-39"></span><pre>    from MoinMoin.util.autoadmin import SecurityPolicy
+<span class="anchor" id="line-40"></span></pre><span class="anchor" id="line-41"></span><span class="anchor" id="line-42"></span><p class="line862">Create an <a href="./AutoAdminGroup.html">AutoAdminGroup</a> page. If you don't know better, create an empty page for starting. <span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span><p class="line874">That page (and also other group pages used with autoadmin, see below) should be ACL protected with write access limited to allowed people. They are used as source for some ACL information and thus should be treated like the ACLs they get fed into. <span class="anchor" id="line-45"></span><span class="anchor" id="line-46"></span><p class="line867">
+<h2 id="head-f1a8b6976c7a59dd56643db3595f7f9908448431">2. Administration</h2>
+<span class="anchor" id="line-47"></span><p class="line867">
+<h3 id="head-1cc3d7f47e45f84a3c0b57d295631486c8cf651c">2.1. Enabling a home page for AutoAdmin</h3>
+<span class="anchor" id="line-48"></span><p class="line862">Just add the user name (same as home page name) to the <tt class="backtick">AutoAdminGroup</tt> page. Alternatively, if you want to enable this feature for all users of some specific group, add the group page name to <tt class="backtick">AutoAdminGroup</tt>. <span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span><p class="line862">All users directly or indirectly on <tt class="backtick">AutoAdminGroup</tt> will get <tt class="backtick">admin</tt> rights on their own homepage or subpages of it. <span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span><p class="line862">This is needed for the MyPages action, but can also get used for manual ACL changes. <span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span><p class="line874">You also can define some page templates with pre-made ACLs for them to use for new homepages or subpages of it. <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line867">
+<h3 id="head-0c4aec359f4cfc06f008bef7411c44377de5e4b0">2.2. Enabling another (project) page for AutoAdmin</h3>
+<span class="anchor" id="line-57"></span><ol type="1"><li><p class="line862">Add <tt class="backtick">&lt;PageName&gt;/AdminGroup</tt> to <tt class="backtick">AutoAdminGroup</tt>. <span class="anchor" id="line-58"></span></li><li><p class="line862">Also create that <tt class="backtick">&lt;PageName&gt;/AdminGroup</tt> group definition page and add at least one user or one group to that page, giving them <tt class="backtick">admin</tt> rights on <tt class="backtick">&lt;PageName&gt;</tt> or subpages of it. <span class="anchor" id="line-59"></span></li></ol><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

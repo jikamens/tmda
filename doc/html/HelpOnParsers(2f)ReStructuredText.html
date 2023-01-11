@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnParsers/ReStructuredText</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnParsers/ReStructuredText</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867">
+<h1 id="head-b68b11cbc454446ea79af958466c05c00751c32e">1. What is ReStructured Text?</h1>
+<span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line862">Re<tt class="backtick"></tt>Structured<tt class="backtick"></tt>Text is an easy-to-read, what-you-see-is-what-you-get plaintext markup syntax and parser system. It is useful for in-line program documentation (such as Python docstrings), for quickly creating simple web pages, and for stand-alone documents. Re<tt class="backtick"></tt>Structured<tt class="backtick"></tt>Text is designed for extensibility for specific application domains. Re<tt class="backtick"></tt>Structured<tt class="backtick"></tt>Text is a revision and re-interpretation of the Structured<tt class="backtick"></tt>Text and Setext lightweight markup systems. <span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line862">People new to Wikis often find the Re<tt class="backtick"></tt>Structured<tt class="backtick"></tt>Text markup more natural and easier to learn than the default markup of <a href="./MoinMoin.html">MoinMoin</a>. <span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><p class="line867">
+<h1 id="head-a24aa58c809e6fbf307c86543467bed5f1c1c659">2. ReStructuredText Parser</h1>
+<span class="anchor" id="line-13"></span><span class="anchor" id="line-14"></span><p class="line867">
+<h2 id="head-bb9812b0db28d089618ef8f6fd697416773aad3b">2.1. Installation</h2>
+<span class="anchor" id="line-15"></span><p class="line862">Before you can use it, you need to install the Python docutils package, which provides the additional Re<tt class="backtick"></tt>Structured<tt class="backtick"></tt>Text support that <a href="./MoinMoin.html">MoinMoin</a> needs.   <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span><p class="line862">The docutils version you will need depends on the <a href="./MoinMoin.html">MoinMoin</a> version. <span class="anchor" id="line-18"></span>If you are reading this text here as part of your <a href="./MoinMoin.html">MoinMoin</a> installation, you probably have <a href="./MoinMoin.html">MoinMoin</a> 1.5 or newer, which currently (as of January 2006) needs docutils 0.4.0 or newer, or a recent 0.3.10 snapshot.  If you are using <a href="./MoinMoin.html">MoinMoin</a> on Linux, docutils is probably already available <span class="anchor" id="line-19"></span>as part of your Linux distribution.  For example on Debian GNU/Linux you simply need to type <tt>apt-get&nbsp;install&nbsp;python-docutils</tt>.  Other <span class="anchor" id="line-20"></span>Linux distributions use other means to install packages:  See the documentation of your Linux distribution. <span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line867">
+<h2 id="head-67afcff1f0c61d6d76b7073b8d2aee206d2dccb6">2.2. The Parser in MoinMoin</h2>
+<span class="anchor" id="line-23"></span><p class="line862">The parser supports the same features that are supported by the docutils HTML writer. However, some aspects have been slightly modified to work well with <a href="./MoinMoin.html">MoinMoin</a>. These areas are outlined below. This parser is part of the <a href="./MoinMoin.html">MoinMoin</a> distribution <span class="anchor" id="line-24"></span>since release 1.3.2.  However it can also be used with all versions of <a href="./MoinMoin.html">MoinMoin</a> 1.2.X and 1.3.X. <span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line867">
+<h2 id="head-2b48b2e0e7cf6723f16760b25d7ee7cf62196ecf">2.3. Using ReST in MoinMoin</h2>
+<span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line867">
+<h3 id="head-aacea0d7a352e4ab89d947926b2c06e527aecef3">2.3.1. Example</h3>
+<span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span><p class="line867"><span class="anchor" id="line-31"></span><span class="anchor" id="line-32"></span><div class="message">Rendering of reStructured text is not possible, please install docutils.</div><pre>This is a *very* simple example. If you see two asterisks around the word "very" in the previous sentence, then the module docutils is improperly installed (or not installed at all). When the module docutils is there, the word is displayed in italics and this whole block of text is not displayed in a special source-code-like format, but like a normal part of the page.</pre><span class="anchor" id="line-33"></span><span class="anchor" id="line-34"></span><p class="line867">
+<h3 id="head-68c1afce4e3637c4620136178e69dcb6628237b0">2.3.2. Unknown Targets</h3>
+<span class="anchor" id="line-35"></span><span class="anchor" id="line-36"></span><p class="line874">Unknown targets are used to create wiki links. Typically an unknown target would cause an error in a reStructuredText document. To enable wiki like behavior, unknown targets now create links to wiki pages using the target name as the name of the wiki page. For example: <span class="anchor" id="line-37"></span><span class="anchor" id="line-38"></span><ul><li style="list-style-type:none"><pre>#!rst 
+<span class="anchor" id="line-39"></span> 
+<span class="anchor" id="line-40"></span>Here is a link to a MoinMoin page named SecondPage_.
+<span class="anchor" id="line-41"></span></pre><span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><span class="anchor" id="line-44"></span><span class="anchor" id="line-45"></span><span class="anchor" id="line-46"></span><div class="message">Rendering of reStructured text is not possible, please install docutils.</div><pre> 
+Here is a link to a MoinMoin page named SecondPage_.</pre><span class="anchor" id="line-47"></span><span class="anchor" id="line-48"></span></li></ul><p class="line862">The above contains a reStructuredText reference to "<a class="nonexistent" href="./SecondPage.html">SecondPage</a>". The reference would typically cause an unknown target error from the docutils parser. This is because there isn't a target in the document named "<a class="nonexistent" href="./SecondPage.html">SecondPage</a>". However, with the <a href="./MoinMoin.html">MoinMoin</a> parser, the "<a class="nonexistent" href="./SecondPage.html">SecondPage</a>_" reference instead creates a link to a <a href="./MoinMoin.html">MoinMoin</a> page named "<a class="nonexistent" href="./SecondPage.html">SecondPage</a>". <span class="anchor" id="line-49"></span><span class="anchor" id="line-50"></span><p class="line867">
+<h3 id="head-96f820c21e28183bcb7e10ad77f862a8083a53e8">2.3.3. Support for MoinMoin-specific link schemes</h3>
+<span class="anchor" id="line-51"></span><span class="anchor" id="line-52"></span><p class="line867"><a href="./MoinMoin.html">MoinMoin</a>-specific link schemes are supported when used in a reStructuredText  explicit hyperlink target. For example: <span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span><ul><li style="list-style-type:none"><pre>#!rst 
+<span class="anchor" id="line-55"></span>Here is a link to a page attachment__.
+<span class="anchor" id="line-56"></span>
+<span class="anchor" id="line-57"></span>__ attachment:Attachment.zip
+<span class="anchor" id="line-58"></span></pre><span class="anchor" id="line-59"></span><span class="anchor" id="line-60"></span><span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span><span class="anchor" id="line-63"></span><span class="anchor" id="line-64"></span><div class="message">Rendering of reStructured text is not possible, please install docutils.</div><pre>Here is a link to a page attachment__.
+
+__ attachment:Attachment.zip</pre><span class="anchor" id="line-65"></span><span class="anchor" id="line-66"></span></li></ul><p class="line862">The above creates a link to an attachment named Attachment.zip. If the attachment for the page does not exist, the link text will be replaced with the typical <a href="./MoinMoin.html">MoinMoin</a> replacement text for uploading an attachment. Supported <a href="./MoinMoin.html">MoinMoin</a>-specific link schemes are: <span class="anchor" id="line-67"></span><span class="anchor" id="line-68"></span><ul><li><p class="line891"><tt>wiki:</tt> <span class="anchor" id="line-69"></span></li><li><p class="line891"><tt>attachment:</tt> <span class="anchor" id="line-70"></span></li><li><p class="line891"><tt>inline:</tt> <span class="anchor" id="line-71"></span></li><li><p class="line891"><tt>drawing:</tt> <span class="anchor" id="line-72"></span><span class="anchor" id="line-73"></span></li></ul><p class="line867">
+<h3 id="head-5e3be0f132002d81538e77a3a4b03520cb977361">2.3.4. Inline Images</h3>
+<span class="anchor" id="line-74"></span><span class="anchor" id="line-75"></span><p class="line862">Docutils image directives, that are not urls, are converted to <a href="./MoinMoin.html">MoinMoin</a> <tt>inline:</tt> links. This produces the expected behavior of inserting the image into the document. If the image attachment does not exist, the typical <a href="./MoinMoin.html">MoinMoin</a> upload new attachment message will be displayed instead. For example: <span class="anchor" id="line-76"></span><span class="anchor" id="line-77"></span><ul><li style="list-style-type:none"><pre>#!rst 
+<span class="anchor" id="line-78"></span>Here is the picture I took yesterday |image|
+<span class="anchor" id="line-79"></span>
+<span class="anchor" id="line-80"></span>.. |image| image:: Yesterday.jpg
+<span class="anchor" id="line-81"></span></pre><span class="anchor" id="line-82"></span><span class="anchor" id="line-83"></span><span class="anchor" id="line-84"></span><span class="anchor" id="line-85"></span><span class="anchor" id="line-86"></span><span class="anchor" id="line-87"></span><div class="message">Rendering of reStructured text is not possible, please install docutils.</div><pre>Here is the picture I took yesterday |image|
+
+.. |image| image:: Yesterday.jpg</pre><span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span></li></ul><p class="line862">The above will insert the image "Yesterday.jpg" in place of <tt>|image|</tt>. <span class="anchor" id="line-90"></span><span class="anchor" id="line-91"></span><p class="line867">
+<h3 id="head-6c42cd748272b24e397de747cfd6e149867f16be">2.3.5. Experimental Features</h3>
+<span class="anchor" id="line-92"></span><span class="anchor" id="line-93"></span><p class="line874">The include and macro directives are considered experimental due to lack of <span class="anchor" id="line-94"></span>testing. They are expected to work but have not been used extensively. <span class="anchor" id="line-95"></span><span class="anchor" id="line-96"></span><p class="line867">
+<h4 id="head-b6ce341f70528d07e20cc315886e1ed405cb21a5">2.3.5.1. Include Support</h4>
+<span class="anchor" id="line-97"></span><span class="anchor" id="line-98"></span><p class="line874">The reStructuredText include directive is supported with some restrictions. The directive allows including wiki pages from the same wiki (page attachments are not candidates for the include directive). Included pages must be formatted using reStructuredText (wiki formatted pages will produce improperly formatted documents). For example, the following would insert the pages header and footer surrounding the page contents. <span class="anchor" id="line-99"></span><span class="anchor" id="line-100"></span><ul><li style="list-style-type:none"><pre>#!rst 
+<span class="anchor" id="line-101"></span>.. include:: header
+<span class="anchor" id="line-102"></span>
+<span class="anchor" id="line-103"></span>The sole document sentence.
+<span class="anchor" id="line-104"></span>
+<span class="anchor" id="line-105"></span>.. include:: footer
+<span class="anchor" id="line-106"></span></pre><span class="anchor" id="line-107"></span><span class="anchor" id="line-108"></span></li></ul><p class="line874">The number of included documents is limited to ten. This is to prevent denial of service attacks using recursive include directives. <span class="anchor" id="line-109"></span><span class="anchor" id="line-110"></span><p class="line867">
+<h4 id="head-c76bc3d00b29f2f6975914614d7fa1eb228ea4b2">2.3.5.2. Macro Support</h4>
+<span class="anchor" id="line-111"></span><span class="anchor" id="line-112"></span><p class="line862">The <a href="./MoinMoin.html">MoinMoin</a> reStructuredText parser adds a new <a href="./MoinMoin.html">MoinMoin</a> specific macro <span class="anchor" id="line-113"></span>directive. The directive allows access to <a href="./MoinMoin.html">MoinMoin</a> macros from within a <span class="anchor" id="line-114"></span>reStructuredText document. For example: <span class="anchor" id="line-115"></span><span class="anchor" id="line-116"></span><ul><li style="list-style-type:none"><pre>#!rst 
+<span class="anchor" id="line-117"></span>Use the title search macro to insert a search box to search through page titles.
+<span class="anchor" id="line-118"></span>
+<span class="anchor" id="line-119"></span>.. macro:: [[TitleSearch]]
+<span class="anchor" id="line-120"></span></pre><span class="anchor" id="line-121"></span><span class="anchor" id="line-122"></span><span class="anchor" id="line-123"></span><span class="anchor" id="line-124"></span><span class="anchor" id="line-125"></span><span class="anchor" id="line-126"></span><div class="message">Rendering of reStructured text is not possible, please install docutils.</div><pre>Use the title search macro to insert a search box to search through page titles.
+
+.. macro:: [[TitleSearch]]</pre><span class="anchor" id="line-127"></span><span class="anchor" id="line-128"></span></li></ul><p class="line867">
+<h3 id="head-8dbd8a798b2525028fba4e6e9f5e7d01fb0067e1">2.3.6. Known Issues</h3>
+<span class="anchor" id="line-129"></span><span class="anchor" id="line-130"></span><ul><li><p class="line862">Docutils and <a href="./MoinMoin.html">MoinMoin</a> use different sets of css directives. Some directives overlap, while others do not. For example, the note directive is not displayed with any special formatting. This issue is most severe when using the rightsidebar theme with the docutils sidebar directive. The docutils sidebar will replace the <a href="./MoinMoin.html">MoinMoin</a> sidebar. It is currently recommended that the sidebar directive not be used with <a href="./MoinMoin.html">MoinMoin</a>. <span class="anchor" id="line-131"></span></li><li>Features related to external URL and local file retrieval are unsupported by the parser in order to guarantee local security. Besides that, raw roles and other features that might support the user to output raw HTML are disallowed, too. <span class="anchor" id="line-132"></span><span class="anchor" id="line-133"></span></li></ul><p class="line867">
+<h3 id="head-4b37308a97ba925b68d3f7331bd228711070d9dd">2.3.7. Links</h3>
+<span class="anchor" id="line-134"></span><span class="anchor" id="line-135"></span><ul><li><p class="line891"><a class="http" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> <span class="anchor" id="line-136"></span></li><li><p class="line891"><a class="http" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">Quick Reference</a> <span class="anchor" id="line-137"></span></li><li><p class="line891"><a class="http" href="http://docutils.sourceforge.net/">Docutils</a> <span class="anchor" id="line-138"></span></li><li><p class="line891"><a href="./HelpOnParsers(2f)ReStructuredText(2f)RstPrimer.html">A ReStructuredText Primer</a> <span class="anchor" id="line-139"></span></li></ul><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

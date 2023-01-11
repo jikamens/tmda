@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>HelpOnUpdatingPython</title>
+<link rel="stylesheet" type="text/css" media="all" charset="utf-8" href="mentalwealth/css/common.css">
+<link rel="stylesheet" type="text/css" media="screen" charset="utf-8" href="mentalwealth/css/screen.css">
+<link rel="stylesheet" type="text/css" media="print" charset="utf-8" href="mentalwealth/css/print.css">
+</head>
+<body>
+<table>
+<tr>
+<td>
+<img src="logo.png">
+</td>
+<td>
+&nbsp;[<a href="FrontPage.html">FrontPage</a>]&nbsp;[<a href="TitleIndex.html">TitleIndex</a>]&nbsp;[<a href="WordIndex.html">WordIndex</a>]
+</td>
+</tr>
+</table>
+<hr>
+<div id="page">
+<h1 id="title">HelpOnUpdatingPython</h1>
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-6"></span><p class="line867">
+<h2 id="head-103cc19cbb376e7025c35109220c1872e0ab78ba">Updating Python</h2>
+<span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line862">If you want to change the Python running your <a href="./MoinMoin.html">MoinMoin</a> installation there are some issues to keep in mind: <span class="anchor" id="line-9"></span><span class="anchor" id="line-10"></span><p class="line867">
+<h3 id="head-ad423dee83081caed46fb2df61e43175f861176d">Location of the MoinMoin directory</h3>
+<span class="anchor" id="line-11"></span><span class="anchor" id="line-12"></span><p class="line862">The default installation process (<tt class="backtick">setup.py</tt>) installed the <a href="./MoinMoin.html">MoinMoin</a> files into the site-packages directory of the current Python installation (for example <tt class="backtick">/usr/lib/python2.2/site-packages</tt>). If you move to another Python interpreter you must reinstall the <a href="./MoinMoin.html">MoinMoin</a> files into the new <tt class="backtick">lib/pythonX.X/site-packeges</tt> directory. If you installed the <a href="./MoinMoin.html">MoinMoin</a> files elsewhere and adjusted <tt class="backtick">sys.path</tt> this is not a problem. <span class="anchor" id="line-13"></span><span class="anchor" id="line-14"></span><p class="line867">
+<h3 id="head-c9f3c971c81dccb13c6dc792e2fca581719b06c9">The precompiled Python files (.pyc)</h3>
+<span class="anchor" id="line-15"></span><span class="anchor" id="line-16"></span><p class="line874">Python does not grant that .pyc files are compatible between Python versions. If you change the Python interpreter you should recompile the Python scripts. You may use  <span class="anchor" id="line-17"></span><span class="anchor" id="line-18"></span><p class="line867"><span class="anchor" id="line-19"></span><pre>python -c "import compileall; compileall.compile_dir('/path/to/MoinMoin')"
+<span class="anchor" id="line-20"></span></pre><span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span><p class="line862">for this. If you reinstall <a href="./MoinMoin.html">MoinMoin</a> for the new interpreter the step is not needed/done by setup.py. <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span><p class="line867">
+<h3 id="head-96363c2b06091eb91cebadcf48654378d0836b02">Empty Page Cache</h3>
+<span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span><p class="line862">The page cache uses Python byte code for faster page rendering. To avoid compatibility problems you should empty the cache by hand by deleting all files in <tt class="backtick">data/pages/*/cache/</tt> and <tt class="backtick">underlay/pages/*/cache/</tt>.  <span class="anchor" id="line-27"></span><span class="anchor" id="bottom"></span></div>
+</div>
+<hr>
+2007-07-30 15:45
+</body>
+</html>

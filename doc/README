@@ -1,0 +1,14 @@
+The online TMDA documentation is on the wiki @ http://wiki.tmda.net/
+Normally the Wiki tracks the most recent release of TMDA which you may
+not be running.  These files are a snapshot of the wiki at the time a
+release was made.  This allows you to maintain a local copy of the
+documentation that matches your release.
+
+README - this file
+
+html/ - a snapshot of the entire TmdaWiki in HTML.  
+        open 'html/index.html' in your browser.
+
+pdf/ - select Wiki pages in PDF format.  these are pages which are
+       often more convenient to read in printed form.
+
