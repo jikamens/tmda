@@ -39,26 +39,26 @@ try:
     import os
     import sys
     import traceback
-    
+
     try:
-        import paths
+        import paths  # noqa
     except ImportError:
-        # Prepend /usr/lib/python2.x/site-packages/TMDA/pythonlib
+        # Prepend /usr/lib/python3.x/site-packages/TMDA/pythonlib
         sitedir = os.path.join(sys.prefix, 'lib', 'python'+sys.version[:3],
                                'site-packages', 'TMDA', 'pythonlib')
         sys.path.insert(0, sitedir)
 
     program = sys.argv[0]
     execdir = os.path.dirname(os.path.abspath(program))
-    execfile(os.path.join(execdir, 'tmda-rfilter'))
-    
+    exec(open(os.path.join(execdir, 'tmda-rfilter')).read())
+
 except KeyboardInterrupt:
     pass
 
 except SystemExit:
     raise
 
-except:
+except Exception:
     try:
         status = 75
         tb1 = sys.exc_info()
@@ -66,24 +66,24 @@ except:
 
         from TMDA.Defaults import LOGFILE_DEBUG
         if not LOGFILE_DEBUG:
-            raise NameError, 'LOGFILE_DEBUG is not defined'
-        print 'See', LOGFILE_DEBUG, 'for traceback'
+            raise NameError('LOGFILE_DEBUG is not defined')
+        print('See', LOGFILE_DEBUG, 'for traceback')
         fp = open(LOGFILE_DEBUG, 'a')
 
     except SystemExit:
         raise
-    
-    except:
+
+    except Exception:
         try:
             failure_file = os.path.expanduser('~/TMDA_DELIVERY_FAILURE')
-            print 'See', failure_file, 'for traceback'
+            print('See', failure_file, 'for traceback')
             tb2 = sys.exc_info()
             fp = open(failure_file, 'a')
 
         except SystemExit:
             raise
 
-        except:
+        except Exception:
             tb3 = sys.exc_info()
 
 if status:
@@ -99,7 +99,7 @@ if status:
                                           tb[2], file=fp)
         fp.close()
 
-    except:
+    except Exception:
         pass
 
 sys.exit(status)

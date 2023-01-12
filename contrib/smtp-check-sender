@@ -64,7 +64,7 @@ cannot verify the validity of an address via SMTP.  Luckily, most
 MTAs do not have this limitation.
 """
 
-import DNS # http://pydns.sourceforge.net/
+import DNS  # http://pydns.sourceforge.net/
 import smtplib
 import socket
 import sys
@@ -94,7 +94,7 @@ else:
 
 # SMTP conversation
 server = smtplib.SMTP(primx)
-#server.set_debuglevel(1)
+# server.set_debuglevel(1)
 server.docmd('helo', socket.getfqdn())
 server.docmd('mail from:', '<%s>' % mail_from_address)
 code, msg = server.docmd('rcpt to:', '<%s>' % address_to_verify)
@@ -103,8 +103,8 @@ server.quit()
 # RFC 2821 is quite clear in stating that all codes starting
 # with 5 are always `permanent negative completion replies.
 if str(code).startswith('5'):
-    print 'BAD sender'
+    print('BAD sender')
     sys.exit(0)
 else:
-    print 'GOOD sender'
+    print('GOOD sender')
     sys.exit(1)

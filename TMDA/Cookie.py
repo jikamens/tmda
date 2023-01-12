@@ -27,9 +27,9 @@ import os
 import re
 import time
 
-import Defaults
-import HMAC
-import Util
+from TMDA import Defaults
+from TMDA import HMAC
+from TMDA import Util
 
 
 def confirmationmac(time, pid, keyword=None):
@@ -67,14 +67,15 @@ def make_confirm_address(address, time, pid, keyword=None):
 
 def datemac(time):
     """Expects time as a string, and returns an HMAC in hex."""
-    datemac = HMAC.new(Defaults.CRYPT_KEY,time).digest()[:Defaults.HMAC_BYTES]
+    datemac = HMAC.new(Defaults.CRYPT_KEY, time).digest()[:Defaults.HMAC_BYTES]
     return binascii.hexlify(datemac)
 
 
-def make_dated_cookie(time, timeout = None):
+def make_dated_cookie(time, timeout=None):
     """Return a dated-style cookie (expire date + HMAC)."""
     tmda_timeout = timeout or os.environ.get('TMDA_TIMEOUT')
-    if not tmda_timeout:tmda_timeout = Defaults.DATED_TIMEOUT
+    if not tmda_timeout:
+        tmda_timeout = Defaults.DATED_TIMEOUT
     expire_time = str(int(time) + Util.seconds(tmda_timeout))
     datedmac = datemac(expire_time)
     return expire_time + '.' + datedmac
@@ -85,11 +86,11 @@ def make_dated_address(address):
     now = '%d' % time.time()
     dated_cookie = make_dated_cookie(now)
     username, hostname = address.split('@')
-    dated_address = '%s%s%s%s%s@%s' %(username,
-                                      Defaults.RECIPIENT_DELIMITER,
-                                      Defaults.TAGS_DATED[0],
-                                      Defaults.RECIPIENT_DELIMITER,
-                                      dated_cookie, hostname)
+    dated_address = '%s%s%s%s%s@%s' % (username,
+                                       Defaults.RECIPIENT_DELIMITER,
+                                       Defaults.TAGS_DATED[0],
+                                       Defaults.RECIPIENT_DELIMITER,
+                                       dated_cookie, hostname)
     return dated_address
 
 
@@ -105,17 +106,18 @@ def make_sender_address(address, sender):
     """Return a full sender-style e-mail address."""
     sender_cookie = make_sender_cookie(sender)
     username, hostname = address.split('@')
-    sender_address = '%s%s%s%s%s@%s' %(username,
-                                       Defaults.RECIPIENT_DELIMITER,
-                                       Defaults.TAGS_SENDER[0],
-                                       Defaults.RECIPIENT_DELIMITER,
-                                       sender_cookie, hostname)
+    sender_address = '%s%s%s%s%s@%s' % (username,
+                                        Defaults.RECIPIENT_DELIMITER,
+                                        Defaults.TAGS_SENDER[0],
+                                        Defaults.RECIPIENT_DELIMITER,
+                                        sender_cookie, hostname)
     return sender_address
 
 
 def make_keywordmac(keyword):
     """Expects a keyword as a string, returns an HMAC in hex."""
-    keywordmac = HMAC.new(Defaults.CRYPT_KEY, keyword).digest()[:Defaults.HMAC_BYTES]
+    keywordmac = HMAC.new(Defaults.CRYPT_KEY, keyword).digest()[
+        :Defaults.HMAC_BYTES]
     return binascii.hexlify(keywordmac)
 
 
@@ -134,11 +136,11 @@ def make_keyword_address(address, keyword):
     keyword = keyword.lower()
     keyword_cookie = make_keyword_cookie(keyword)
     username, hostname = address.split('@')
-    keyword_address = '%s%s%s%s%s@%s' %(username,
-                                        Defaults.RECIPIENT_DELIMITER,
-                                        Defaults.TAGS_KEYWORD[0],
-                                        Defaults.RECIPIENT_DELIMITER,
-                                        keyword_cookie, hostname)
+    keyword_address = '%s%s%s%s%s@%s' % (username,
+                                         Defaults.RECIPIENT_DELIMITER,
+                                         Defaults.TAGS_KEYWORD[0],
+                                         Defaults.RECIPIENT_DELIMITER,
+                                         keyword_cookie, hostname)
     return keyword_address
 
 

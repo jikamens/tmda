@@ -22,14 +22,15 @@
 """General purpose functions."""
 
 
-from cStringIO import StringIO
-import cPickle
+from io import StringIO
+import pickle
 import email
+import email.header
 import email.utils
 import fileinput
 import fnmatch
 import os
-import popen2
+import subprocess
 import re
 import socket
 import stat
@@ -38,20 +39,20 @@ import tempfile
 import textwrap
 import time
 
-import Errors
+from TMDA import Errors
 
 
-MODE_EXEC = 01
-MODE_READ = 04
-MODE_WRITE = 02
+MODE_EXEC = 0o1
+MODE_READ = 0o4
+MODE_WRITE = 0o2
 POSIX_NAME_MAX = 255                    # maximum length of a file name
 
 
 def gethostname():
     """The host name"""
-    hostname = os.environ.get('TMDAHOST') or \
-               os.environ.get('QMAILHOST') or \
-               os.environ.get('MAILHOST')
+    hostname = (os.environ.get('TMDAHOST') or
+                os.environ.get('QMAILHOST') or
+                os.environ.get('MAILHOST'))
     if not hostname:
         hostname = socket.getfqdn()
     return hostname
@@ -59,10 +60,10 @@ def gethostname():
 
 def getfullname():
     """The user's personal name.  Default is an empty value."""
-    fullname = os.environ.get('TMDANAME') or \
-               os.environ.get('QMAILNAME') or \
-               os.environ.get('NAME') or \
-               os.environ.get('MAILNAME')
+    fullname = (os.environ.get('TMDANAME') or
+                os.environ.get('QMAILNAME') or
+                os.environ.get('NAME') or
+                os.environ.get('MAILNAME'))
     if not fullname:
         import pwd
         fullname = pwd.getpwuid(os.getuid())[4]
@@ -73,10 +74,10 @@ def getfullname():
 
 def getusername():
     """The user name"""
-    username = os.environ.get('TMDAUSER') or \
-               os.environ.get('QMAILUSER') or \
-               os.environ.get('USER') or \
-               os.environ.get('LOGNAME')
+    username = (os.environ.get('TMDAUSER') or
+                os.environ.get('QMAILUSER') or
+                os.environ.get('USER') or
+                os.environ.get('LOGNAME'))
     if not username:
         import pwd
         username = pwd.getpwuid(os.getuid())[0]
@@ -119,8 +120,7 @@ def getfilemode(path):
     permissions on path."""
     statinfo = os.stat(path)
     permbits = stat.S_IMODE(statinfo[stat.ST_MODE])
-    mode = int(oct(permbits))
-    return mode
+    return permbits
 
 
 def getfileuid(path):
@@ -144,7 +144,6 @@ def getvdomainprepend(address, vdomainsfile):
         # syntax rules.  All this because qmail doesn't store the original
         # envelope recipient in the environment.
         u, d = address.split('@', 1)
-        ousername = u.lower()
         odomain = d.lower()
         for line in fp.readlines():
             vdomain_match = 0
@@ -219,7 +218,7 @@ def seconds(timeout):
     """Translate the defined timeout interval into seconds."""
     match = re.match("^([0-9]+)([YMwdhms])$", timeout)
     if not match:
-        raise ValueError, 'Invalid timeout value: ' + timeout
+        raise ValueError(f'Invalid timeout value: {timeout}')
     (num, unit) = match.groups()
     if unit == 'Y':                     # years --> seconds
         seconds = int(num) * 60 * 60 * 24 * 365
@@ -244,7 +243,7 @@ def format_timeout(timeout):
     if not match:
         return timeout
     (num, unit) = match.groups()
-    import Defaults
+    from TMDA import Defaults
     timeout = num + " " + Defaults.TIMEOUT_UNITS[unit]
     if int(num) == 1:
         timeout = timeout[:-1]
@@ -280,11 +279,11 @@ def make_msgid(timesecs=None, pid=None):
     if not timesecs:
         timesecs = time.time()
     if not pid:
-        import Defaults
+        from TMDA import Defaults
         pid = Defaults.PID
-    idhost = os.environ.get('TMDAIDHOST') or \
-             os.environ.get('QMAILIDHOST') or \
-             gethostname()
+    idhost = (os.environ.get('TMDAIDHOST') or
+              os.environ.get('QMAILIDHOST') or
+              gethostname())
     idtag = os.environ.get('TMDAIDTAG') or 'TMDA'
     msgid = '<%s.%s.%s@%s>' % (int(timesecs), pid, idtag, idhost)
     return msgid
@@ -348,53 +347,33 @@ def pipecmd(command, *strings):
     General Public License version 2.
     """
     try:
-        popen2._cleanup()
-        cmd = popen2.Popen3(command, 1, bufsize=-1)
-        cmdout, cmdin, cmderr = cmd.fromchild, cmd.tochild, cmd.childerr
-        if strings:
-            # Write to the tochild file object.
-            for s in strings:
-                cmdin.write(s)
-            cmdin.flush()
-            cmdin.close()
-        # Read from the childerr object; command will block until exit.
-        err = cmderr.read().strip()
-        cmderr.close()
-        # Read from the fromchild object.
-        out = cmdout.read().strip()
-        cmdout.close()
-        # Get exit status from the wait() member function.
-        r = cmd.wait()
-        # If exit status is non-zero, raise an exception with data
-        # from childerr.
-        if r:
-            if os.WIFEXITED(r):
-                exitcode = 'exited %i' % os.WEXITSTATUS(r)
+        process = subprocess.run(command, shell=isinstance(command, str),
+                                 input=''.join(strings) if strings else None,
+                                 capture_output=True, encoding='utf-8')
+        err = process.stderr.strip()
+        out = process.stdout.strip()
+        if process.returncode:
+            if err:
+                print(err)
+            if process.returncode > 0:
+                exitcode = f'exited {process.returncode}'
                 exitsignal = ''
-            elif os.WIFSIGNALED(r):
-                exitcode = 'abnormal exit'
-                exitsignal = 'signal %i' % os.WTERMSIG(r)
             else:
-                # Stopped, etc.
-                exitcode = 'no exit?'
-                exitsignal = ''
-            raise IOError, 'command "%s" %s %s (%s)' \
-                  % (command, exitcode, exitsignal, err or '')
-        elif err:
-            # command wrote something to stderr.
-            print err
+                exitcode = 'abnormal exit'
+                exitsignal = f'signal {-process.returncode}'
+            raise IOError('command "%s" %s %s (%s)' %
+                          (command, exitcode, exitsignal, err or ''))
         if out:
-            # command wrote something to stdout.
-            print out
-    except Exception, txt:
-        raise IOError, \
-              'failure delivering message to command "%s" (%s)' % (command, txt)
+            print(out)
+    except Exception as txt:
+        raise IOError(
+            f'failure delivering message to command "{command}" ({txt})')
 
 
 def writefile(contents, fullpathname):
     """Simple function to write contents to a file."""
     if os.path.exists(fullpathname):
-        raise IOError, fullpathname + ' already exists'
+        raise IOError(f'{fullpathname} already exists')
     else:
         file = open(fullpathname, 'w')
         file.write(contents)
@@ -427,13 +406,13 @@ def pager(str):
         # try to locate less or more if $PAGER is not set
         for prog in ('less', 'more'):
             path = os.popen('which ' + prog).read()
-            if path <> '':
+            if path != '':
                 pager = path
                 break
     try:
-	os.popen(pager, 'w').write(str)
+        os.popen(pager, 'w').write(str)
     except IOError:
-	return
+        return
 
 
 def normalize_sender(sender):
@@ -466,7 +445,7 @@ def confirm_append_address(xp, rp):
         return rp
     if '@' not in rp or '@' not in xp:
         return rp
-    import Defaults
+    from TMDA import Defaults
     rpl = rp.lower()
     xpl = xp.lower()
     rplocal, rphost = rpl.split('@', 1)
@@ -508,19 +487,19 @@ def confirm_append_address(xp, rp):
 def msg_from_file(fp, fullParse=False):
     """Read a file and parse its contents into a Message object model.
     Replacement for email.message_from_file().
-    
+
     We use the HeaderParser subclass instead of Parser to avoid trying
     to parse the message body, instead setting the payload to the raw
     body as a string.  This is faster, and also helps us avoid
     problems trying to parse spam with broken MIME bodies."""
     from email.message import Message
     if fullParse:
-	from email.parser import Parser
-	msg = Parser(Message).parse(fp)
+        from email.parser import Parser
+        msg = Parser(Message).parse(fp)
     else:
-	from email.parser import HeaderParser
-	msg = HeaderParser(Message).parse(fp)
-    #msg.header_parsed = True
+        from email.parser import HeaderParser
+        msg = HeaderParser(Message).parse(fp)
+    # msg.header_parsed = True
     return msg
 
 
@@ -534,7 +513,7 @@ def msg_as_string(msg, maxheaderlen=False, mangle_from_=False, unixfrom=False):
 
     maxheaderlen specifies the longest length for a non-continued
     header.  Disabled by default.  RFC 2822 recommends 78.
-    
+
     mangle_from_ escapes any line in the body that begins with "From"
     with ">".  Useful when writing to Unix mbox files.  Default is
     False.
@@ -543,10 +522,10 @@ def msg_as_string(msg, maxheaderlen=False, mangle_from_=False, unixfrom=False):
     Default is False."""
     from email import generator
     fp = StringIO()
-    #if hasattr(msg, 'header_parsed') and msg.header_parsed:
-    #    genclass = Generator.HeaderParsedGenerator
-    #else:
-         #genclass = Generator.Generator
+    # if hasattr(msg, 'header_parsed') and msg.header_parsed:
+    #     genclass = Generator.HeaderParsedGenerator
+    # else:
+    #     genclass = Generator.Generator
     genclass = generator.Generator
     g = genclass(fp, mangle_from_=mangle_from_, maxheaderlen=maxheaderlen)
     g.flatten(msg, unixfrom=unixfrom)
@@ -563,7 +542,7 @@ def sendmail(msgstr, envrecip, envsender):
 
     envsender is the envelope sender address.
     """
-    import Defaults
+    from TMDA import Defaults
     # Sending mail with a null envelope sender address <> is not done
     # the same way across the different supported MTAs, nor across the
     # two mail transports (SMTP and /usr/sbin/sendmail).
@@ -581,46 +560,36 @@ def sendmail(msgstr, envrecip, envsender):
     if envsender == '':
         envsender = '<>'
     if envsender == '<>' and \
-           Defaults.MAIL_TRANSFER_AGENT in ('postfix', 'qmail') and \
-           Defaults.MAIL_TRANSPORT == 'sendmail':
+       Defaults.MAIL_TRANSFER_AGENT in ('postfix', 'qmail') and \
+       Defaults.MAIL_TRANSPORT == 'sendmail':
         envsender = ''
     if Defaults.MAIL_TRANSPORT == 'sendmail':
         # You can avoid the shell by passing a tuple of arguments as
-        # the command instead of a string.  This will cause the
-        # popen2.Popen3() code to execvp() "/usr/bin/sendmail" with
-        # these arguments exactly, with no trip through any shell.
+        # the command instead of a string.  This will cause pipecmd
+        # to execvp() "/usr/bin/sendmail" with these arguments exactly,
+        # with no trip through any shell.
         cmd = (Defaults.SENDMAIL_PROGRAM, '-i',
                '-f', envsender, '--', envrecip)
         pipecmd(cmd, msgstr)
     elif Defaults.MAIL_TRANSPORT == 'smtp':
-        import SMTP
+        from TMDA import SMTP
         server = SMTP.Connection()
         server.sendmail(envsender, envrecip, msgstr)
         server.quit()
     else:
-        raise Errors.ConfigError, \
-              "Invalid MAIL_TRANSPORT method: " + Defaults.MAIL_TRANSPORT
+        raise Errors.ConfigError(
+            "Invalid MAIL_TRANSPORT method: " + Defaults.MAIL_TRANSPORT)
 
 
-def decode_header(str):
+def decode_header(header):
     """Accept a possibly encoded message header as a string, and
     return a decoded string if it can be decoded.
-
-    JRM: email.header has a decode_header method, but it returns a
-    list of decoded pairs, one for each part of the header, which is
-    an awkward interface IMO, especially when the header contains a
-    mix of encoded and non-encoded parts.
     """
     try:
-        from email import header
-        parts = []
-        pairs = header.decode_header(str)
-        for pair in pairs:
-            parts.append(pair[0])
-        decoded_string = ' '.join(parts)
-        return decoded_string
-    except email.errors.HeaderParseError:
-        return str
+        pairs = email.header.decode_header(header)
+        return str(email.header.make_header(pairs))
+    except Exception:
+        return header
 
 
 def headers_as_list(msg):
@@ -655,7 +624,6 @@ def body_as_raw_string(msg):
     return msgtext[idx+2:]
 
 
-
 def rename_headers(msg, old, new):
     """Rename all occurances of a message header in a Message object.
 
@@ -665,7 +633,7 @@ def rename_headers(msg, old, new):
 
     new is the new name of the header
     """
-    if msg.has_key(old):
+    if old in msg:
         for pair in msg._headers:
             if pair[0].lower() == old.lower():
                 index = msg._headers.index(pair)
@@ -716,7 +684,7 @@ def build_cdb(filename):
                 value = ''
             cdb.add(key, value)
         cdb.finish()
-    except:
+    except Exception:
         return 0
     else:
         return 1
@@ -746,7 +714,7 @@ def build_dbm(filename):
             newf = f.replace(tmpname, dbmname)
             newf = os.path.join(tmppath, newf)
             os.rename(f, newf)
-    except:
+    except Exception:
         return 0
     else:
         return 1
@@ -773,7 +741,7 @@ def pickleit(object, file, proto=2):
     tempfile.tempdir = os.path.dirname(file)
     tmpname = tempfile.mkstemp()[1]
     fp = open(tmpname, 'w')
-    cPickle.dump(object, fp, proto)
+    pickle.dump(object, fp, proto)
     fp.close()
     os.rename(tmpname, file)
     return
@@ -782,7 +750,7 @@ def pickleit(object, file, proto=2):
 def unpickle(file):
     """Retrieve and return object from file."""
     fp = open(file, 'r')
-    object = cPickle.load(fp)
+    object = pickle.load(fp)
     fp.close()
     return object
 
@@ -822,10 +790,10 @@ def findmatch(list, addrs):
                 if atequals:
                     p1 = p[:at+1] + p[at+2:]
                     p2 = p[:at+1] + '*.' + p[at+2:]
-                    match = (fnmatch.fnmatch(address,p1)
-                             or fnmatch.fnmatch(address,p2))
+                    match = (fnmatch.fnmatch(address, p1)
+                             or fnmatch.fnmatch(address, p2))
                 else:
-                    match = fnmatch.fnmatch(address,p)
+                    match = fnmatch.fnmatch(address, p)
                 if match:
                     try:
                         return stringparts[1]
@@ -868,7 +836,7 @@ def maketext(templatefile, vardict):
     Copyright (C) 1998,1999,2000,2001 by the Free Software Foundation, Inc.,
     and licensed under the GNU General Public License version 2.
     """
-    import Defaults
+    from TMDA import Defaults
     foundit = None
     if (templatefile[0] == '/' or templatefile[0] == '~'):
         if templatefile[0] == '~':
@@ -886,7 +854,8 @@ def maketext(templatefile, vardict):
                 domainparts = sender.split('@', 1)[1].split('.')
                 for i in range(len(domainparts)):
                     searchdirs.append(os.path.join
-                                      (Defaults.TEMPLATE_DIR, '.'.join(domainparts)))
+                                      (Defaults.TEMPLATE_DIR,
+                                       '.'.join(domainparts)))
                     del domainparts[0]
             except IndexError:
                 pass
@@ -894,18 +863,19 @@ def maketext(templatefile, vardict):
             recipient = os.environ.get('TMDA_RECIPIENT').lower()
             searchdirs.append(os.path.join(Defaults.TEMPLATE_DIR, recipient))
             try:
-                recippart, domainpart = recipient.split('@',1)
+                recippart, domainpart = recipient.split('@', 1)
                 recipparts = recippart.split(Defaults.RECIPIENT_DELIMITER)
                 for i in range(len(recipparts)):
-                    searchdirs.append(os.path.join
-                                      (Defaults.TEMPLATE_DIR,
-                                       Defaults.RECIPIENT_DELIMITER.join(recipparts) +
-                                       "@" + domainpart))
+                    searchdirs.append(os.path.join(
+                        Defaults.TEMPLATE_DIR,
+                        Defaults.RECIPIENT_DELIMITER.join(recipparts) +
+                        "@" + domainpart))
                     del recipparts[-1]
                 domainparts = domainpart.split('.')
                 for i in range(len(domainparts)):
                     searchdirs.append(os.path.join
-                                      (Defaults.TEMPLATE_DIR, '.'.join(domainparts)))
+                                      (Defaults.TEMPLATE_DIR,
+                                       '.'.join(domainparts)))
                     del domainparts[0]
             except IndexError:
                 pass
@@ -921,7 +891,7 @@ def maketext(templatefile, vardict):
                     foundit = filename
                     break
     if foundit is None:
-        raise IOError, "Can't find " + templatefile
+        raise IOError(f"Can't find {templatefile}")
     else:
         fp = open(foundit, 'r')
         template = fp.read()
@@ -934,29 +904,29 @@ def maketext(templatefile, vardict):
 
 def filter_match(filename, recip, sender=None):
     """Check if the give e-mail addresses match lines in filename."""
-    import Defaults
-    import FilterParser
+    from TMDA import Defaults
+    from TMDA import FilterParser
     filter = FilterParser.FilterParser(Defaults.DB_CONNECTION)
     filter.read(filename)
     (actions, matchline) = filter.firstmatch(recip, [sender])
     # print the results
     checking_msg = 'Checking ' + filename
-    print checking_msg
-    print '-' * len(checking_msg)
+    print(checking_msg)
+    print('-' * len(checking_msg))
     if recip:
-        print 'To:',recip
+        print('To:', recip)
     if sender:
-        print 'From:',sender
-    print '-' * len(checking_msg)
+        print('From:', sender)
+    print('-' * len(checking_msg))
     if actions:
-        print 'MATCH:', matchline
+        print('MATCH:', matchline)
     else:
-        print 'Sorry, no matching lines.'
+        print('Sorry, no matching lines.')
 
 
-def CanRead( file, uid = None, gid = None, raiseError = 1 ):
+def CanRead(file, uid=None, gid=None, raiseError=1):
     try:
-        return CanMode( file, MODE_READ, uid, gid )
+        return CanMode(file, MODE_READ, uid, gid)
     except IOError:
         if not raiseError:
             return 0
@@ -964,9 +934,9 @@ def CanRead( file, uid = None, gid = None, raiseError = 1 ):
             pass
 
 
-def CanWrite( file, uid = None, gid = None, raiseError = 1 ):
+def CanWrite(file, uid=None, gid=None, raiseError=1):
     try:
-        return CanMode( file, MODE_WRITE, uid, gid )
+        return CanMode(file, MODE_WRITE, uid, gid)
     except IOError:
         if not raiseError:
             return 0
@@ -974,9 +944,9 @@ def CanWrite( file, uid = None, gid = None, raiseError = 1 ):
             pass
 
 
-def CanExec( file, uid = None, gid = None, raiseError = 1 ):
+def CanExec(file, uid=None, gid=None, raiseError=1):
     try:
-        return CanMode( file, MODE_EXEC, uid, gid )
+        return CanMode(file, MODE_EXEC, uid, gid)
     except IOError:
         if not raiseError:
             return 0
@@ -984,34 +954,38 @@ def CanExec( file, uid = None, gid = None, raiseError = 1 ):
             pass
 
 
-def CanMode( file, mode = MODE_READ, uid = None, gid = None ):
+def CanMode(file, mode=MODE_READ, uid=None, gid=None):
     try:
-        fstat = os.stat( file )
-    except:
-        raise IOError, "'%s' does not exist" % file
+        fstat = os.stat(file)
+    except Exception:
+        raise IOError("'%s' does not exist" % file)
     if uid is None:
         uid = os.geteuid()
     if gid is None:
         gid = os.getegid()
     needuid = fstat[4]
     needgid = fstat[5]
-    filemod = fstat[0] & 0777
+    filemod = fstat[0] & 0o777
     if uid == 0:
         # Root always wins.
         return 1
     elif filemod & mode:
         return 1
-    elif filemod & ( mode * 010 ) and needgid == gid:
+    elif filemod & (mode * 0o10) and needgid == gid:
         return 1
-    elif filemod & ( mode * 0100 ) and needuid == uid:
+    elif filemod & (mode * 0o100) and needuid == uid:
         return 1
     else:
         return 0
 
 
 class DevnullOutput:
-    def write(self, msg): pass
-    def flush(self): pass
+    def write(self, msg):
+        pass
+
+    def flush(self):
+        pass
+
     def __repr__(self):
         return ""
 
@@ -1019,30 +993,32 @@ class DevnullOutput:
 class StringOutput:
     def __init__(self):
         self.__content = ""
+
     def write(self, msg):
         if msg != "":
             self.__content += "%s" % msg
+
     def flush(self):
         self.__content = ""
+
     def __repr__(self):
         return self.__content
 
 
 class Debugable:
-    def __init__(self, outputObject = DevnullOutput() ):
+    def __init__(self, outputObject=DevnullOutput()):
         self.DEBUGSTREAM = outputObject
         if self.DEBUGSTREAM is DevnullOutput:
             self.level = 0
         else:
             self.level = 1
 
-    def debug(self, msg, level = 1):
+    def debug(self, msg, level=1):
         if self.level >= level:
-            print >> self.DEBUGSTREAM, msg
+            print(msg, file=self.DEBUGSTREAM)
 
-    def set_debug(level = 1):
+    def set_debug(self, level=1):
         self.level = level
 
-    def set_nodebug():
+    def set_nodebug(self):
         self.level = 0
-

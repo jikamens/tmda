@@ -27,43 +27,52 @@ class TMDAError(Exception):
     """Base class for all TMDA exceptions."""
     pass
 
+
 class ConfigError(TMDAError):
     """tmdarc errors."""
     pass
 
+
 class DeliveryError(TMDAError):
     """Delivery module errors."""
     pass
+
 
 class MissingEnvironmentVariable(TMDAError):
     """An essential environment variable is not defined."""
     def __init__(self, varname):
         TMDAError.__init__(self)
         self.varname = varname
-        print 'Missing environment variable:', self.varname
+        print(f'Missing environment variable: {self.varname}')
+
 
 class AddressError(TMDAError):
     """Address errors."""
-    def __init__(self, errmsg = ''):
+    def __init__(self, errmsg=''):
         TMDAError.__init__(self, errmsg)
+
 
 class BadCryptoError(AddressError):
     """Bad (or no) cryptographic information in address."""
     pass
 
+
 class ExpiredAddressError(AddressError):
     """Expired 'dated' address."""
     pass
 
+
 class QueueError(TMDAError):
-    def __init__(self, errmsg = 'Unknown error'):
+    def __init__(self, errmsg='Unknown error'):
         TMDAError.__init__(self, errmsg)
+
 
 class MessageError(QueueError):
     pass
 
+
 class AuthError(TMDAError):
-    """Authentication Errors""" 
+    """Authentication Errors"""
     def __init__(self, errmsg='Authentication Error', helpmsg=''):
         TMDAError.__init__(self, errmsg)
         self.msg = errmsg

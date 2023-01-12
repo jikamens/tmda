@@ -23,25 +23,32 @@
 from optparse import OptionParser, make_option
 
 import os
+import socket
+import string
 import sys
 
 try:
-    import paths
+    import paths  # noqa
 except ImportError:
-    # Prepend /usr/lib/python2.x/site-packages/TMDA/pythonlib
+    # Prepend /usr/lib/python3.x/site-packages/TMDA/pythonlib
     sitedir = os.path.join(sys.prefix, 'lib', 'python'+sys.version[:3],
                            'site-packages', 'TMDA', 'pythonlib')
     sys.path.insert(0, sitedir)
 
+from TMDA import Cookie
+from TMDA import Defaults
+from TMDA import FilterParser
+from TMDA import Util
 from TMDA import Version
 
+from email.utils import formataddr, getaddresses, parseaddr
 
 # option parsing
 
 opt_usage = "%prog [OPTIONS] [ RECIP ... ]"
 
-opt_desc = \
-"""Tag and send outgoing messages from a MUA. If one or more
+opt_desc = """\
+Tag and send outgoing messages from a MUA. If one or more
 recipients are provided, send the message to all RECIP arguments.
 If none are provided, send the message to all header recipient
 addresses."""
@@ -49,14 +56,13 @@ addresses."""
 opt_list = [
     make_option("-c", "--config-file",
                 metavar="FILE", dest="config_file",
-                help= \
-"""Specify a different configuration file other than ~/.tmda/config"""),
+                help="Specify a different configuration file other than "
+                "~/.tmda/config"),
 
     make_option("-O", "--filter-outgoing-file",
                 metavar="FILE", dest="filter_outgoing",
-                help= \
-"""Full pathname to your outgoing filter file. Overrides
-FILTER_OUTGOING in ~/.tmda/config."""),
+                help="Full pathname to your outgoing filter file. Overrides"
+                "FILTER_OUTGOING in ~/.tmda/config."),
 
     make_option("-f",
                 metavar="SENDER", dest="sender",
@@ -64,45 +70,33 @@ FILTER_OUTGOING in ~/.tmda/config."""),
 
     make_option("-q", "--qfilter",
                 action="store_true", dest="qfilter",
-                help= \
-"""Return 99 to qfilter so it will not run qmail-queue itself. A qmail
-only option."""),
+                help="Return 99 to qfilter so it will not run qmail-queue "
+                "itself. A qmail only option."),
 
-   make_option("-M", "--filter-match",
-               nargs=2, metavar="RECIP SENDER", dest="filter_match",
-               help= \
-"""Check whether the given e-mail address matches a line in your
-outgoing filter and then exit.  The first address given should be the
-message recipient, and the second is the sender (you).  This option
-will also check for parsing errors in the filter file."""),
+    make_option("-M", "--filter-match",
+                nargs=2, metavar="RECIP SENDER", dest="filter_match",
+                help="Check whether the given e-mail address matches a line "
+                "in your outgoing filter and then exit.  The first address "
+                "given should be the message recipient, and the second is "
+                "the sender (you).  This option will also check for parsing "
+                "errors in the filter file."),
 
-    make_option("-V", 
+    make_option("-V",
                 action="store_true", default=False, dest="full_version",
                 help="show full TMDA version information and exit"),
     ]
 
-parser = OptionParser(option_list=opt_list, description=opt_desc, 
+parser = OptionParser(option_list=opt_list, description=opt_desc,
                       usage=opt_usage, version=Version.TMDA)
 (opts, args) = parser.parse_args()
 
 if opts.full_version:
-    print Version.ALL
+    print(Version.ALL)
     sys.exit()
 if opts.config_file:
     os.environ['TMDARC'] = opts.config_file
 if opts.filter_outgoing:
     os.environ['TMDA_FILTER_OUTGOING'] = opts.filter_outgoing
-
-
-from TMDA import Cookie
-from TMDA import Defaults
-from TMDA import FilterParser
-from TMDA import Util
-
-from email.utils import formataddr, getaddresses, parseaddr
-import socket
-import string
-
 
 # Just check Defaults.FILTER_OUTGOING for syntax errors and possible
 # matches, and then exit.
@@ -117,6 +111,7 @@ orig_msgout_as_string = Util.msg_as_string(msgout)
 orig_msgout_size = len(orig_msgout_as_string)
 orig_msgout_body_as_raw_string = Util.body_as_raw_string(msgout)
 
+
 def message_format(fsa, ffn, type):
     # "angles" is the default MESSAGE_FROM_STYLE
     if type == 'address':
@@ -124,17 +119,18 @@ def message_format(fsa, ffn, type):
     else:
         return formataddr((ffn, fsa))
 
+
 def make_field(cookie_type, cookie_option, from_address, to_address):
     """
     Create an email address based on a cookie type and one or more addresses.
     """
     if cookie_type == 'default':
-	cookie_type = Defaults.ACTION_OUTGOING
+        cookie_type = Defaults.ACTION_OUTGOING
 
     if cookie_type == 'bare':
-	# Use an untagged address.
-	field = from_address
-	# Optionally append the recipient address to a file.
+        # Use an untagged address.
+        field = from_address
+        # Optionally append the recipient address to a file.
         if cookie_option and cookie_option.lower() == 'append':
             if Defaults.BARE_APPEND:
                 Util.append_to_file(to_address, Defaults.BARE_APPEND)
@@ -150,32 +146,32 @@ def make_field(cookie_type, cookie_option, from_address, to_address):
                                Defaults.DB_BARE_APPEND,
                                params)
     elif cookie_type == 'dated':
-	# Send a message with a tagged (dated) address.
-	if cookie_option:               # check for timeout override
-	    os.environ['TMDA_TIMEOUT'] = cookie_option
+        # Send a message with a tagged (dated) address.
+        if cookie_option:               # check for timeout override
+            os.environ['TMDA_TIMEOUT'] = cookie_option
         else:
             os.environ['TMDA_TIMEOUT'] = ''
-	field = Cookie.make_dated_address(from_address)
+        field = Cookie.make_dated_address(from_address)
     elif cookie_type == 'sender':
-	# Send a message with a tagged (sender) address
-	sender_cookie_address = cookie_option or to_address
-	field = Cookie.make_sender_address (from_address, sender_cookie_address)
+        # Send a message with a tagged (sender) address
+        sender_cookie_address = cookie_option or to_address
+        field = Cookie.make_sender_address(from_address, sender_cookie_address)
     elif cookie_type == 'domain':
-	# Send a message with a tagged (sender) address using only the
-	# domain portion of the address
-	domain_cookie_address = (cookie_option or to_address).split('@')[-1]
-	field = Cookie.make_sender_address (from_address, domain_cookie_address)
-    elif cookie_type in ('as','exp','explicit') and cookie_option:
-	# Send a message with an explicitly defined address.
-	field = cookie_option
-    elif cookie_type in ('ext','extension') and cookie_option:
-	# Send a message with a tagged (extension added) address.
-	(username, hostname) = string.split(from_address,'@')
-	field = username + Defaults.RECIPIENT_DELIMITER + \
-                cookie_option + '@' + hostname
-    elif cookie_type in ('kw','keyword') and cookie_option:
-	# Send a message with a tagged (keyword) address.
-	field = Cookie.make_keyword_address(from_address, cookie_option)
+        # Send a message with a tagged (sender) address using only the
+        # domain portion of the address
+        domain_cookie_address = (cookie_option or to_address).split('@')[-1]
+        field = Cookie.make_sender_address(from_address, domain_cookie_address)
+    elif cookie_type in ('as', 'exp', 'explicit') and cookie_option:
+        # Send a message with an explicitly defined address.
+        field = cookie_option
+    elif cookie_type in ('ext', 'extension') and cookie_option:
+        # Send a message with a tagged (extension added) address.
+        (username, hostname) = from_address.split('@')
+        field = username + Defaults.RECIPIENT_DELIMITER + \
+            cookie_option + '@' + hostname
+    elif cookie_type in ('kw', 'keyword') and cookie_option:
+        # Send a message with a tagged (keyword) address.
+        field = Cookie.make_keyword_address(from_address, cookie_option)
     elif cookie_type == 'python':
         # this is currently broken, and needs more work
         field = str(eval(cookie_option))
@@ -185,20 +181,20 @@ def make_field(cookie_type, cookie_option, from_address, to_address):
         if shell_stat == 0:
             field = shell_out
         else:
-            raise IOError, shell_out
+            raise IOError(shell_out)
     elif not cookie_type:
         # cookie_type == None means field is a text string
         field = cookie_option
     else:
-	# If cookie_type is invalid, punt and use an untagged address.
-	field = from_address
+        # If cookie_type is invalid, punt and use an untagged address.
+        field = from_address
     return field
 
 
 def inject_message(resending,
                    to_address,
                    from_address,
-		   full_name,
+                   full_name,
                    msg,
                    orig_msgout_body_as_raw_string,
                    actions,
@@ -212,63 +208,65 @@ def inject_message(resending,
     # Update envelope_sender with user-specified header
     (cookie_type, cookie_option) = actions.get('envelope', (None, None))
     if cookie_type:
-	envelope_sender = make_field(cookie_type, cookie_option,
+        envelope_sender = make_field(cookie_type, cookie_option,
                                      from_address, to_address)
     # Update resent_from with user-specified header
     (cookie_type, cookie_option) = actions.get('resent-from', (None, None))
     if cookie_type:
-	resent_from = make_field(cookie_type, cookie_option,
+        resent_from = make_field(cookie_type, cookie_option,
                                  from_address, to_address)
     # Set From: or Resent-From: to match the envelope sender address.
     if resending:
         del msg['Resent-From']
-	msg['Resent-From'] = message_format(resent_from, full_name,
+        msg['Resent-From'] = message_format(resent_from, full_name,
                                             Defaults.MESSAGE_FROM_STYLE)
     else:
         del msg['From']
-	msg['From'] = message_format(magic_from, full_name,
+        msg['From'] = message_format(magic_from, full_name,
                                      Defaults.MESSAGE_FROM_STYLE)
     # If the Mail-Followup-To header contains an untagged address, we
     # need to tag that as well.
-    if msg.has_key('mail-followup-to'):
-	mft_list = getaddresses(msg.get_all('mail-followup-to'))
-	new_mft_list = []
-	for a in mft_list:
-	    emaddy = a[1]
-	    if emaddy == from_address:
-		new_mft_list.append(magic_from)
-	    else:
-		new_mft_list.append(emaddy)
+    if 'mail-followup-to' in msg:
+        mft_list = getaddresses(msg.get_all('mail-followup-to'))
+        new_mft_list = []
+        for a in mft_list:
+            emaddy = a[1]
+            if emaddy == from_address:
+                new_mft_list.append(magic_from)
+            else:
+                new_mft_list.append(emaddy)
         del msg['Mail-Followup-To']
-	msg['Mail-Followup-To'] = ', '.join(new_mft_list)
+        msg['Mail-Followup-To'] = ', '.join(new_mft_list)
     # Optionally, add an `X-TMDA-Fingerprint' header.
     if Defaults.FINGERPRINT:
-	hdrlist = []
-	for hdr in Defaults.FINGERPRINT:
+        hdrlist = []
+        for hdr in Defaults.FINGERPRINT:
             if hdr == 'body':
                 hdrval = orig_msgout_body_as_raw_string
             else:
                 hdrval = msg.get(hdr)
-	    if hdrval:
-		hdrlist.append(hdrval)
-	if hdrlist:
+            if hdrval:
+                hdrlist.append(hdrval)
+        if hdrlist:
             del msg['X-TMDA-Fingerprint']
-	    msg['X-TMDA-Fingerprint'] = (Cookie.make_fingerprint(hdrlist))
+            msg['X-TMDA-Fingerprint'] = (Cookie.make_fingerprint(hdrlist))
     # Optionally, add some headers.
     Util.add_headers(msg, Defaults.ADDED_HEADERS_CLIENT)
     # Optionally, remove some headers.
     Util.purge_headers(msg, Defaults.PURGED_HEADERS_CLIENT)
     # Create the custom headers.
-    custom_headers = [ h for h in actions.keys()
-                        if h not in ('from', 'envelope', 'resent-from') ]
+    custom_headers = [h for h in actions.keys()
+                      if h not in ('from', 'envelope', 'resent-from')]
     nice_headers = {}
     for header in custom_headers:
         (cookie_type, cookie_option) = actions[header]
-        field = make_field(cookie_type, cookie_option, from_address, to_address)
-        if not (cookie_type in ('python','shell', None)):
+        field = make_field(cookie_type, cookie_option, from_address,
+                           to_address)
+        if not (cookie_type in ('python', 'shell', None)):
             field = message_format(field, full_name,
                                    Defaults.MESSAGE_TAG_HEADER_STYLE)
-        nice_header = string.capwords(header.replace('-', ' ')).replace(' ', '-')
+        nice_header = string.capwords(
+            header.replace('-', ' ')).replace(' ', '-')
         nice_headers[nice_header] = field
     Util.add_headers(msg, nice_headers)
     # Optionally, log this transmission.
@@ -276,10 +274,10 @@ def inject_message(resending,
         from TMDA import MessageLogger
         logger = MessageLogger.MessageLogger(Defaults.LOGFILE_OUTGOING,
                                              msg,
-                                             envsender = envelope_sender,
-                                             envrecip = to_address,
-                                             msg_size = orig_msgout_size,
-                                             action_msg = log_msg)
+                                             envsender=envelope_sender,
+                                             envrecip=to_address,
+                                             msg_size=orig_msgout_size,
+                                             action_msg=log_msg)
         logger.write()
     # Inject the message.
     Util.sendmail(Util.msg_as_string(msg, 78), to_address, envelope_sender)
@@ -298,8 +296,8 @@ def main():
     x_tmda_over = None
     actions = None
     log_msg = None
-    
-    if msgout.has_key('resent-from'):
+
+    if 'resent-from' in msgout:
         # We must be resending (bouncing) the message.
         fullname, from_address = parseaddr(msgout.get
                                            ('resent-from'))
@@ -310,16 +308,15 @@ def main():
         resending = None
     if not fullname:
         fullname = Defaults.FULLNAME
-    if not from_address or len(string.split(from_address,'@')) != 2:
+    if not from_address or len(from_address.split('@')) != 2:
         from_address = Defaults.USERNAME + '@' + Defaults.HOSTNAME
-        
+
     # If recipients were provided as arguments, use them.
     if args:
         address_list = args
     # If running through qfilter, get recipient list from QMAILRCPTS.
-    elif os.environ.has_key('QMAILRCPTS'):
-        address_list = string.split(string.lower
-                                    (os.environ['QMAILRCPTS']),'\n')[:-1]
+    elif 'QMAILRCPTS' in os.environ:
+        address_list = string.lower(os.environ['QMAILRCPTS']).split('\n')[:-1]
     # Otherwise get recipients from the headers.
     else:
         address_list = []
@@ -345,23 +342,23 @@ def main():
                 address_list.append(address)
 
     # Check for the `X-TMDA' override header.
-    if msgout.has_key('x-tmda'):
+    if 'x-tmda' in msgout:
         x_tmda_over = 1
         x_tmda = msgout.get('x-tmda')
         log_msg = '%s: %s' % ('X-TMDA', x_tmda)
         # X-TMDA should only have one field.
-        if len(string.split(x_tmda)) == 1:
-	    actions = { 'from' : FilterParser.splitaction(x_tmda) }
+        if len(x_tmda.split()) == 1:
+            actions = {'from': FilterParser.splitaction(x_tmda)}
         # Delete `X-TMDA' before sending.
         del msgout['x-tmda']
     # Optionally, parse subject for `X-TMDA'.
-    if (Defaults.X_TMDA_IN_SUBJECT and msgout.has_key('subject') and
-        x_tmda_over is None):
+    if Defaults.X_TMDA_IN_SUBJECT and 'subject' in msgout and \
+       x_tmda_over is None:
         sub = msgout.get('subject')
         subsplit = sub.split(None, 2)
         if subsplit and subsplit[0].lower() == 'x-tmda':
             x_tmda_over = 1
-            actions = { 'from' : FilterParser.splitaction(subsplit[1]) }
+            actions = {'from': FilterParser.splitaction(subsplit[1])}
             log_msg = '%s: %s' % ('X-TMDA', subsplit[1])
             # Fixup Subject: before sending.
             del msgout['Subject']
@@ -374,34 +371,35 @@ def main():
     # message, not once per recipient of the message.
 
     # Prepend a Received header.
-    if os.environ.has_key('TMDA_OFMIPD_RECEIVED'):
+    if 'TMDA_OFMIPD_RECEIVED' in os.environ:
         # tmda-ofmipd
         msgout._headers.insert(0, ('Received',
                                    (os.environ.get('TMDA_OFMIPD_RECEIVED'))))
     else:
         # tmda-sendmail/inject
         msgout._headers.insert(0, ('Received',
-                                   'by %s (tmda-sendmail, from uid %s); %s' \
+                                   'by %s (tmda-sendmail, from uid %s); %s'
                                    % (socket.getfqdn(), os.getuid(),
                                       Util.make_date())))
     # Possibly add a `Date' field.
-    if ((Defaults.TMDAINJECT and 'd' in list(Defaults.TMDAINJECT))
-        or not msgout.has_key('date')):
+    if (Defaults.TMDAINJECT and 'd' in list(Defaults.TMDAINJECT)) \
+       or 'date' not in msgout:
         del msgout['Date']
-	msgout['Date'] = Util.make_date()
+        msgout['Date'] = Util.make_date()
     # Possibly add a `Message-ID' field.
-    if ((Defaults.TMDAINJECT and 'i' in list(Defaults.TMDAINJECT))
-        or not msgout.has_key('message-id')):
+    if (Defaults.TMDAINJECT and 'i' in list(Defaults.TMDAINJECT)) \
+       or 'message-id' not in msgout:
         del msgout['Message-ID']
-	msgout['Message-ID'] = Util.make_msgid()
+        msgout['Message-ID'] = Util.make_msgid()
     # Add an `X-Delivery-Agent' header.
     del msgout['X-Delivery-Agent']
-    msgout['X-Delivery-Agent'] = 'TMDA/%s (%s)' % (Version.TMDA, Version.CODENAME)
+    msgout['X-Delivery-Agent'] = 'TMDA/%s (%s)' % \
+        (Version.TMDA, Version.CODENAME)
     # Possibly add a Mail-Followup-To field if one doesn't exist.
-    if Defaults.MAIL_FOLLOWUP_TO and not msgout.has_key('mail-followup-to'):
+    if Defaults.MAIL_FOLLOWUP_TO and 'mail-followup-to' not in msgout:
         if isinstance(Defaults.MAIL_FOLLOWUP_TO, str):
             if os.path.isfile(Defaults.MAIL_FOLLOWUP_TO):
-                mft_addrs = file(Defaults.MAIL_FOLLOWUP_TO, 'r').readlines()
+                mft_addrs = open(Defaults.MAIL_FOLLOWUP_TO).readlines()
             else:
                 mft_addrs = None
         else:
@@ -426,7 +424,7 @@ def main():
         os.environ['TMDA_VRECIPIENT'] = address.replace('@', '=')
         # If `X-TMDA' is present we are done here.
         if x_tmda_over:
-            pass                        
+            pass
         else:
             # Without `X-TMDA', we need to parse the outgoing filter file.
             outfilter = FilterParser.FilterParser(Defaults.DB_CONNECTION)
@@ -435,8 +433,8 @@ def main():
                                                             [from_address])
             log_msg = matching_line
         if not actions:
-	    actions = {
-                'from' : FilterParser.splitaction(Defaults.ACTION_OUTGOING) }
+            actions = {
+                'from': FilterParser.splitaction(Defaults.ACTION_OUTGOING)}
             log_msg = '%s (%s)' % ('action_outgoing', Defaults.ACTION_OUTGOING)
         # The message is sent to each recipient separately so that
         # everyone gets the correct tag.  Make sure your MUA
@@ -445,7 +443,7 @@ def main():
         inject_message(resending,
                        address,
                        from_address,
-		       fullname,
+                       fullname,
                        msgout,
                        orig_msgout_body_as_raw_string,
                        actions,

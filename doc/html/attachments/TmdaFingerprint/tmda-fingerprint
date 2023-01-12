@@ -22,7 +22,7 @@
 
 """Tag and send outgoing messages.
 
-Usage:  %(program)s [OPTIONS] 
+Usage:  %(program)s [OPTIONS]
 
 OPTIONS:
         -h
@@ -32,7 +32,7 @@ OPTIONS:
         -V
         --version
            Print TMDA version information and exit.
-           
+
         -c <file>
         --config-file <file>
            Specify a different configuration file other than ~/.tmda/config.
@@ -42,7 +42,7 @@ OPTIONS:
            Use with procmail. The message will be sent to standard output
            with an additional header (X-TMDA-Fingerprint-Match) set to
            "Yes" if the fingerprints match and "No" if they don't.
-           
+
 """
 
 import getopt
@@ -50,57 +50,55 @@ import os
 import sys
 
 try:
-    import paths
+    import paths  # noqa
 except ImportError:
     # Prepend /usr/lib/python2.x/site-packages/TMDA/pythonlib
     sitedir = os.path.join(sys.prefix, 'lib', 'python'+sys.version[:3],
                            'site-packages', 'TMDA', 'pythonlib')
     sys.path.insert(0, sitedir)
-    sys.path.insert(0,'/usr/local/src/tmda')
-    sys.path.insert(0,'/usr/local/src/tmda/TMDA')
+    sys.path.insert(0, '/usr/local/src/tmda')
+    sys.path.insert(0, '/usr/local/src/tmda/TMDA')
 
 from TMDA import Version
+from TMDA import Defaults
+from TMDA import Cookie
+from TMDA import Util
+import email
 
 procmail = None
 program = sys.argv[0]
 
+
 def usage(code, msg=''):
-    print __doc__ % globals()
+    print(__doc__ % globals())
     if msg:
-        print msg
+        print(msg)
     sys.exit(code)
-    
+
+
 try:
     opts, args = getopt.getopt(sys.argv[1:],
                                'c:Vhp', ['config-file=',
-                                               'version',
-                                               'help',
-                                               'procmail'])
+                                         'version',
+                                         'help',
+                                         'procmail'])
 
-except getopt.error, msg:
+except getopt.error as msg:
     usage(1, msg)
 
 for opt, arg in opts:
     if opt in ('-h', '--help'):
         usage(0)
     if opt == '-V':
-        print Version.ALL
+        print(Version.ALL)
         sys.exit()
     if opt == '--version':
-        print Version.TMDA
+        print(Version.TMDA)
         sys.exit()
     elif opt in ('-c', '--config-file'):
         os.environ['TMDARC'] = arg
     elif opt in ('-p', '--procmail'):
         procmail = 1
-
-from TMDA import Defaults
-from TMDA import Cookie
-from TMDA import Util
-
-
-import email
-import string
 
 msgout = email.message_from_file(sys.stdin)
 orig_msgout_as_string = msgout.as_string()
@@ -111,7 +109,7 @@ orig_fingerprint = msgout.get("X-TMDA-Fingerprint")
 
 if procmail:
     del msgout['X-TMDA-Fingerprint-Match']
- 
+
 if Defaults.FINGERPRINT:
     hdrlist = []
     for hdr in Defaults.FINGERPRINT:
@@ -126,13 +124,13 @@ if Defaults.FINGERPRINT:
     if orig_fingerprint == new_fingerprint:
         if procmail:
             msgout['X-TMDA-Fingerprint-Match'] = "Yes"
-            print msgout
+            print(msgout)
         else:
-            print "Fingerprints match"
+            print("Fingerprints match")
     else:
         if procmail:
             msgout['X-TMDA-Fingerprint-Match'] = "No"
-            print msgout
+            print(msgout)
         else:
-            print "Fingerprints don't match"
+            print("Fingerprints don't match")
             sys.exit(-1)

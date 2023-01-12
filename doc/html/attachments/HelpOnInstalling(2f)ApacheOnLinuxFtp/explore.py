@@ -1,4 +1,4 @@
-#!/usr/bin/python2.3
+#!/usr/bin/env python
 
 import os.path
 import os
@@ -9,7 +9,7 @@ try:
 except NameError:
     __file__ = '?'
 
-print """Content-type: text/html
+print("""Content-type: text/html
 
 <html><head><title>Python Exploration</title></head><body>
 <table border=1>
@@ -21,8 +21,9 @@ print """Content-type: text/html
 """ % (sys.version,
        sys.platform,
        os.path.abspath('.'),
-       __file__)
-print "<th colspan=2>2. Environment Variables</th>\n"
+       __file__))
+print("<th colspan=2>2. Environment Variables</th>\n")
 for variable in os.environ:
-    print "<tr><td>%s</td><td>%s</td></tr>\n" % (variable, os.environ[variable])
-print "</table></body></html>"
+    print("<tr><td>%s</td><td>%s</td></tr>\n" %
+          (variable, os.environ[variable]))
+print("</table></body></html>")

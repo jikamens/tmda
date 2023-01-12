@@ -34,9 +34,9 @@ from email.utils import formataddr, parseaddr
 import os
 import time
 
-import Defaults
-import Util
-import Version
+from TMDA import Defaults
+from TMDA import Util
+from TMDA import Version
 
 
 DEFAULT_CHARSET = 'US-ASCII'
@@ -99,7 +99,6 @@ class AutoResponse:
         if self.bodycharset is None:
             self.bodycharset = DEFAULT_CHARSET
 
-
     def create(self):
         """
         Create an auto response object from whole cloth.
@@ -119,7 +118,7 @@ class AutoResponse:
                        'Content-Transfer-Encoding', 'Content-Disposition',
                        'Content-Description']
         for h in bad_headers:
-            if self.bouncemsg.has_key(h):
+            if h in self.bouncemsg:
                 del self.bouncemsg[h]
         textpart = MIMEText(self.bouncemsg.get_payload(), 'plain',
                             self.bodycharset)
@@ -141,8 +140,10 @@ class AutoResponse:
             if Defaults.AUTORESPONSE_INCLUDE_SENDER_COPY == 1:
                 # include the headers only as a text/rfc822-headers part.
                 rfc822part = MIMEText(
-                    self.msgin_as_string[:self.msgin_as_string.index('\n\n')+1],
-                    'rfc822-headers', self.msgin.get_charsets(DEFAULT_CHARSET)[0])
+                    self.msgin_as_string[
+                        :self.msgin_as_string.index('\n\n') + 1],
+                    'rfc822-headers',
+                    self.msgin.get_charsets(DEFAULT_CHARSET)[0])
                 rfc822part['Content-Description'] = 'Original Message Headers'
             elif Defaults.AUTORESPONSE_INCLUDE_SENDER_COPY == 2:
                 # include the entire message as a message/rfc822 part.
@@ -177,9 +178,9 @@ class AutoResponse:
             # headers like `Subject:' might contain an encoded string,
             # so we need to decode that first before encoding the
             # entire header value.
-            elif hdrcharset.lower() not in ('ascii', 'us-ascii') and \
-                     k.lower() in map(lambda s: s.lower(),
-                                      Defaults.TEMPLATE_ENCODED_HEADERS):
+            elif (hdrcharset.lower() not in ('ascii', 'us-ascii') and
+                  k.lower() in map(lambda s: s.lower(),
+                                   Defaults.TEMPLATE_ENCODED_HEADERS)):
                 h = Header(charset=hdrcharset, header_name=k, errors='replace')
                 decoded_seq = decode_header(v)
                 for s, charset in decoded_seq:
@@ -190,18 +191,18 @@ class AutoResponse:
                                          errors='replace')
         # Add some new headers to the main entity.
         timesecs = time.time()
-        self.mimemsg['Date'] = Util.make_date(timesecs) # required by RFC 2822
-        self.mimemsg['Message-ID'] = Util.make_msgid(timesecs) # Ditto
+        self.mimemsg['Date'] = Util.make_date(timesecs)  # required by RFC 2822
+        self.mimemsg['Message-ID'] = Util.make_msgid(timesecs)  # Ditto
         # References
         refs = []
         for h in ['references', 'message-id']:
-            if self.msgin.has_key(h):
+            if h in self.msgin:
                 refs = refs + self.msgin.get(h).split()
         if refs:
             self.mimemsg['References'] = '\n\t'.join(refs)
         # In-Reply-To
-        if self.msgin.has_key('message-id'):
-            self.mimemsg['In-Reply-To'] =  self.msgin.get('message-id')
+        if 'message-id' in self.msgin:
+            self.mimemsg['In-Reply-To'] = self.msgin.get('message-id')
         self.mimemsg['To'] = self.recipient
         # Some auto responders respect this header.
         self.mimemsg['Precedence'] = 'bulk'
@@ -217,7 +218,6 @@ class AutoResponse:
         # Optionally, remove some headers.
         Util.purge_headers(self.mimemsg, Defaults.PURGED_HEADERS_SERVER)
 
-
     def send(self):
         """
         Inject the auto response into the mail transport system.
@@ -225,20 +225,19 @@ class AutoResponse:
         Util.sendmail(Util.msg_as_string(self.mimemsg, 78),
                       self.recipient, Defaults.BOUNCE_ENV_SENDER)
 
-
     def record(self):
         """
         Record this auto response.  Used as part of TMDA's auto
         response rate limiting feature, controlled by
         Defaults.MAX_AUTORESPONSES_PER_DAY.
         """
-        response_filename = '%s.%s.%s' % (int(time.time()),
-                                          Defaults.PID,
-                                          Util.normalize_sender(self.recipient))
+        response_filename = '%s.%s.%s' % (
+            int(time.time()),
+            Defaults.PID,
+            Util.normalize_sender(self.recipient))
         # Create ~/.tmda/responses if necessary.
         if not os.path.exists(Defaults.RESPONSE_DIR):
-            os.makedirs(Defaults.RESPONSE_DIR, 0700)
+            os.makedirs(Defaults.RESPONSE_DIR, 0o700)
         fp = open(os.path.join(Defaults.RESPONSE_DIR,
                                response_filename), 'w')
         fp.close()
-

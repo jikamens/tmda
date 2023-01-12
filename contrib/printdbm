@@ -31,7 +31,7 @@ import sys
 
 dbmfile = sys.argv[1]
 
-dbm = anydbm.open(dbmfile,'r')
+dbm = anydbm.open(dbmfile, 'r')
 for key in dbm.keys():
-    print '%s %s' % (key, dbm[key])
+    print('%s %s' % (key, dbm[key]))
 dbm.close()

@@ -25,7 +25,6 @@
 
 
 import re
-import string
 
 
 class Variable:
@@ -45,61 +44,70 @@ class Variable:
 
     def __cmp__(self, other):
         if isinstance(other, Variable):
-            return cmp(self.name, other.name)
-        return cmp(self.name, other)
+            return self.name == other.name
+        return self.name == other
 
 
 escapes = (('&', '&amp;'), ('<', '&lt;'), ('>', '&gt;'))
+
 
 def escape(text):
     for char, entity in escapes:
         text = text.replace(char, entity)
     return text
 
+
 def looks_like_term(text):
     if re.match(r'^[A-Z][A-Z0-9_]+$', text):
         return 1
     return 0
 
+
 def is_indented(text):
     return text[0] == ' '
+
 
 def is_next_line_blank(idx, section):
     if idx+1 < len(section) and len(section[idx+1]) == 0:
         return 1
     return 0
 
+
 def is_line_header(idx, section):
     if idx < len(section):
         line = section[idx]
-        if (re.match(r'[\w-]+:', line) and
-            not line.startswith('Example') and
-            not line.startswith('NOTE') and
-            not line.startswith('WARNING')):
+        if ((re.match(r'[\w-]+:', line) and
+             not line.startswith('Example') and
+             not line.startswith('NOTE') and
+             not line.startswith('WARNING'))):
             return 1
     return 0
+
 
 def is_next_line_indented(idx, section):
     if idx+1 < len(section) and is_indented(section[idx+1]):
         return 1
     return 0
 
+
 def is_next_line_listitem(idx, section):
     if idx+1 < len(section) and section[idx+1].startswith('* '):
         return 1
     return 0
 
+
 def print_index(variables):
     column = 0
-    print '<table width="100%">\n'
+    print('<table width="100%">\n')
     for variable in variables:
         if column % 2 == 0:
-            print '<tr>'
-        print '<td><a href="#%s">%s</a></td>' % (variable.name, variable.name)
+            print('<tr>')
+        print('<td><a href="#%s">%s</a></td>' % (variable.name, variable.name))
         column += 1
         if column % 2 == 0:
-            print '</tr>'
-    print '</table>\n'
+            print('</tr>')
+    print('</table>\n')
+
 
 def read_section(fp):
     name = ''
@@ -122,6 +130,7 @@ def read_section(fp):
                     continue
                 section.append(line)
     return (name, section)
+
 
 def parse_section(name, section):
     variable = Variable(name)
@@ -189,6 +198,7 @@ def parse_section(name, section):
 
     return variable
 
+
 def main(fp):
     variables = []
     while 1:
@@ -201,20 +211,19 @@ def main(fp):
 
     variables.sort()
     print_index(variables)
-    print '<dl>'
+    print('<dl>')
     for variable in variables:
-        print variable.as_string()
-    print '</dl>'
+        print(variable.as_string())
+    print('</dl>')
 
 
-
-###
-### Main script code
-###
+#
+# Main script code
+#
 
 if __name__ == "__main__":
 
-    import cStringIO
+    from io import StringIO
     import getopt
     import os
     import sys
@@ -226,15 +235,14 @@ if __name__ == "__main__":
     _exitcode = 0
 
     def usage(code, msg=''):
-        print >> sys.stderr, _usage % (_progname,)
+        print(_usage % (_progname,), file=sys.stderr)
         if msg:
-            print >> sys.stderr, msg
+            print(msg, file=sys.stderr)
         sys.exit(code)
-
 
     try:
         (options, arguments) = getopt.getopt(sys.argv[1:], 'c', 'css')
-    except getopt.error, msg:
+    except getopt.error as msg:
         usage(1, msg)
 
     for option, value in options:
@@ -247,7 +255,7 @@ if __name__ == "__main__":
         except IOError:
             usage(2, 'Error: can\'t open input file "%s"', (arguments[0],))
     else:
-        fp = cStringIO.StringIO(sys.stdin.read())
+        fp = StringIO(sys.stdin.read())
 
     _exitcode = main(fp)
 

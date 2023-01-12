@@ -26,14 +26,14 @@ Log statistics about incoming or outgoing messages to a file.
 
 from email.utils import parseaddr
 
-import Util
+from TMDA import Util
 
 
 class MessageLogger:
     def __init__(self, logfile, msg, **vardict):
         """
         logfile is the full path to the logfile.
-        
+
         msg in an email.message object.
 
         vardict is a dictionary containing an indefinite number of
@@ -62,8 +62,8 @@ class MessageLogger:
         if XPri:
             self.__writeline('XPri', XPri)
         envsender = self.vardict.get('envsender', None)
-        if (envsender
-            and parseaddr(self.msg.get('from'))[1] != envsender):
+        if ((envsender and
+             parseaddr(self.msg.get('from'))[1] != envsender)):
             self.__writeline('Sndr', envsender)
         From = self.msg.get('from')
         if From:
@@ -76,7 +76,7 @@ class MessageLogger:
         Action = self.vardict.get('action_msg')
         sizestr = '(%s)' % self.vardict.get('msg_size')
         wsbuf = 72 - len(Action) - len(sizestr)
-        Action = Action + ' '*wsbuf + sizestr # 78 chars max
+        Action = Action + ' '*wsbuf + sizestr  # 78 chars max
         self.__writeline('Actn', Action)
         self.__close()
 

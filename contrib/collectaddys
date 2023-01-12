@@ -37,7 +37,7 @@ import mailbox
 import os
 
 # Collect addresses from these headers only; season to taste.
-hdrs = [ 'from', 'return-path', 'sender' ]
+hdrs = ['from', 'return-path', 'sender']
 
 uniq = {}
 
@@ -60,12 +60,12 @@ for path in os.listdir('.'):
             break
         else:
             for hdr in hdrs:
-                if msg.has_key(hdr):
+                if hdr in msg:
                     address = msg.getaddr(hdr)[1]
                     if address is not None:
                         address = address.lower()
                         uniq[address] = address
-                    
+
 for a in uniq.keys():
     if a:
-        print a
+        print(a)

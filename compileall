@@ -29,4 +29,3 @@ import sys
 
 tmda_tld = os.path.dirname(sys.argv[0])
 compileall.compile_dir(tmda_tld, force=True)
-

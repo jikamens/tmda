@@ -33,7 +33,7 @@ and licensed under the GNU General Public License version 2.
 
 import smtplib
 
-import Defaults
+from TMDA import Defaults
 
 
 # Manage a connection to an SMTP server.
@@ -53,7 +53,7 @@ class Connection:
         if Defaults.SMTPAUTH_USERNAME and Defaults.SMTPAUTH_PASSWORD:
             self.__conn.login(Defaults.SMTPAUTH_USERNAME,
                               Defaults.SMTPAUTH_PASSWORD)
-            
+
     def sendmail(self, envsender, recips, msgtext):
         if self.__conn is None:
             self.__connect()
@@ -83,4 +83,3 @@ class Connection:
         except smtplib.SMTPException:
             pass
         self.__conn = None
-

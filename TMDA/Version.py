@@ -38,5 +38,6 @@ PYTHON = platform.python_version()
 PLATFORM = platform.platform()
 
 # Summary of all the version identifiers
-# e.g, TMDA/1.1.0 "Aberfeldy" (Python/2.3.2 on Darwin-6.8-Power_Macintosh-powerpc-32bit)
+# e.g, TMDA/1.1.0 "Aberfeldy" (Python/2.3.2 on
+# Darwin-6.8-Power_Macintosh-powerpc-32bit)
 ALL = 'TMDA/%s "%s" (Python/%s on %s)' % (TMDA, CODENAME, PYTHON, PLATFORM)

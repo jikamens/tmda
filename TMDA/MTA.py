@@ -22,24 +22,22 @@
 """Mail Transfer Agent (MTA) related objects."""
 
 
-import os
 import sys
 
-import Deliver
-import Errors
-import Util
+from TMDA import Deliver
+from TMDA import Errors
 
 
 class MTA:
     """Non-qmail methods and instance variables. """
     def __init__(self, default_delivery):
         # Exit status codes; see /usr/include/sysexits.h
-        self.EX_HARD = 77               # permission denied; bounce message
-        self.EX_OK = 0                  # successful termination; exit
-        self.EX_STOP = None             # Non-qmail MTAs don't have such an exit code
-        self.EX_TEMPFAIL = 75           # temporary failure; defer delivery
+        self.EX_HARD = 77       # permission denied; bounce message
+        self.EX_OK = 0          # successful termination; exit
+        self.EX_STOP = None     # Non-qmail MTAs don't have such an exit code
+        self.EX_TEMPFAIL = 75   # temporary failure; defer delivery
         self.default_delivery = default_delivery
-        
+
     # Define the four states of a message.
     def bounce(self):
         sys.exit(self.EX_HARD)
@@ -122,4 +120,4 @@ def init(mta, default_delivery):
     elif mta == 'sendmail':
         return Sendmail(default_delivery)
     else:
-        raise Errors.ConfigError, "Unsupported MAIL_TRANSFER_AGENT: " + mta
+        raise Errors.ConfigError(f"Unsupported MAIL_TRANSFER_AGENT: {mta}")

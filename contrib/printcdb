@@ -35,4 +35,4 @@ cdbfile = sys.argv[1]
 
 cdb = cdb.init(cdbfile)
 for key in cdb.keys():
-    print '%s %s' % (key, cdb[key])
+    print('%s %s' % (key, cdb[key]))

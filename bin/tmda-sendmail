@@ -30,9 +30,9 @@ import os
 import sys
 
 try:
-    import paths
+    import paths  # noqa
 except ImportError:
-    # Prepend /usr/lib/python2.x/site-packages/TMDA/pythonlib
+    # Prepend /usr/lib/python3.x/site-packages/TMDA/pythonlib
     sitedir = os.path.join(sys.prefix, 'lib', 'python'+sys.version[:3],
                            'site-packages', 'TMDA', 'pythonlib')
     sys.path.insert(0, sitedir)
@@ -45,30 +45,32 @@ header_recipients = None
 execdir = os.path.dirname(os.path.abspath(program))
 arglist = ['']
 
+
 def usage(code, msg=''):
-    print __doc__ % globals()
+    print(__doc__ % globals())
     if msg:
-        print msg
+        print(msg)
     sys.exit(code)
-    
+
+
 try:
     opts, args = getopt.getopt(sys.argv[1:],
                                'Vhvimte:f:p:o:B:F:EJx', ['version',
                                                          'help'])
-except getopt.error, msg:
+except getopt.error as msg:
     usage(1, msg)
 
 for opt, arg in opts:
     if opt in ('-h', '--help'):
         usage(0)
     if opt == '-V':
-        print Version.ALL
+        print(Version.ALL)
         sys.exit()
     if opt == '--version':
-        print Version.TMDA
+        print(Version.TMDA)
         sys.exit()
     elif opt in list('BpvixmeoEJ'):
-        pass 
+        pass
     elif opt == '-t':
         header_recipients = True
     elif opt == '-f':

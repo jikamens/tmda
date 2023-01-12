@@ -25,14 +25,13 @@
 
 
 from email.utils import parseaddr
-import email
 import os
 import sys
 import time
 
-import Defaults
-import Errors
-import Util
+from TMDA import Defaults
+from TMDA import Errors
+from TMDA import Util
 from TMDA.Queue.Queue import Queue
 
 
@@ -43,19 +42,19 @@ Q = Q.init()
 class Queue:
     """A simple pending queue."""
 
-    def __init__( self,
-                  msgs = [],
-                  cache = None,
-                  command_recipient = None,
-                  descending = None,
-                  dispose = None,
-                  older = None,
-                  summary = None,
-                  terse = None,
-                  threshold = None,
-                  verbose = 1,
-                  younger = None,
-                  pretend = None ):
+    def __init__(self,
+                 msgs=[],
+                 cache=None,
+                 command_recipient=None,
+                 descending=None,
+                 dispose=None,
+                 older=None,
+                 summary=None,
+                 terse=None,
+                 threshold=None,
+                 verbose=1,
+                 younger=None,
+                 pretend=None):
 
         self.msgs = msgs
         self.cache = cache
@@ -72,11 +71,10 @@ class Queue:
 
         self.stdout = sys.stdout
 
-
     def initQueue(self):
         """Initialize the queue with the given parameters (see __init__)."""
-	if not Q.exists():
-	    raise Errors.QueueError, 'Pending Queue does not exist, exiting.'
+        if not Q.exists():
+            raise Errors.QueueError('Pending Queue does not exist, exiting.')
 
         # Replace any `-' in the message list with those messages provided
         # via standard input.  (Since it's pointless to call it twice,
@@ -95,13 +93,13 @@ class Queue:
 
         if not self.msgs and not wantedstdin:
             self.msgs = Q.fetch_ids()
-    
+
         self.msgs.sort()
         if self.descending:
             self.msgs.reverse()
 
         return self
-    
+
     def Print(self, *strings):
         """Print one or more strings on self.stdout."""
         for s in strings:
@@ -124,9 +122,8 @@ class Queue:
     def listPendingIds(self):
         """Return the list of still pending messages."""
         return self.listIds()
-                       
-    
-    ## Cache related functions (-C option)
+
+    # Cache related functions (-C option)
     def _loadCache(self):
         """Load the message cache from disk."""
         if self.cache:
@@ -154,12 +151,12 @@ class Queue:
     def _saveCache(self):
         """Save the cache on disk."""
         if self.cache:
-	    # Trim tail entries off if necessary, and then save the
-	    # cache in ASCII format.
-	    self.msgcache = self.msgcache[:Defaults.PENDING_CACHE_LEN]
+            # Trim tail entries off if necessary, and then save the
+            # cache in ASCII format.
+            self.msgcache = self.msgcache[:Defaults.PENDING_CACHE_LEN]
             Util.pickleit(self.msgcache, Defaults.PENDING_CACHE, 0)
 
-    ## Threshold (-Y and -O options)
+    # Threshold (-Y and -O options)
     def checkTreshold(self, msgid):
         """Check the threshold against the message date."""
         if self.threshold:
@@ -194,7 +191,7 @@ class Queue:
         """This is a callback for inherited classes."""
         self.showMessage(M)
         return 1
-            
+
     def showMessage(self, M):
         """Display a message."""
         if self.terse:
@@ -203,25 +200,25 @@ class Queue:
             self.Print()
             self.Print(M.summary(self.count, self.total, self.summary))
 
-    ## Pure virtual method (to be used by InteractiveQueue)
+    # Pure virtual method (to be used by InteractiveQueue)
     def endProcessMessage(self, M):
         """Pure virtual method to be overriden by inherited classes."""
         pass
 
-    ## Main loop
+    # Main loop
     def mainLoop(self):
         """Process all the messages."""
-    
+
         self.total = len(self.msgs)
         self.count = 0
-        
+
         self._loadCache()
-            
+
         for msgid in self.msgs:
             self.count = self.count + 1
             try:
                 M = Message(msgid, self.command_recipient)
-            except Errors.MessageError, obj:
+            except Errors.MessageError as obj:
                 self.cPrint(obj)
                 continue
 
@@ -233,7 +230,8 @@ class Queue:
             # Pass over the message if it lacks X-TMDA-Recipient and we
             # aren't using `-R'.
             if not M.getConfirmAddress():
-                self.cPrint("can't determine recipient address, skipping", M.msgid)
+                self.cPrint("can't determine recipient address, skipping",
+                            M.msgid)
                 continue
 
             if not self.processMessage(M):
@@ -249,24 +247,25 @@ class Queue:
                 continue
 
             self.endProcessMessage(M)
-            
+
         self._saveCache()
+
 
 class InteractiveQueue(Queue):
     """An interactive pending queue."""
-    def __init__( self,
-                  msgs = [],
-                  cache = None,
-                  command_recipient = None,
-                  descending = None,
-                  dispose = None,
-                  older = None,
-                  summary = None,
-                  terse = None,
-                  threshold = None,
-                  verbose = 1,
-                  younger = None,
-                  pretend = None ):
+    def __init__(self,
+                 msgs=[],
+                 cache=None,
+                 command_recipient=None,
+                 descending=None,
+                 dispose=None,
+                 older=None,
+                 summary=None,
+                 terse=None,
+                 threshold=None,
+                 verbose=1,
+                 younger=None,
+                 pretend=None):
 
         Queue.__init__(self,
                        msgs,
@@ -281,7 +280,6 @@ class InteractiveQueue(Queue):
                        verbose,
                        younger,
                        pretend)
-
 
     def initQueue(self):
         """Additionally initialize the interactive queue."""
@@ -311,7 +309,7 @@ class InteractiveQueue(Queue):
             if Defaults.PENDING_BLACKLIST_APPEND:
                 message = message + ' / [b]lack'
             message = message + ' / [q]uit) [%s]: '
-            inp = raw_input(message % self.dispose_def)
+            inp = input(message % self.dispose_def)
             ans = inp[0:1].lower()
             if ans == "":
                 self.dispose = self.dispose_def
@@ -330,7 +328,7 @@ class InteractiveQueue(Queue):
             elif ans == "q":
                 return 0
             else:
-                self.Print('\n', "I don't understand %s" % (`inp`))
+                self.Print('\n', f"I don't understand '{inp}'")
                 self.dispose = 'pass'
         except KeyboardInterrupt:
             self.Print()
@@ -343,8 +341,6 @@ class InteractiveQueue(Queue):
                 self.count = self.count - 1
                 self.msgs.insert(self.msgs.index(M.msgid), M.msgid)
                 self._delCache(M.msgid)
-    
-
 
 
 class Message:
@@ -352,22 +348,24 @@ class Message:
     msg_size = 0
     bytes = 'bytes'
     confirm_accept_address = None
-    def __init__(self, msgid, recipient = None, fullParse = False):
+
+    def __init__(self, msgid, recipient=None, fullParse=False):
         self.msgid = msgid
         if not Q.find_message(self.msgid):
-	    raise Errors.MessageError, '%s not found!' % self.msgid
+            raise Errors.MessageError(f'{self.msgid} not found!')
         self.msgobj = Q.fetch_message(self.msgid, fullParse=fullParse)
-	self.recipient = recipient
+        self.recipient = recipient
         if self.recipient is None:
             self.recipient = self.msgobj.get('x-tmda-recipient')
         self.return_path = parseaddr(self.msgobj.get('return-path'))[1]
-        self.x_primary_address = parseaddr(self.msgobj.get('x-primary-address'))[1]
+        self.x_primary_address = parseaddr(
+            self.msgobj.get('x-primary-address'))[1]
         self.append_address = Util.confirm_append_address(
             self.x_primary_address, self.return_path)
 
     def release(self):
         """Release a message from the pending queue."""
-        import Cookie
+        from TMDA import Cookie
         if Defaults.PENDING_RELEASE_APPEND:
             Util.append_to_file(self.append_address,
                                 Defaults.PENDING_RELEASE_APPEND)
@@ -382,19 +380,18 @@ class Message:
         # Add an X-TMDA-Confirm-Done: field to the top of the header for
         # later verification.  This includes a timestamp, pid, and HMAC.
         del self.msgobj['X-TMDA-Confirm-Done']
-        self.msgobj['X-TMDA-Confirm-Done'] = Cookie.make_confirm_cookie(timestamp,
-                                                                   pid, 'done')
+        self.msgobj['X-TMDA-Confirm-Done'] = Cookie.make_confirm_cookie(
+            timestamp, pid, 'done')
         # Add the date when confirmed in a header.
         del self.msgobj['X-TMDA-Released']
         self.msgobj['X-TMDA-Released'] = Util.make_date()
-	# For messages released via tmda-cgi, add the IP address and
-	# browser info of the releaser for easier tracing.
-	if os.environ.has_key('REMOTE_ADDR') and \
-		os.environ.has_key('HTTP_USER_AGENT'):
-	    cgi_header = "%s (%s)" % (os.environ.get('REMOTE_ADDR'), 
-				      os.environ.get('HTTP_USER_AGENT'))
-	    del self.msgobj['X-TMDA-CGI']
-	    self.msgobj['X-TMDA-CGI'] = cgi_header
+        # For messages released via tmda-cgi, add the IP address and
+        # browser info of the releaser for easier tracing.
+        if 'REMOTE_ADDR' in os.environ and 'HTTP_USER_AGENT' in os.environ:
+            cgi_header = "%s (%s)" % (os.environ.get('REMOTE_ADDR'),
+                                      os.environ.get('HTTP_USER_AGENT'))
+            del self.msgobj['X-TMDA-CGI']
+            self.msgobj['X-TMDA-CGI'] = cgi_header
         # Reinject the message to the original envelope recipient.
         Util.sendmail(self.show(), self.recipient, self.return_path)
 
@@ -403,7 +400,7 @@ class Message:
         if Defaults.PENDING_DELETE_APPEND:
             Util.append_to_file(self.append_address,
                                 Defaults.PENDING_DELETE_APPEND)
-	Q.delete_message(self.msgid)
+        Q.delete_message(self.msgid)
 
     def whitelist(self):
         """Whitelist the message sender."""
@@ -413,8 +410,8 @@ class Message:
             if Defaults.PENDING_WHITELIST_RELEASE == 1:
                 self.release()
         else:
-            raise Errors.ConfigError, \
-                  'PENDING_WHITELIST_APPEND not defined!'
+            raise Errors.ConfigError(
+                'PENDING_WHITELIST_APPEND not defined!')
 
     def blacklist(self):
         """Blacklist the message sender."""
@@ -422,16 +419,16 @@ class Message:
             Util.append_to_file(self.append_address,
                                 Defaults.PENDING_BLACKLIST_APPEND)
         else:
-            raise Errors.ConfigError, \
-                  'PENDING_BLACKLIST_APPEND not defined!'
+            raise Errors.ConfigError(
+                'PENDING_BLACKLIST_APPEND not defined!')
 
     def pager(self):
         Util.pager(self.show())
-	return ''
+        return ''
 
     def show(self):
         """Return the string representation of a message."""
-	return Util.msg_as_string(self.msgobj)
+        return Util.msg_as_string(self.msgobj)
 
     def getDate(self):
         timestamp = self.msgid.split('.')[0]
@@ -453,47 +450,44 @@ class Message:
                 terse_hdrs.append(self.msgobj.get(hdr))
 
         if date:
-            terse_hdrs.insert(0,self.getDate())
+            terse_hdrs.insert(0, self.getDate())
         else:
             terse_hdrs.insert(0, self.msgid)
         if tsv:
             # returns one-line Tab Separated Values (tsv)
             # carriage returns will be escaped
             return '\t'.join([Util.decode_header(hdr).replace('\n', r'\n')
-                                                    for hdr in terse_hdrs])
+                              for hdr in terse_hdrs])
         else:
             # return raw list of headers
             return [Util.decode_header(hdr) for hdr in terse_hdrs]
-        
+
     def getConfirmAddress(self):
         if not self.confirm_accept_address:
             if self.recipient:
-                import Cookie
+                from TMDA import Cookie
                 (timestamp, pid) = self.msgid.split('.')
-                self.confirm_accept_address =   Cookie.make_confirm_address(
-                                                self.recipient, timestamp, pid,
-                                                'accept')
+                self.confirm_accept_address = Cookie.make_confirm_address(
+                    self.recipient, timestamp, pid, 'accept')
             else:
                 return None
         return self.confirm_accept_address
 
-    def summary(self, count = 0, total = 0, mailto = 0):
+    def summary(self, count=0, total=0, mailto=0):
         """Return summary header information."""
         if not self.msg_size:
             self.msg_size = len(self.show())
-            if  self.msg_size == 1:
-                self.bytes =    self.bytes[:-1]
+            if self.msg_size == 1:
+                self.bytes = self.bytes[:-1]
         str = self.msgid + " ("
         if total:
             str += "%s of %s / " % (count, total)
         str += "%s %s)\n" % (self.msg_size, self.bytes)
 
         for hdr in Defaults.SUMMARY_HEADERS:
-            str += "%s %s: %s\n" % ('  >>',
-                                 hdr.capitalize()[:4].rjust(4),
-                                 Util.decode_header(self.msgobj.get(hdr)))
+            str += (f"  >> {hdr.capitalize()[:4].rjust(4)}: "
+                    f"{Util.decode_header(self.msgobj.get(hdr))}\n")
 
         if mailto and self.getConfirmAddress():
-            str+= '<mailto:%s>' % self.confirm_accept_address
+            str += f'<mailto:{self.confirm_accept_address}>'
         return str
-

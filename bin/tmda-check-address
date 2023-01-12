@@ -24,26 +24,26 @@ from optparse import OptionParser, make_option
 
 import os
 import sys
-import string
 import time
 
 try:
-    import paths
+    import paths  # noqa
 except ImportError:
-    # Prepend /usr/lib/python2.x/site-packages/TMDA/pythonlib
+    # Prepend /usr/lib/python3.x/site-packages/TMDA/pythonlib
     sitedir = os.path.join(sys.prefix, 'lib', 'python'+sys.version[:3],
                            'site-packages', 'TMDA', 'pythonlib')
     sys.path.insert(0, sitedir)
 
+from TMDA import Address
+from TMDA import Defaults
 from TMDA import Version
-
 
 # option parsing
 
 opt_usage = "%prog [options] ADDRESS [SENDER]"
 
-opt_desc = \
-"""Check a tagged (dated, keyword, or sender style only) e-mail
+opt_desc = """\
+Check a tagged (dated, keyword, or sender style only) e-mail
 address.  Required 'ADDRESS' is the address you want to check. Optional
 'SENDER' is the sender address to verify if checking a sender-style
 address."""
@@ -51,31 +51,27 @@ address."""
 opt_list = [
     make_option("-c", "--config-file",
                 metavar="FILE", dest="config_file",
-                help=("""Specify a different configuration file other than 
+                help=("""Specify a different configuration file other than
                          ~/.tmda/config""")),
     make_option("-l", "--localtime",
                 action="store_true", default=False, dest="localtime",
                 help="Display dates in the local time zone instead of UTC"),
-    make_option("-V", 
+    make_option("-V",
                 action="store_true", default=False, dest="full_version",
                 help="show full TMDA version information and exit"),
     ]
 
-parser = OptionParser(option_list=opt_list, version=Version.TMDA, 
+parser = OptionParser(option_list=opt_list, version=Version.TMDA,
                       usage=opt_usage, description=opt_desc)
 (opts, args) = parser.parse_args()
 
 if opts.full_version:
-    print Version.ALL
+    print(Version.ALL)
     sys.exit()
 if opts.config_file:
-     os.environ['TMDARC'] = opts.config_file
+    os.environ['TMDARC'] = opts.config_file
 if len(args) < 1:
     parser.error('ADDRESS to check is required.')
-
-
-from TMDA import Defaults
-from TMDA import Address
 
 
 def formattime(timestamp):
@@ -86,6 +82,7 @@ def formattime(timestamp):
         timetuple = time.gmtime(int(timestamp))
         tzstr = ' UTC'
     return time.strftime('%c' + tzstr, timetuple)
+
 
 def main():
     # Address to check is required
@@ -102,16 +99,15 @@ def main():
 
     try:
         addr.verify(sender_address)
-        print "STATUS: VALID"
+        print("STATUS: VALID")
         if addr.tag() in Defaults.TAGS_DATED:
-            print "EXPIRES: %s" % formattime(addr.timestamp())
-    except Address.ExpiredAddressError, msg:
-        print "STATUS:", msg
-        print "EXPIRED: %s" % formattime(addr.timestamp())
-    except Address.AddressError, msg:
-        print "STATUS:", msg
+            print("EXPIRES: %s" % formattime(addr.timestamp()))
+    except Address.ExpiredAddressError as msg:
+        print("STATUS:", msg)
+        print("EXPIRED: %s" % formattime(addr.timestamp()))
+    except Address.AddressError as msg:
+        print("STATUS:", msg)
 
 
 if __name__ == '__main__':
     main()
-
