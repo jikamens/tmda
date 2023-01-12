@@ -20,6 +20,14 @@ referenced there is broken, but you can access it
 [through the Wayback Machine][wiki] if you'd like. The
 [SourceForge tmda-users mailing list][sf] also still works.
 
+For the most part the only changes I've made to the code are what was
+necessary to get it to run and work under Python 3. However, there is
+one significant new contribution I've made: a simple TMDA CGI wrapper
+which allows you to whitelist and blacklist senders or delete messages
+through a web server running on the same host as TMDA. See
+`simple-tmda.cgi` in the `contrib` directory. It has a detailed
+comment at the top explaining how to use it.
+
 [kevin]: https://github.com/KevinGoodsell/tmda-fork
 [cedric]: https://github.com/cedric-dufour/tmda
 [wiki]: https://web.archive.org/web/20081026052520/http://wiki.tmda.net/
