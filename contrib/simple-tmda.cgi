@@ -367,7 +367,8 @@ sub get_cbc {
     elsif ($!{ENOENT}) {
         $key = create_cbc($key_file, 1);
     }
-    return Crypt::CBC->new(-key => $key, -cipher => "Blowfish");
+    return Crypt::CBC->new(-key => $key, -cipher => "Blowfish",
+                           -pbkdf => 'pbkdf2');
 }
 
 sub login_cookie {
