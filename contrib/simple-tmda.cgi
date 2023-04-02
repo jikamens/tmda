@@ -97,7 +97,16 @@ my $debug = param('debug');
 
 print header(-charset => "utf-8",
              -cookie => &login_cookie);
-print start_html("TMDA");
+my $style = <<EOF;
+* {
+  font-size: 2.5vw;
+}
+a {
+  font-size: 5vw;
+}
+EOF
+print start_html(-title => "TMDA",
+                 -style => {-code => $style});
 
 if (! $logged_in) {
     &do_login_form;
