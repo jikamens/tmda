@@ -235,16 +235,16 @@ def Factory(address=None, tag=None):
     try:
         cookie_type = tag or local_parts[-2]
         if cookie_type in \
-                ['confirm'] + map(lambda s: s.lower(), Defaults.TAGS_CONFIRM):
+                ['confirm'] + list(map(lambda s: s.lower(), Defaults.TAGS_CONFIRM)):
             addr_obj = ConfirmAddress(address)
         elif cookie_type in \
-                ['dated'] + map(lambda s: s.lower(), Defaults.TAGS_DATED):
+                ['dated'] + list(map(lambda s: s.lower(), Defaults.TAGS_DATED)):
             addr_obj = DatedAddress(address)
         elif cookie_type in \
-                ['sender'] + map(lambda s: s.lower(), Defaults.TAGS_SENDER):
+                ['sender'] + list(map(lambda s: s.lower(), Defaults.TAGS_SENDER)):
             addr_obj = SenderAddress(address)
         elif cookie_type in \
-                ['keyword'] + map(lambda s: s.lower(), Defaults.TAGS_KEYWORD):
+                ['keyword'] + list(map(lambda s: s.lower(), Defaults.TAGS_KEYWORD)):
             addr_obj = KeywordAddress(address)
         else:
             addr_obj = Address(address)
